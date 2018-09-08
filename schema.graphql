@@ -1,0 +1,37 @@
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+}
+
+type PaginatedWordsType {
+  total: Int
+  items: [WordType]
+}
+
+type RootMutationType {
+  SaveWord(input: WordInputType!): WordType
+}
+
+type RootQueryType {
+  word(key: String!): WordType
+
+  words(page: Int!, itemsPerPage: Int!): PaginatedWordsType
+}
+
+input WordInputType {
+  _id: String
+  value: String!
+  translations: [String]
+  explanations: [String]
+  usages: [String]
+}
+
+type WordType {
+  _id: ID
+  value: String
+  createdDate: String
+  updatedDate: String
+  translations: [String]
+  explanations: [String]
+  usages: [String]
+}
