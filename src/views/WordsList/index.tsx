@@ -1,4 +1,4 @@
-import { PaginatedWords, WordEntity, WordsApi } from 'domains/words';
+import { PaginatedWords, WordEntity, WordsApi } from 'modules/words';
 import * as React from 'react';
 import { ListGroup } from 'reactstrap';
 import media from 'styles/media';

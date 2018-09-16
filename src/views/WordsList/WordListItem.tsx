@@ -1,4 +1,4 @@
-import { WordEntity } from 'domains/words';
+import { WordEntity } from 'modules/words';
 import * as React from 'react';
 import {
   ListGroupItem,

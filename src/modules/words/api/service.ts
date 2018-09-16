@@ -1,12 +1,12 @@
 import apolloFetch from 'graphql/apolloFetch';
-import { getWordQuery, getWordsQuery, saveWordMutation } from './graphql';
 import {
   ApiPaginatedWords,
   ApiWordEntity,
   mapToWord,
   PaginatedWords,
   WordEntity
-} from './model';
+} from '../model';
+import { getWordQuery, getWordsQuery, saveWordMutation } from './graphql';
 
 class WordsApi {
   public async getWords(

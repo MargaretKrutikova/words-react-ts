@@ -3,7 +3,7 @@
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "domains/*": ["domains/*"],
+      "modules/*": ["modules/*"],
       "graphql/*": ["graphql/*"],
       "components/*": ["components/*"],
       "styles/*": ["styles/*"]
