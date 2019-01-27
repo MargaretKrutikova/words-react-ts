@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "paths": {
       "modules/*": ["modules/*"],
       "graphql/*": ["graphql/*"],
@@ -32,13 +33,5 @@
       }
     ]
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+  "exclude": ["node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts"]
 }
