@@ -8,10 +8,13 @@
     ]
   },
   "rules": {
+    "prettier": true,
     "interface-over-type-literal": false,
     "no-unused-vars": false,
     "object-literal-sort-keys": false,
     "no-console": false,
     "interface-name": false
-  }
+  },
+
+  "rulesDirectory": ["tslint-plugin-prettier"]
 }
