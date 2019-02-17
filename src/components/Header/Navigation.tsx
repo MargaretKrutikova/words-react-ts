@@ -1,25 +1,19 @@
-import * as React from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+import * as React from "react"
+import Flex from "../Flex"
+import { RouterLink } from "../Link"
 
-const Navigation = () => (
-  <Nav navbar={true}>
-    <NavItem>
-      <NavLink tag={RouterLink} exact={true} to="/">
-        Home
-      </NavLink>
-    </NavItem>
-    <NavItem>
-      <NavLink tag={RouterLink} to="/list/page">
-        List
-      </NavLink>
-    </NavItem>
-    <NavItem>
-      <NavLink tag={RouterLink} to="/add">
-        Add
-      </NavLink>
-    </NavItem>
-  </Nav>
-);
+const Navigation: React.FunctionComponent<{}> = () => (
+  <Flex>
+    <RouterLink to="/" mr={3}>
+      Home
+    </RouterLink>
+    <RouterLink to="/list/page" mr={3}>
+      List
+    </RouterLink>
+    <RouterLink to="/">Add</RouterLink>
+  </Flex>
+)
 
-export default Navigation;
+export default Navigation

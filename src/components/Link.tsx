@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
 import { Link as ReactRouterLink } from "react-router-dom"
 import styled, { AsProps } from "../theme"
 import Box, { BoxProps } from "./Box"

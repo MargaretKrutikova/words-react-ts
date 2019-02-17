@@ -1,33 +1,34 @@
-import Header from 'components/Header';
-import * as React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Container, Row } from 'reactstrap';
-import { Client as Styletron } from 'styletron-engine-atomic';
-import { Provider } from 'styletron-react';
-import WordsList from './views/WordsList';
+import { css, Global } from "@emotion/core"
+import { ThemeProvider } from "emotion-theming"
+import * as React from "react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import Box from "./components/Box"
+import Header from "./components/Header"
+import WordsList from "./components/WordsList"
+import { theme, Theme } from "./theme"
 
-const engine = new Styletron();
+const globalStyles = (th: Theme) =>
+  css({
+    body: {
+      margin: 0,
+      fontFamily: th.fontFamily,
+    },
+  })
 
-class App extends React.Component {
-  public render() {
-    return (
-      <Provider value={engine}>
-        <Router>
-          <React.Fragment>
-            <Header />
+const App: React.FunctionComponent<{}> = () => (
+  <Router>
+    <ThemeProvider theme={theme}>
+      <React.Fragment>
+        <Global styles={globalStyles(theme)} />
+        <Header />
+        <Box width={{ xs: 1, sm: 2 / 3 }} px={{ xs: 4, md: 6 }}>
+          <Switch>
+            <Route exact={true} path="/" component={WordsList} />
+          </Switch>
+        </Box>
+      </React.Fragment>
+    </ThemeProvider>
+  </Router>
+)
 
-            <Container>
-              <Row>
-                <Switch>
-                  <Route exact={true} path="/" component={WordsList} />
-                </Switch>
-              </Row>
-            </Container>
-          </React.Fragment>
-        </Router>
-      </Provider>
-    );
-  }
-}
-
-export default App;
+export default App

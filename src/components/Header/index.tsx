@@ -1,35 +1,26 @@
-import * as React from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
-import { Collapse, Navbar, NavbarBrand, NavbarToggler } from 'reactstrap';
-import { Container } from 'reactstrap';
-import Navigation from './Navigation';
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+import * as React from "react"
+import Flex from "../Flex"
+import { RouterLink } from "../Link"
+import Typography from "../Typography"
+import Navigation from "./Navigation"
 
-type HeaderState = {
-  isNavBarOpen: boolean;
-};
+const Header: React.FunctionComponent<{}> = () => (
+  <Flex
+    px={{ xs: 4, md: 6 }}
+    py={{ xs: 2, md: 3 }}
+    bg="purple"
+    as="header"
+    alignItems="center"
+    justifyContent={{ xs: "space-between", sm: "flex-start" }}
+  >
+    <Typography as="h1" mr={5} variant="h1">
+      <RouterLink to="/">Words</RouterLink>
+    </Typography>
 
-class Header extends React.Component<{}, HeaderState> {
-  public state = {
-    isNavBarOpen: false
-  };
-  public toggle = () => {
-    this.setState(prevState => ({ isNavBarOpen: !prevState.isNavBarOpen }));
-  };
-  public render() {
-    return (
-      <Navbar color="light" light={true} expand="md" className="border-bottom">
-        <Container>
-          <NavbarBrand tag={RouterLink} exact={true} to="/">
-            Words
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isNavBarOpen} navbar={true}>
-            <Navigation />
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
-}
+    <Navigation />
+  </Flex>
+)
 
-export default Header;
+export default Header
