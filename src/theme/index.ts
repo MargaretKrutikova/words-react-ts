@@ -3,6 +3,7 @@ import styled, { CreateStyled } from "@emotion/styled"
 import { StyledOptions } from "@emotion/styled"
 
 import { Breakpoints, breakpoints } from "./media"
+import { spacingPx, SpacingPx } from "./spacing"
 import {
   defaultFont,
   typographyVariants,
@@ -29,6 +30,7 @@ type Colors = {
 export type ColorProps = keyof Colors
 
 export type Theme = {
+  space: SpacingPx
   breakpoints: Breakpoints
   typography: {
     variants: TypographyVariants
@@ -40,6 +42,7 @@ export type Theme = {
 }
 
 export const theme: Theme = {
+  space: spacingPx,
   breakpoints,
   colors: {
     primaryBg: "#fff",
