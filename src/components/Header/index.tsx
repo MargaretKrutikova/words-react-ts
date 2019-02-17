@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from "@emotion/core"
 import * as React from "react"
 import Flex from "../Flex"
 import { RouterLink } from "../Link"
