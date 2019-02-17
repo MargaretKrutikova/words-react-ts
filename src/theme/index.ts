@@ -2,6 +2,7 @@ import isPropValid from "@emotion/is-prop-valid"
 import styled, { CreateStyled } from "@emotion/styled"
 import { StyledOptions } from "@emotion/styled"
 
+import { Breakpoints, breakpoints } from "./media"
 import {
   defaultFont,
   typographyVariants,
@@ -28,13 +29,7 @@ type Colors = {
 export type ColorProps = keyof Colors
 
 export type Theme = {
-  breakpoints: {
-    xs: string
-    sm: string
-    md: string
-    lg: string
-    xl: string,
-  }
+  breakpoints: Breakpoints
   typography: {
     variants: TypographyVariants
     fontFamily: string
@@ -45,6 +40,7 @@ export type Theme = {
 }
 
 export const theme: Theme = {
+  breakpoints,
   colors: {
     primaryBg: "#fff",
     primaryText: "#4A4A4A",
@@ -56,13 +52,6 @@ export const theme: Theme = {
     ...defaultFont,
   },
   maxWidth: 1200,
-  breakpoints: {
-    xs: "0px",
-    sm: "600px",
-    md: "960px",
-    lg: "1024px",
-    xl: "1200px",
-  },
 }
 
 export type Variant = Variant
