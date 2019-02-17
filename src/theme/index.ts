@@ -11,7 +11,7 @@ import {
 } from "./typography"
 
 export type AsProps = {
-  as?: keyof JSX.IntrinsicElements,
+  as?: keyof JSX.IntrinsicElements | React.ReactType,
 }
 
 export const omitProps = <Props>(

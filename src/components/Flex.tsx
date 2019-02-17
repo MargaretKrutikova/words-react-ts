@@ -28,4 +28,5 @@ const Flex = styled(Box)<Props>(
   justifyContent,
 )
 
+export type FlexProps = Props
 export default Flex

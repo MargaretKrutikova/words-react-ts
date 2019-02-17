@@ -1,16 +1,18 @@
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 import * as React from "react"
-import Flex from "../Flex"
+import Container from "../Container"
 import { RouterLink } from "../Link"
 import Typography from "../Typography"
 import Navigation from "./Navigation"
 
 const Header: React.FunctionComponent<{}> = () => (
-  <Flex
-    px={{ xs: 4, md: 6 }}
+  <Container
+    flexContainer={true}
     py={{ xs: 2, md: 3 }}
     bg="purple"
     as="header"
-    alignItems="center"
+    alignItems="baseline"
     justifyContent={{ xs: "space-between", sm: "flex-start" }}
   >
     <Typography as="h1" mr={5} variant="h1">
@@ -18,7 +20,7 @@ const Header: React.FunctionComponent<{}> = () => (
     </Typography>
 
     <Navigation />
-  </Flex>
+  </Container>
 )
 
 export default Header

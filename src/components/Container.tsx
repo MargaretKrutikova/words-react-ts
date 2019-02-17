@@ -1,8 +1,19 @@
-import styled from "../theme"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+import * as React from "react"
+import Box from "./Box"
+import Flex, { FlexProps } from "./Flex"
 
-const Container = styled.div((props) => ({
-  maxWidth: props.theme.maxWidth,
-  margin: "0 auto",
-}))
+type Props = {
+  flexContainer?: true,
+} & FlexProps
+
+const Container: React.FunctionComponent<Props> = ({
+  flexContainer,
+  ...rest
+}) => {
+  const Component = flexContainer ? Flex : Box
+  return <Component px={{ xs: 4, md: 6 }} {...rest} />
+}
 
 export default Container

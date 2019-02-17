@@ -17,19 +17,29 @@ export const breakpoints: Breakpoints = {
 type Breakpoint = keyof Breakpoints
 
 type QueryType = {
-  minWidth?: Breakpoint
-  maxWidth?: Breakpoint,
+  minWidth?: number | Breakpoint
+  maxWidth?: number | Breakpoint,
 }
+
+const breakpointFromQuery = (query?: number | Breakpoint): number | undefined =>
+  typeof query === "number"
+    ? query
+    : query !== undefined
+    ? breakpoints[query]
+    : undefined
 
 const mediaQuery = (options: QueryType) => {
   const { minWidth, maxWidth } = options
   const queries = []
 
-  if (minWidth && breakpoints[minWidth] !== undefined) {
-    queries.push(`(min-width: ${breakpoints[minWidth]}px)`)
+  const minBreakpoint = breakpointFromQuery(minWidth)
+  if (minBreakpoint) {
+    queries.push(`(min-width: ${minBreakpoint}px)`)
   }
-  if (maxWidth && breakpoints[maxWidth] !== undefined) {
-    queries.push(`(max-width: ${breakpoints[maxWidth]}px)`)
+
+  const maxBreakpoint = breakpointFromQuery(maxWidth)
+  if (maxBreakpoint) {
+    queries.push(`(max-width: ${maxBreakpoint}px)`)
   }
 
   if (process.env.NODE_ENV !== "production") {

@@ -2,7 +2,7 @@ import { css, Global } from "@emotion/core"
 import { ThemeProvider } from "emotion-theming"
 import * as React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-import Box from "./components/Box"
+import Container from "./components/Container"
 import Header from "./components/Header"
 import WordsList from "./components/WordsList"
 import { theme, Theme } from "./theme"
@@ -11,7 +11,7 @@ const globalStyles = (th: Theme) =>
   css({
     body: {
       margin: 0,
-      fontFamily: th.fontFamily,
+      ...th.typography.variants.body1,
     },
   })
 
@@ -20,12 +20,14 @@ const App: React.FunctionComponent<{}> = () => (
     <ThemeProvider theme={theme}>
       <React.Fragment>
         <Global styles={globalStyles(theme)} />
+
         <Header />
-        <Box width={{ xs: 1, sm: 2 / 3 }} px={{ xs: 4, md: 6 }}>
+
+        <Container>
           <Switch>
             <Route exact={true} path="/" component={WordsList} />
           </Switch>
-        </Box>
+        </Container>
       </React.Fragment>
     </ThemeProvider>
   </Router>
