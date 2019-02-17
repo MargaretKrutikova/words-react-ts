@@ -28,7 +28,6 @@ const Typography = styled(Box)<Props>(
   (props) => ({
     ...(props.variant && props.theme.typography.variants[props.variant]),
     display: "block",
-    margin: 0,
   }),
   textAlign,
   fontSizeStyled,

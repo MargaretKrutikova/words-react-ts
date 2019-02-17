@@ -1,13 +1,15 @@
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 import * as React from "react"
 import Flex from "../Flex"
 import { RouterLink } from "../Link"
 
 const Navigation: React.FunctionComponent<{}> = () => (
   <Flex>
-    <RouterLink to="/" mr={3}>
+    <RouterLink to="/" mr="small">
       Home
     </RouterLink>
-    <RouterLink to="/list/page" mr={3}>
+    <RouterLink to="/list/page" mr="small">
       List
     </RouterLink>
     <RouterLink to="/">Add</RouterLink>

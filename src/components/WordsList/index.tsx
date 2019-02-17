@@ -1,6 +1,6 @@
 import * as React from "react"
-import Container from "../../components/Container"
 import { PaginatedWords, WordsApi } from "../../domains/words"
+import Box from "../Box"
 import WordListItem from "./WordListItem"
 
 type State = {
@@ -20,11 +20,11 @@ class WordsList extends React.Component<any, State> {
   }
   public render() {
     return (
-      <Container>
+      <Box pt={{ xs: "small", md: "large" }}>
         {this.state.words.items.map((word, ind) => (
           <WordListItem key={ind} word={word} />
         ))}
-      </Container>
+      </Box>
     )
   }
 }
