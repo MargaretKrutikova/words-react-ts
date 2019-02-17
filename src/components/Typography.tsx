@@ -1,53 +1,39 @@
-import { css, SerializedStyles } from "@emotion/core"
 import {
-  fontSize,
+  fontSize as fontSizeStyled,
   FontSizeProps,
-  lineHeight,
+  fontStyle,
+  FontStyleProps,
+  fontWeight,
+  FontWeightProps,
   LineHeightProps,
+  SpaceProps,
   textAlign,
   TextAlignProps,
 } from "styled-system"
-import styled, { AsProps } from "../theme"
+import styled, { AsProps, Variant } from "../theme"
 import Box, { BoxProps } from "./Box"
 
 type Props = AsProps &
   BoxProps &
   LineHeightProps &
   TextAlignProps &
-  FontSizeProps & {
+  SpaceProps &
+  FontSizeProps &
+  FontWeightProps &
+  FontStyleProps & {
     variant?: Variant,
   }
 
-type Variant = "h1" | "h2" | "h3" | "h4" | "body1" | "body2"
-
-const variantCss: { [k in Variant]: SerializedStyles } = {
-  h1: css({
-    fontSize: "2em",
-  }),
-  h2: css({
-    fontSize: "1.5em",
-  }),
-  h3: css({
-    fontSize: "1.17em",
-  }),
-  h4: css({
-    fontSize: "1.33em",
-  }),
-  body1: css({
-    fontSize: "1em",
-  }),
-  body2: css({
-    fontSize: "0.8em",
-  }),
-}
-
 const Typography = styled(Box)<Props>(
   (props) => ({
-    ...(props.variant && variantCss[props.variant]),
+    ...(props.variant && props.theme.typography.variants[props.variant]),
+    display: "block",
+    margin: 0,
   }),
   textAlign,
-  lineHeight,
-  fontSize,
+  fontSizeStyled,
+  fontWeight,
+  fontStyle,
 )
 
 Typography.defaultProps = {

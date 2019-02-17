@@ -2,6 +2,13 @@ import isPropValid from "@emotion/is-prop-valid"
 import styled, { CreateStyled } from "@emotion/styled"
 import { StyledOptions } from "@emotion/styled"
 
+import {
+  defaultFont,
+  typographyVariants,
+  TypographyVariants,
+  Variant,
+} from "./typography"
+
 export type AsProps = {
   as?: keyof JSX.IntrinsicElements,
 }
@@ -28,7 +35,11 @@ export type Theme = {
     lg: string
     xl: string,
   }
-  fontFamily: string
+  typography: {
+    variants: TypographyVariants
+    fontFamily: string
+    fontWeight: number,
+  }
   colors: Colors
   maxWidth: number,
 }
@@ -40,7 +51,10 @@ export const theme: Theme = {
     purple: "#661B3F",
     lightText: "#fefefe",
   },
-  fontFamily: "Roboto",
+  typography: {
+    variants: typographyVariants,
+    ...defaultFont,
+  },
   maxWidth: 1200,
   breakpoints: {
     xs: "0px",
@@ -51,4 +65,5 @@ export const theme: Theme = {
   },
 }
 
+export type Variant = Variant
 export default styled as CreateStyled<Theme>
