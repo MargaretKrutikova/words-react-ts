@@ -1,3 +1,5 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
+  "tslint.configFile": "./tslint.json",
+  "prettier.tslintIntegration": true
 }

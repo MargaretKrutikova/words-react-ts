@@ -33,6 +33,9 @@
     "@types/styled-components": "^4.1.10",
     "@types/styled-system": "^3.2.2",
     "prettier": "^1.16.4",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^3.6.0",
     "typescript": "^3.3.3"
   },
   "browserslist": [
