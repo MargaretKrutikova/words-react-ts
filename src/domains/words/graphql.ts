@@ -1,5 +1,5 @@
-import * as ApolloLink from 'apollo-link';
-import gql from 'graphql-tag';
+import * as ApolloLink from "apollo-link"
+import gql from "graphql-tag"
 
 export const wordFragment: ApolloLink.DocumentNode = gql`
   fragment WordFragment on WordType {
@@ -11,7 +11,7 @@ export const wordFragment: ApolloLink.DocumentNode = gql`
     createdDate
     updatedDate
   }
-`;
+`
 
 export const getWordsQuery: ApolloLink.DocumentNode = gql`
   query PaginatedWords($page: Int!, $itemsPerPage: Int!) {
@@ -23,7 +23,7 @@ export const getWordsQuery: ApolloLink.DocumentNode = gql`
     }
   }
   ${wordFragment}
-`;
+`
 
 export const getWordQuery: ApolloLink.DocumentNode = gql`
   query GetWord($wordId: String!) {
@@ -32,7 +32,7 @@ export const getWordQuery: ApolloLink.DocumentNode = gql`
     }
   }
   ${wordFragment}
-`;
+`
 
 export const saveWordMutation: ApolloLink.DocumentNode = gql`
   mutation SaveWord($saveWord: WordInputType!) {
@@ -41,4 +41,4 @@ export const saveWordMutation: ApolloLink.DocumentNode = gql`
     }
   }
   ${wordFragment}
-`;
+`

@@ -11,6 +11,7 @@ const globalStyles = (th: Theme) =>
   css({
     body: {
       margin: 0,
+      backgroundColor: th.colors.siteBg,
       ...th.typography.variants.body1,
     },
   })
@@ -23,7 +24,7 @@ const App: React.FunctionComponent<{}> = () => (
 
         <Header />
 
-        <Container>
+        <Container as="main">
           <Switch>
             <Route exact={true} path="/" component={WordsList} />
           </Switch>

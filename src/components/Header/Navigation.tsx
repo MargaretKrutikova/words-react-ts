@@ -5,7 +5,7 @@ import Flex from "../Flex"
 import { RouterLink } from "../Link"
 
 const Navigation: React.FunctionComponent<{}> = () => (
-  <Flex>
+  <Flex as="nav">
     <RouterLink to="/" mr="small">
       Home
     </RouterLink>

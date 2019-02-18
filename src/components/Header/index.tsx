@@ -9,13 +9,13 @@ import Navigation from "./Navigation"
 const Header: React.FunctionComponent<{}> = () => (
   <Container
     flexContainer={true}
-    py={{ xs: "small", md: "medium" }}
-    bg="purple"
+    py={{ xs: "xsmall", md: "small" }}
+    bg="primary"
     as="header"
     alignItems="baseline"
     justifyContent={{ xs: "space-between", sm: "flex-start" }}
   >
-    <Typography as="h1" mr="large" variant="h1">
+    <Typography as="h1" mr="large" variant="h2">
       <RouterLink to="/">Words</RouterLink>
     </Typography>
 
