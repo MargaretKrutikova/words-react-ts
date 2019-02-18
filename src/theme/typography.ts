@@ -46,8 +46,8 @@ export type TypographyVariants = { [k in Variant]: React.CSSProperties }
 export const typographyVariants: TypographyVariants = {
   h1: buildVariant({
     ...fonts.jost,
-    fontSize: 60,
-    lineHeight: 60,
+    fontSize: 55,
+    lineHeight: 55,
   }),
   h2: buildVariant({
     ...fonts.jost,
