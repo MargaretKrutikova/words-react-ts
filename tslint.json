@@ -15,6 +15,7 @@
     "semicolon": false,
     "jsx-no-multiline-js": false,
     "interface-name": false,
+    "object-literal-key-quotes": false,
     "ordered-imports": [
       true,
       {
