@@ -1,6 +1,8 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import { WordEntity } from "../../domains/words"
+import styled from "../../theme"
+import media from "../../theme/media"
 import Box from "../Box"
 import Typography from "../Typography"
 
@@ -16,13 +18,17 @@ const getWordShortText = (word: WordEntity) => {
   return shortText
 }
 
+const StyledItemBox = styled(Box)({
+  [media.up("md")]: {},
+})
+
 const WordListItem = ({ word }: Props) => (
-  <Box>
-    <Typography as="h4" variant="h2">
+  <StyledItemBox>
+    <Typography as="div" variant="h3">
       {word.value}
     </Typography>
     <span>{getWordShortText(word)}</span>
-  </Box>
+  </StyledItemBox>
 )
 
 export default WordListItem
