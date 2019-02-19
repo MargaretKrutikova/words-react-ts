@@ -4,7 +4,7 @@ import * as React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import Container from "./components/Container"
 import Header from "./components/Header"
-import WordsList from "./components/WordsList"
+import WordsList from "./components/WordList"
 import { theme, Theme } from "./theme"
 
 const globalStyles = (th: Theme) =>
