@@ -1,48 +1,60 @@
-import apolloFetch from "../../graphql/apolloFetch"
-import { getWordQuery, getWordsQuery, saveWordMutation } from "./graphql"
+import apolloFetch from "../../graphql/apolloFetch";
+import { getWordQuery, getWordsQuery, saveWordMutation } from "./graphql";
 import {
   ApiPaginatedWords,
   ApiWordEntity,
   mapToWord,
   PaginatedWords,
   WordEntity,
-} from "./model"
+} from "./model";
+
+type GetWordsResponse = {
+  words: ApiPaginatedWords;
+};
+
+type WordResponse = {
+  word: ApiWordEntity;
+};
 
 class WordsApi {
-  public async getWords(
+  public getWords = async (
     page: number,
     itemsPerPage: number,
-  ): Promise<PaginatedWords> {
-    return apolloFetch({
+  ): Promise<PaginatedWords> => {
+    const graphqlRequest = {
       query: getWordsQuery,
       variables: { page, itemsPerPage },
-    }).then(
-      (data: { words: ApiPaginatedWords }): PaginatedWords => {
-        return {
-          items: data.words.items.map((word: ApiWordEntity) => mapToWord(word)),
-          total: data.words.total,
-        }
-      },
-    )
-  }
+    };
+    return apolloFetch(graphqlRequest).then(
+      ({ words }: GetWordsResponse): PaginatedWords => ({
+        items: words.items.map((word: ApiWordEntity) => mapToWord(word)),
+        total: words.total,
+      }),
+    );
+  };
 
   public async getWord(wordId: string): Promise<WordEntity> {
-    return apolloFetch({
+    const graphqlRequest = {
       query: getWordQuery,
       variables: { wordId },
-    }).then((data: { word: ApiWordEntity }) => {
-      return mapToWord(data.word)
-    })
+    };
+
+    return apolloFetch(graphqlRequest).then(({ word }: WordResponse) =>
+      mapToWord(word),
+    );
   }
 
   public async saveWord(word: WordEntity): Promise<WordEntity> {
-    const { createdDate, updatedDate, ...saveWord } = word // eslint-disable-line no-unused-vars
-    return apolloFetch({
+    const { createdDate, updatedDate, ...saveWord } = word; // eslint-disable-line no-unused-vars
+    const graphqlRequest = {
       query: saveWordMutation,
       variables: { saveWord },
-    }).then((data: { word: ApiWordEntity }) => mapToWord(data.word))
+    };
+    return apolloFetch(graphqlRequest).then(({ word }: WordResponse) =>
+      mapToWord(word),
+    );
   }
 }
 
-const wordsApi = new WordsApi()
-export default wordsApi
+const wordsApi = new WordsApi();
+export default wordsApi;

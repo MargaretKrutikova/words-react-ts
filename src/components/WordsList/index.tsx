@@ -1,32 +1,27 @@
-import * as React from "react"
-import { PaginatedWords, WordsApi } from "../../domains/words"
-import Box from "../Box"
-import WordListItem from "./WordListItem"
+/** @jsx jsx */
+import { jsx } from "@emotion/core";
+import * as React from "react";
+import { useEffect, useReducer } from "react";
+import Box from "../Box";
+import WordListItem from "./WordListItem";
 
-type State = {
-  words: PaginatedWords,
-}
+import { getPaginatedWords } from "../../state/words/effects";
+import wordsReducer, { initialState } from "../../state/words/reducer";
 
-class WordsList extends React.Component<any, State> {
-  public state: State = {
-    words: {
-      items: [],
-      total: 0,
-    },
-  }
-  public async componentDidMount() {
-    const words = await WordsApi.getWords(1, 20)
-    this.setState({ words })
-  }
-  public render() {
-    return (
-      <Box pt={{ xs: "small", md: "large" }}>
-        {this.state.words.items.map((word, ind) => (
-          <WordListItem key={ind} word={word} />
-        ))}
-      </Box>
-    )
-  }
-}
+const WordsList: React.FunctionComponent<{}> = () => {
+  const [state, dispatch] = useReducer(wordsReducer, initialState);
 
-export default WordsList
+  useEffect(() => {
+    getPaginatedWords(state, dispatch);
+  }, []);
+
+  return (
+    <Box pt={{ xs: "small", md: "large" }}>
+      {state.data.items.map((word, ind) => (
+        <WordListItem key={ind} word={word} />
+      ))}
+    </Box>
+  );
+};
+
+export default WordsList;
