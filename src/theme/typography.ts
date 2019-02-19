@@ -36,7 +36,7 @@ type Fonts = {
 
 const fonts: Fonts = {
   jost: {
-    fontFamily: "Jost",
+    fontFamily: "Jost, sans-serif",
     fontWeight: 400,
   },
 }

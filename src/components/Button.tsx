@@ -1,13 +1,18 @@
 import styled, { AsProps, transitions } from "../theme"
 import Box, { BoxProps } from "./Box"
 
-type Props = AsProps & BoxProps
+type Props = {
+  icon?: boolean,
+} & AsProps &
+  BoxProps
 
 const Button = styled(Box)<Props>(
   ({
+    icon,
     theme: {
       space,
       colors: { button },
+      borderRadius,
     },
   }) => ({
     // reset
@@ -17,7 +22,7 @@ const Button = styled(Box)<Props>(
     // style
     color: button.primary.text,
     backgroundColor: button.primary.bg,
-    borderRadius: 3,
+    borderRadius: icon ? "50%" : borderRadius,
     transition: transitions[0],
     ":hover": {
       backgroundColor: button.primary.hover,
@@ -27,7 +32,8 @@ const Button = styled(Box)<Props>(
     letterSpacing: 2,
     fontFamily: "inherit",
     // space
-    padding: `${space.xsmall}px ${space.medium}px`,
+    padding: icon ? 3 : `${space.xsmall}px ${space.medium}px`,
+    ...(icon && { display: "flex", alignSelf: "center" }),
   }),
 )
 

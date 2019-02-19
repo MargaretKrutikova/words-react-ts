@@ -31,6 +31,7 @@ const StyledInput = styled.input<Props>(
     boxSizing: "border-box",
     width: "100%",
     padding: `${space.xsmall}px ${space.small}px`,
+    WebkitAppearance: "none",
   }),
 );
 
