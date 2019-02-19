@@ -1,25 +1,65 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
+import { useCallback, useEffect, useState } from "react"
 import Plus from "react-feather/dist/icons/plus"
+
+import { WordEntity } from "../../domains/words"
+import { EditStatus } from "../../state/editWord"
+
 import Box from "../Box"
 import Button from "../Button"
 import Flex from "../Flex"
 import Input from "../Input"
 
-type Props = {}
+type Props = {
+  status: EditStatus
+  error: string | null
+  addWord: (word: WordEntity) => void
+  resetStatus: () => void,
+}
 
-const QuickAdd: React.FunctionComponent<Props> = () => (
-  <Flex as="form">
-    <Box width={{ xs: 1, md: 350 }} mr="smedium">
-      <Input autoCorrect="off" autoComplete="off" type="text" />
-    </Box>
-    <Button icon={true}>
-      <Plus />
-    </Button>
+const QuickAdd: React.FunctionComponent<Props> = ({
+  status,
+  error,
+  resetStatus,
+  addWord,
+}) => {
+  const [word, setWord] = useState("")
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setWord(e.target.value)
+    },
+    [setWord],
+  )
 
-    {/* <Button>Add</Button> */}
-  </Flex>
-)
+  const handleAddClick = () =>
+    addWord({ value: word, explanations: [], usages: [], translations: [] })
+
+  useEffect(() => {
+    if (status === "SAVED") {
+      setWord("")
+      resetStatus()
+    }
+  }, [status])
+
+  return (
+    <Flex>
+      <Box width={{ xs: 1, md: 350 }} mr="smedium">
+        <Input
+          onChange={handleInputChange}
+          value={word}
+          placeholder="ord"
+          autoCorrect="off"
+          autoComplete="off"
+          type="text"
+        />
+      </Box>
+      <Button icon={true} onClick={handleAddClick}>
+        <Plus />
+      </Button>
+    </Flex>
+  )
+}
 
 export default QuickAdd

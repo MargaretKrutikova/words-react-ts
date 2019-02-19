@@ -1,45 +1,57 @@
 import { Reducer } from "react"
 import { ActionType, createAsyncAction, getType } from "typesafe-actions"
 import { PaginatedWords } from "../../domains/words/model"
+import { editWordActions } from "../editWord"
 
 const fetch = createAsyncAction(
-  "@@words/FETCH_REQUEST",
-  "@@words/FETCH_SUCCESS",
-  "@@words/FETCH_ERROR",
+  "@@wordList/FETCH",
+  "@@wordList/FETCH_SUCCESS",
+  "@@wordList/FETCH_ERROR",
 )<void, PaginatedWords, string>()
 
-export const actions = { fetch }
+const actions = { fetch, saveWordSuccess: editWordActions.saveWord.success }
 
-export type WordsState = {
-  data: PaginatedWords
+export type WordListAction = ActionType<typeof actions>
+
+export type WordListState = {
   isLoading: boolean
   error: string | null,
-}
+} & PaginatedWords
 
-export const initialState: WordsState = {
-  data: {
-    items: [],
-    total: 0,
-  },
-  isLoading: false,
+const initialState: WordListState = {
+  items: [],
+  total: 0,
   error: null,
+  isLoading: false,
 }
 
-export type WordsAction = ActionType<typeof actions>
-
-const wordsReducer: Reducer<WordsState, WordsAction> = (state, action) => {
+const reducer: Reducer<WordListState, WordListAction> = (
+  state = initialState,
+  action,
+): WordListState => {
   switch (action.type) {
     case getType(actions.fetch.request):
       return { ...state, isLoading: true, error: null }
 
-    case getType(actions.fetch.success):
-      return { ...state, isLoading: false, data: action.payload }
+    case getType(actions.fetch.success): {
+      const { items, total } = action.payload
+      return { ...state, items, total, isLoading: false }
+    }
 
     case getType(actions.fetch.failure):
       return { ...state, isLoading: false, error: action.payload }
+
+    case getType(actions.saveWordSuccess):
+      return {
+        ...state,
+        items: [action.payload, ...state.items],
+        total: state.total + 1,
+      }
+
     default:
       return state
   }
 }
 
-export default wordsReducer
+export { actions, initialState }
+export default reducer

@@ -1,47 +1,45 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import { useCallback, useEffect, useReducer, useState } from "react"
+import { useCallback, useEffect, useReducer } from "react"
+
+import { WordEntity } from "../../domains/words"
+import { wordsInitState, wordsReducer } from "../../state/words"
+import { getPaginatedWords, saveWord } from "../../state/wordsEffects"
+
+import { editWordActions } from "../../state/editWord"
 import Box from "../Box"
 import QuickAdd from "./QuickAdd"
 import WordListItem from "./WordListItem"
 
-import { getPaginatedWords, saveWord } from "../../state/wordEffects"
-import { wordListInitState, wordListReducer } from "../../state/wordList"
-import Button from "../Button"
-import Input from "../Input"
-
 const WordsList: React.FunctionComponent<{}> = () => {
-  const [state, dispatch] = useReducer(wordListReducer, wordListInitState)
-  const [newWord, setNewWord] = useState("")
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNewWord(e.target.value)
-    },
-    [setNewWord],
-  )
+  const [state, dispatch] = useReducer(wordsReducer, wordsInitState)
+
   useEffect(() => {
     getPaginatedWords(state, dispatch)
   }, [])
 
   const addWord = useCallback(
-    () =>
-      saveWord({
-        value: newWord,
-        translations: [],
-        explanations: [],
-        usages: [],
-      }),
-    [newWord],
+    (wordEntity: WordEntity) => saveWord(state, dispatch, wordEntity),
+    [state, dispatch],
   )
 
+  const resetEditStatus = useCallback(
+    () => dispatch(editWordActions.resetStatus()),
+    [dispatch],
+  )
+
+  const { wordList, editWord } = state
   return (
     <Box pt={{ xs: "small", md: "large" }}>
-      <QuickAdd />
-      <Input onChange={handleInputChange} value={newWord} />
-      <Button onClick={addWord}> Add word </Button>
+      <QuickAdd
+        status={editWord.status}
+        error={editWord.error}
+        addWord={addWord}
+        resetStatus={resetEditStatus}
+      />
 
-      {state.data.items.map((word, ind) => (
+      {wordList.items.map((word, ind) => (
         <WordListItem key={ind} word={word} />
       ))}
     </Box>

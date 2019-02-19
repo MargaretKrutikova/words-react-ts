@@ -1,8 +1,8 @@
 import reducer, {
   actions,
   initialState,
-  WordsAction,
-  WordsState,
+  WordListAction,
+  WordListState,
 } from "./reducer"
 
 export {
@@ -10,5 +10,5 @@ export {
   reducer as wordListReducer,
   initialState as wordListInitState,
 }
-export type WordsAction = WordsAction
-export type WordsState = WordsState
+export type WordListState = WordListState
+export type WordListAction = WordListAction
