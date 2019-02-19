@@ -1,12 +1,12 @@
 /** @jsx jsx */
-import { jsx } from "@emotion/core"
-import * as React from "react"
-import styled, { transitions } from "../theme"
+import { jsx } from "@emotion/core";
+import * as React from "react";
+import styled, { transitions } from "../theme";
 
-type Props = {} & React.InputHTMLAttributes<HTMLInputElement>
+type Props = {} & React.InputHTMLAttributes<HTMLInputElement>;
 
 const getInputShadow = (color: string, focused: boolean = false) =>
-  !focused ? `0 0 0 1px ${color}` : `0 0 0 2px ${color}`
+  !focused ? `0 0 0 1px ${color}` : `0 0 0 2px ${color}`;
 
 const StyledInput = styled.input<Props>(
   ({ theme: { colors, borderRadius, space } }) => ({
@@ -32,10 +32,10 @@ const StyledInput = styled.input<Props>(
     width: "100%",
     padding: `${space.xsmall}px ${space.small}px`,
   }),
-)
+);
 
-const TextField: React.FunctionComponent<Props> = (props) => (
+const Input: React.FunctionComponent<Props> = (props) => (
   <StyledInput {...props} />
-)
+);
 
-export default TextField
+export default Input;
