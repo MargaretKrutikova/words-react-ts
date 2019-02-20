@@ -1,10 +1,5 @@
-import reducer, {
-  actions,
-  EditStatus,
-  EditWordAction,
-  EditWordState,
-  initialState,
-} from "./reducer"
+import actions, { EditWordAction } from "./actions"
+import reducer, { EditStatus, EditWordState, initialState } from "./reducer"
 
 export {
   actions as editWordActions,

@@ -20,13 +20,15 @@ export const saveWord = async (
   dispatch: Dispatch<WordsAction>,
   word: WordEntity,
 ) => {
+  const { request, success, failure } = wordsActions.saveWord
+  const originalId = word.id
   try {
-    dispatch(wordsActions.saveWord.request(word))
+    dispatch(request({ id: originalId, word }))
 
     const savedWord = await WordsApi.saveWord(word)
 
-    dispatch(wordsActions.saveWord.success(savedWord))
+    dispatch(success({ id: originalId, word: savedWord }))
   } catch {
-    dispatch(wordsActions.saveWord.failure("error saving"))
+    dispatch(failure({ id: originalId, error: "error saving" }))
   }
 }

@@ -1,13 +1,14 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import { useCallback, useEffect, useReducer } from "react"
+import { useCallback, useEffect, useMemo, useReducer } from "react"
 
 import { WordEntity } from "../../domains/words"
 import { wordsInitState, wordsReducer } from "../../state/words"
 import { getPaginatedWords, saveWord } from "../../state/wordsEffects"
 
 import { editWordActions } from "../../state/editWord"
+import { getNewWord } from "../../state/editWord/reducer"
 import Box from "../Box"
 import QuickAdd from "./QuickAdd"
 import WordListItem from "./WordListItem"
@@ -29,12 +30,14 @@ const WordsList: React.FunctionComponent<{}> = () => {
     [dispatch],
   )
 
-  const { wordList, editWord } = state
+  const { wordList, wordsUnderEdit } = state
+  const newWord = useMemo(() => getNewWord(wordsUnderEdit), [wordsUnderEdit])
+
   return (
     <Box pt={{ xs: "small", md: "large" }}>
       <QuickAdd
-        status={editWord.status}
-        error={editWord.error}
+        status={newWord.status}
+        error={newWord.error}
         addWord={addWord}
         resetStatus={resetEditStatus}
       />

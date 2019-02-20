@@ -1,41 +1,38 @@
 import { Reducer } from "react"
-import {
-  ActionType,
-  createAction,
-  createAsyncAction,
-  getType,
-} from "typesafe-actions"
-import { WordEntity } from "../../domains/words/model"
-
-const saveWord = createAsyncAction(
-  "@@editWord/SAVE",
-  "@@editWord/SAVE_SUCCESS",
-  "@@editWord/SAVE_ERROR",
-)<WordEntity, WordEntity, string>()
-
-const resetStatus = createAction("@@editWord/RESET")
-
-const actions = { saveWord, resetStatus }
-
-export type EditWordAction = ActionType<typeof actions>
+import { getType } from "typesafe-actions"
+import actions, { EditWordAction } from "./actions"
 
 export type EditStatus = "IDLE" | "SAVING" | "SAVED" | "ERROR"
 
-export type EditWordState = {
-  wordId?: number
+const NEW_WORD_TEMP_ID = "NEW_WORD_ID"
+
+type WordUnderEdit = {
+  wordId?: string
   status: EditStatus
   error: string | null,
 }
 
-const initialState: EditWordState = {
-  error: null,
-  status: "IDLE",
+type WordsUnderEdit = {
+  [k: string]: WordUnderEdit,
 }
 
-const reducer: Reducer<EditWordState, EditWordAction> = (
-  state = initialState,
+export type EditWordState = {
+  wordsUnderEdit: WordsUnderEdit,
+}
+
+const initialState: EditWordState = {
+  wordsUnderEdit: {
+    [NEW_WORD_TEMP_ID]: {
+      error: null,
+      status: "IDLE",
+    },
+  },
+}
+
+const wordReducer: Reducer<WordUnderEdit, EditWordAction> = (
+  state,
   action,
-): EditWordState => {
+): WordUnderEdit => {
   switch (action.type) {
     case getType(actions.saveWord.request):
       return { ...state, status: "SAVING", error: null }
@@ -44,7 +41,7 @@ const reducer: Reducer<EditWordState, EditWordAction> = (
       return { ...state, status: "SAVED" }
 
     case getType(actions.saveWord.failure):
-      return { ...state, status: "ERROR", error: action.payload }
+      return { ...state, status: "ERROR", error: action.payload.error }
 
     case getType(actions.resetStatus):
       return { ...state, status: "IDLE" }
@@ -53,6 +50,40 @@ const reducer: Reducer<EditWordState, EditWordAction> = (
       return state
   }
 }
+
+const reducer: Reducer<EditWordState, EditWordAction> = (
+  state = initialState,
+  action,
+): EditWordState => {
+  switch (action.type) {
+    case getType(actions.saveWord.request):
+    case getType(actions.saveWord.success):
+    case getType(actions.saveWord.failure):
+    case getType(actions.resetStatus): {
+      const wordId = action.payload.id || NEW_WORD_TEMP_ID
+      const wordUnderEdit = state.wordsUnderEdit[wordId]
+      if (!wordUnderEdit) {
+        return state
+      }
+      const wordsUnderEdit = {
+        ...state.wordsUnderEdit,
+        [wordId]: wordReducer(wordUnderEdit, action),
+      }
+      return { ...state, wordsUnderEdit }
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+export const getNewWord = (state: EditWordState): WordUnderEdit =>
+  state.wordsUnderEdit[NEW_WORD_TEMP_ID]
+
+export const getWordUnderEdit = (
+  state: EditWordState,
+  id: string,
+): WordUnderEdit | undefined => state.wordsUnderEdit[id]
 
 export { actions, initialState }
 export default reducer

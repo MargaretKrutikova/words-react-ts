@@ -44,7 +44,7 @@ const reducer: Reducer<WordListState, WordListAction> = (
     case getType(actions.saveWordSuccess):
       return {
         ...state,
-        items: [action.payload, ...state.items],
+        items: [action.payload.word, ...state.items],
         total: state.total + 1,
       }
 

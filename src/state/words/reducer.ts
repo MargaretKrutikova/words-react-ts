@@ -16,12 +16,12 @@ import {
 
 export type WordsState = {
   wordList: WordListState
-  editWord: EditWordState,
+  wordsUnderEdit: EditWordState,
 }
 
 export const initialState: WordsState = {
   wordList: wordListInitState,
-  editWord: editWordInitState,
+  wordsUnderEdit: editWordInitState,
 }
 
 export const actions = { ...wordListActions, ...editWordActions }
@@ -33,12 +33,15 @@ const reducer: Reducer<WordsState, WordsAction> = (
   action,
 ): WordsState => {
   const wordList = wordListReducer(state.wordList, action as WordListAction)
-  const editWord = editWordReducer(state.editWord, action as EditWordAction)
+  const wordsUnderEdit = editWordReducer(
+    state.wordsUnderEdit,
+    action as EditWordAction,
+  )
 
-  if (wordList === state.wordList && editWord === state.editWord) {
+  if (wordList === state.wordList && wordsUnderEdit === state.wordsUnderEdit) {
     return state
   }
-  return { wordList, editWord }
+  return { wordList, wordsUnderEdit }
 }
 
 export default reducer
