@@ -13,7 +13,7 @@ const Container: React.FunctionComponent<Props> = ({
   ...rest
 }) => {
   const Component = flexContainer ? Flex : Box
-  return <Component px={{ xs: "smedium", sm: "large", md: 150 }} {...rest} />
+  return <Component px={{ xs: "small", sm: "medium", md: 150 }} {...rest} />
 }
 
 export default Container

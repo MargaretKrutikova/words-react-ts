@@ -9,7 +9,7 @@ export type SpacingPx = {
   xxlarge: number,
 }
 
-const spacingUnit = 6
+const spacingUnit = 10
 
 export const spacingPx: SpacingPx = {
   xxsmall: spacingUnit / 2,

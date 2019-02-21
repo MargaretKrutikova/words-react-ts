@@ -9,7 +9,7 @@ import Navigation from "./Navigation"
 const Header: React.FunctionComponent<{}> = () => (
   <Container
     flexContainer={true}
-    py={{ xs: "xsmall", md: "small" }}
+    py={{ xs: "xxsmall", md: "xsmall" }}
     bg="primary"
     as="header"
     alignItems="baseline"
