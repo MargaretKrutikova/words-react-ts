@@ -12,7 +12,7 @@ import {
   width,
   WidthProps,
 } from "styled-system"
-import styled, { AsProps, ColorProps, omitProps } from "../theme"
+import styled, { AsProps, ColorProps, omitProps, Theme } from "../theme"
 import {
   convertSpacing,
   convertWidth,
@@ -25,19 +25,22 @@ type Props = WidthProps &
   FlexProps &
   OrderProps &
   AlignSelfProps &
+  SpaceProps &
   AsProps & {
     color?: ColorProps
     bg?: ColorProps,
   }
 
+const getColor = (theme: Theme, color: string) => (theme.colors as any)[color]
+
 const Box = styled("div", omitProps<Props>("width", "color"))<Props>(
   (props) => ({
     boxSizing: "border-box",
-    color: props.color && props.theme.colors[props.color],
-    backgroundColor: props.bg && props.theme.colors[props.bg],
-    ...space(convertSpacing(props.theme, props)),
-    ...width(convertWidth(props.theme, props)),
+    ...(props.color && { color: getColor(props.theme, props.color) }),
+    ...(props.bg && { backgroundColor: getColor(props.theme, props.bg) }),
   }),
+  (props) => ({ ...space(convertSpacing(props.theme, props)) }),
+  (props) => ({ ...width(convertWidth(props.theme, props)) }),
   fontSize,
   flex,
   order,
