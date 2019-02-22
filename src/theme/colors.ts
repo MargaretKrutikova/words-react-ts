@@ -31,10 +31,10 @@ export const themeColors: Colors = {
       hover: baseColors.blackOlive.darker,
     },
     secondary: {
-      bg: baseColors.blackOlive.primary,
-      text: "#fff",
+      bg: baseColors.whiteSmoke,
+      text: baseColors.blackOlive.primary,
       border: baseColors.blackOlive.primary,
-      hover: baseColors.blackOlive.lighter1,
+      hover: baseColors.blackOlive.lighter6,
     },
   },
   input: {
@@ -42,6 +42,8 @@ export const themeColors: Colors = {
     border: baseColors.blackOlive.lighter2,
     text: "#000",
   },
+  border1: baseColors.blackOlive.lighter2,
+  border2: baseColors.blackOlive.lighter4,
 }
 
 export type Colors = {
@@ -59,7 +61,7 @@ export type Colors = {
       text: string
       hover: string,
     }
-    secondary?: {
+    secondary: {
       bg: string
       border: string
       text: string
@@ -70,5 +72,7 @@ export type Colors = {
     bg: string
     border: string
     text: string,
-  },
+  }
+  border1: string
+  border2: string,
 }

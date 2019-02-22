@@ -1,10 +1,11 @@
-import styled, { AsProps, transitions } from "../theme"
+import { Omit } from "emotion-theming/types/helper"
+import styled, { transitions } from "../theme"
 import Box, { BoxProps } from "./Box"
 
 type Props = {
-  icon?: boolean,
-} & AsProps &
-  BoxProps
+  icon?: boolean
+  variant?: "primary" | "secondary",
+} & Omit<BoxProps, "as">
 
 const Button = styled(Box)<Props>(
   ({
@@ -14,33 +15,34 @@ const Button = styled(Box)<Props>(
       colors: { button },
       borderRadius,
     },
+    variant = "primary",
   }) => ({
     // reset
     outline: "none",
     border: "none",
     cursor: "pointer",
     // style
-    color: button.primary.text,
-    backgroundColor: button.primary.bg,
+    color: button[variant].text,
+    backgroundColor: button[variant].bg,
     borderRadius: icon ? "50%" : borderRadius,
     transition: transitions[0],
     ":hover": {
-      backgroundColor: button.primary.hover,
+      backgroundColor: button[variant].hover,
     },
     // font
     fontSize: 20,
     letterSpacing: 2,
     fontFamily: "inherit",
     // space
-    padding: icon ? 3 : `${space.xsmall}px ${space.medium}px`,
+    padding: icon ? 6 : `${space.xsmall}px ${space.medium}px`,
     ...(icon && { display: "flex", alignSelf: "center" }),
   }),
 )
 
 Button.defaultProps = {
-  as: "button",
+  variant: "primary",
 }
 
 export const InputButton = Button.withComponent("input")
 
-export default Button
+export default Button.withComponent("button")

@@ -8,7 +8,6 @@ import {
   order,
   OrderProps,
   space,
-  SpaceProps,
   width,
   WidthProps,
 } from "styled-system"
@@ -25,7 +24,6 @@ type Props = WidthProps &
   FlexProps &
   OrderProps &
   AlignSelfProps &
-  SpaceProps &
   AsProps & {
     color?: ColorProps
     bg?: ColorProps,
