@@ -44,8 +44,14 @@ const QuickAdd: React.FunctionComponent<Props> = ({
   }, [status])
 
   return (
-    <Flex>
-      <Box width={{ xs: 1, md: 350 }} mr="smedium">
+    <Flex mb={{ xs: "small", md: "smedium" }}>
+      <Box
+        mr="smedium"
+        flex="1 1 auto"
+        css={{
+          maxWidth: 300,
+        }}
+      >
         <Input
           onChange={handleInputChange}
           value={word}

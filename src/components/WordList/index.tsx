@@ -34,7 +34,7 @@ const WordsList: React.FunctionComponent<{}> = () => {
   const newWord = useMemo(() => getNewWord(wordsUnderEdit), [wordsUnderEdit])
 
   return (
-    <Box pt={{ xs: "small", md: "large" }}>
+    <Box pt={{ xs: "small", md: "smedium" }} width={{ xs: 1, md: 550 }}>
       <QuickAdd
         status={newWord.status}
         error={newWord.error}

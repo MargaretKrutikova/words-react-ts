@@ -1,1 +1,5 @@
 declare module "react-feather/dist/icons/plus"
+declare module "react-feather/dist/icons/edit-2"
+declare module "react-feather/dist/icons/x"
+declare module "react-feather/dist/icons/check"
+declare module "react-feather/dist/icons/trash-2"
