@@ -1,49 +1,42 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import { useCallback, useEffect, useMemo, useReducer } from "react"
+import { useCallback, useEffect } from "react"
 
 import { WordEntity } from "../../domains/words"
-import { wordsInitState, wordsReducer } from "../../state/words"
-import { getPaginatedWords, saveWord } from "../../state/wordsEffects"
+import { AppState, useDispatch, useMappedState } from "../../state"
+import { getPaginatedWords } from "../../state/wordEffects"
 
-import { editWordActions } from "../../state/editWord"
-import { getNewWord } from "../../state/editWord/reducer"
 import Box from "../Box"
-import QuickAdd from "./QuickAdd"
-import WordListItem from "./WordListItem"
+import QuickAdd from "../QuickAdd"
+import WordItem from "../WordItem"
+
+type StateProps = {
+  words: WordEntity[]
+  total: number,
+}
+
+const mapState = ({ wordList }: AppState): StateProps => ({
+  words: wordList.items,
+  total: wordList.total,
+})
 
 const WordsList: React.FunctionComponent<{}> = () => {
-  const [state, dispatch] = useReducer(wordsReducer, wordsInitState)
+  const { total, words } = useMappedState(
+    useCallback((state) => mapState(state), []),
+  )
 
+  const dispatch = useDispatch()
   useEffect(() => {
-    getPaginatedWords(state, dispatch)
+    getPaginatedWords(dispatch)
   }, [])
-
-  const addWord = useCallback(
-    (wordEntity: WordEntity) => saveWord(state, dispatch, wordEntity),
-    [state, dispatch],
-  )
-
-  const resetEditStatus = useCallback(
-    () => dispatch(editWordActions.resetStatus()),
-    [dispatch],
-  )
-
-  const { wordList, wordsUnderEdit } = state
-  const newWord = useMemo(() => getNewWord(wordsUnderEdit), [wordsUnderEdit])
 
   return (
     <Box pt={{ xs: "small", md: "smedium" }} width={{ xs: 1, md: 550 }}>
-      <QuickAdd
-        status={newWord.status}
-        error={newWord.error}
-        addWord={addWord}
-        resetStatus={resetEditStatus}
-      />
+      <QuickAdd />
 
-      {wordList.items.map((word, ind) => (
-        <WordListItem key={ind} word={word} />
+      {words.map((word) => (
+        <WordItem key={word.id} word={word} />
       ))}
     </Box>
   )

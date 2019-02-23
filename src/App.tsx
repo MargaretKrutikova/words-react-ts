@@ -2,10 +2,13 @@ import { css, Global } from "@emotion/core"
 import { ThemeProvider } from "emotion-theming"
 import * as React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+
+import { makeStore, StoreContext } from "./state"
+import { theme, Theme } from "./theme"
+
 import Container from "./components/Container"
 import Header from "./components/Header"
 import WordsList from "./components/WordList"
-import { theme, Theme } from "./theme"
 
 const globalStyles = (th: Theme) =>
   css({
@@ -16,22 +19,26 @@ const globalStyles = (th: Theme) =>
     },
   })
 
+const store = makeStore()
+
 const App: React.FunctionComponent<{}> = () => (
-  <Router>
-    <ThemeProvider theme={theme}>
-      <React.Fragment>
-        <Global styles={globalStyles(theme)} />
+  <ThemeProvider theme={theme}>
+    <StoreContext.Provider value={store}>
+      <Router>
+        <React.Fragment>
+          <Global styles={globalStyles(theme)} />
 
-        <Header />
+          <Header />
 
-        <Container as="main">
-          <Switch>
-            <Route exact={true} path="/" component={WordsList} />
-          </Switch>
-        </Container>
-      </React.Fragment>
-    </ThemeProvider>
-  </Router>
+          <Container as="main">
+            <Switch>
+              <Route exact={true} path="/" component={WordsList} />
+            </Switch>
+          </Container>
+        </React.Fragment>
+      </Router>
+    </StoreContext.Provider>
+  </ThemeProvider>
 )
 
 export default App

@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
+import * as React from "react"
 import { WordEntity } from "../../domains/words"
 import styled, { Theme } from "../../theme"
 import media from "../../theme/media"
@@ -10,12 +11,16 @@ import CheckIcon from "react-feather/dist/icons/check"
 import EditIcon from "react-feather/dist/icons/edit-2"
 import RemoveIcon from "react-feather/dist/icons/trash-2"
 import CancelIcon from "react-feather/dist/icons/x"
-import Button from "../Button"
+import { EditStatus } from "../../state/editWord"
 import Flex from "../Flex"
-import ActionButton from "../WordItem/ActionButton"
+import ActionButton from "./ActionButton"
 
 type Props = {
-  word: WordEntity,
+  word: WordEntity
+  editStatus?: EditStatus
+  editingError?: string | null
+  onStartEdit: () => void
+  onCancelEdit: () => void,
 }
 
 const getWordShortText = (word: WordEntity) => {
@@ -35,7 +40,13 @@ const StyledItemBox = styled(Box)((props) => ({
   },
 }))
 
-const WordListItem = ({ word }: Props) => {
+const WordItem = ({
+  word,
+  editStatus,
+  editingError,
+  onStartEdit,
+  onCancelEdit,
+}: Props) => {
   const shortText = getWordShortText(word)
   const hasShortText = !!shortText
 
@@ -56,9 +67,15 @@ const WordListItem = ({ word }: Props) => {
         })}
         justifyContent="flex-end"
       >
-        <ActionButton>
-          <EditIcon size={20} />
-        </ActionButton>
+        {!editStatus ? (
+          <ActionButton onClick={onStartEdit}>
+            <EditIcon size={20} />
+          </ActionButton>
+        ) : (
+          <ActionButton>
+            <CancelIcon size={20} onClick={onCancelEdit} />
+          </ActionButton>
+        )}
         <ActionButton>
           <RemoveIcon size={20} />
         </ActionButton>
@@ -71,4 +88,4 @@ const WordListItem = ({ word }: Props) => {
   )
 }
 
-export default WordListItem
+export default WordItem
