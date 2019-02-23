@@ -1,4 +1,3 @@
-import { Reducer } from "react"
 import { getType } from "typesafe-actions"
 import actions, { EditWordAction } from "./actions"
 
@@ -42,7 +41,7 @@ const wordReducer = (
       return { ...state, status: "ACTIVE", error: null, wordId }
     }
 
-    case getType(actions.startAdding):
+    case getType(actions.resetAdding):
       return { ...state, error: null, status: "ACTIVE" }
 
     default:
@@ -54,16 +53,16 @@ export const keys = Object.keys as <T>(o: T) => Array<Extract<keyof T, string>>
 
 const removeKey = (key: string, { [key]: _, ...rest }) => rest
 
-const reducer: Reducer<WordsUnderEdit, EditWordAction> = (
+const reducer = (
   state: WordsUnderEdit = initialState,
-  action,
+  action: EditWordAction,
 ): WordsUnderEdit => {
   switch (action.type) {
     case getType(actions.addWord.request):
     case getType(actions.addWord.failure):
     case getType(actions.addWord.success):
-    case getType(actions.startAdding): {
-      const newWord = getNewWord(state)
+    case getType(actions.resetAdding): {
+      const newWord = getNewWordEditState(state)
       return { ...state, [NEW_WORD_TEMP_ID]: wordReducer(newWord, action) }
     }
 
@@ -71,7 +70,7 @@ const reducer: Reducer<WordsUnderEdit, EditWordAction> = (
     case getType(actions.updateWord.failure):
     case getType(actions.updateWord.success): {
       const { id } = action.payload
-      const word = getWordUnderEdit(state, id)
+      const word = getWordEditState(state, id)
       return !!word ? { ...state, [id]: wordReducer(word, action) } : state
     }
 
@@ -86,10 +85,10 @@ const reducer: Reducer<WordsUnderEdit, EditWordAction> = (
   }
 }
 
-export const getNewWord = (state: WordsUnderEdit): WordUnderEdit =>
+export const getNewWordEditState = (state: WordsUnderEdit): WordUnderEdit =>
   state[NEW_WORD_TEMP_ID]
 
-export const getWordUnderEdit = (
+export const getWordEditState = (
   state: WordsUnderEdit,
   id: string,
 ): WordUnderEdit | undefined => state[id]

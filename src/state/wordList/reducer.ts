@@ -1,4 +1,3 @@
-import { Reducer } from "react"
 import { ActionType, createAsyncAction, getType } from "typesafe-actions"
 import { PaginatedWords } from "../../domains/words/model"
 import { editWordActions } from "../editWord"
@@ -9,7 +8,11 @@ const fetch = createAsyncAction(
   "@@wordList/FETCH_ERROR",
 )<void, PaginatedWords, string>()
 
-const actions = { fetch, saveWordSuccess: editWordActions.saveWord.success }
+const actions = {
+  fetch,
+  addWordSuccess: editWordActions.addWord.success,
+  updateWordSuccess: editWordActions.updateWord.success,
+}
 
 export type WordListAction = ActionType<typeof actions>
 
@@ -25,9 +28,9 @@ const initialState: WordListState = {
   isLoading: false,
 }
 
-const reducer: Reducer<WordListState, WordListAction> = (
-  state = initialState,
-  action,
+const reducer = (
+  state: WordListState = initialState,
+  action: WordListAction,
 ): WordListState => {
   switch (action.type) {
     case getType(actions.fetch.request):
@@ -41,10 +44,10 @@ const reducer: Reducer<WordListState, WordListAction> = (
     case getType(actions.fetch.failure):
       return { ...state, isLoading: false, error: action.payload }
 
-    case getType(actions.saveWordSuccess):
+    case getType(actions.addWordSuccess):
       return {
         ...state,
-        items: [action.payload.word, ...state.items],
+        items: [action.payload, ...state.items],
         total: state.total + 1,
       }
 

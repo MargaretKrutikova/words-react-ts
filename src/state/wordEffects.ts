@@ -1,26 +1,24 @@
 import { Dispatch } from "react"
 import { AddWordEntity, WordEntity, WordsApi } from "../domains/words"
-import { WordsAction, wordsActions, WordsState } from "./words"
+import { editWordActions } from "./editWord"
+import { AppAction } from "./types"
+import { wordListActions } from "./wordList"
 
-export const getPaginatedWords = async (
-  _: WordsState,
-  dispatch: Dispatch<WordsAction>,
-) => {
-  dispatch(wordsActions.fetch.request())
+export const getPaginatedWords = async (dispatch: Dispatch<AppAction>) => {
+  dispatch(wordListActions.fetch.request())
   try {
     const words = await WordsApi.getWords(1, 100)
-    dispatch(wordsActions.fetch.success(words))
+    dispatch(wordListActions.fetch.success(words))
   } catch {
-    dispatch(wordsActions.fetch.failure("error fetching"))
+    dispatch(wordListActions.fetch.failure("error fetching"))
   }
 }
 
 export const updateWord = async (
-  _: WordsState,
-  dispatch: Dispatch<WordsAction>,
+  dispatch: Dispatch<AppAction>,
   word: WordEntity,
 ) => {
-  const { request, success, failure } = wordsActions.updateWord
+  const { request, success, failure } = editWordActions.updateWord
   try {
     dispatch(request(word))
     const updatedWord = await WordsApi.saveWord(word)
@@ -32,11 +30,10 @@ export const updateWord = async (
 }
 
 export const addWord = async (
-  _: WordsState,
-  dispatch: Dispatch<WordsAction>,
+  dispatch: Dispatch<AppAction>,
   word: AddWordEntity,
 ) => {
-  const { request, success, failure } = wordsActions.addWord
+  const { request, success, failure } = editWordActions.addWord
   try {
     dispatch(request(word))
     const addedWord = await WordsApi.addWord(word)

@@ -1,4 +1,5 @@
 import actions, { EditWordAction } from "./actions"
+export { getNewWordEditState, getWordEditState } from "./reducer"
 import reducer, {
   EditStatus,
   initialState,
@@ -14,5 +15,5 @@ export {
 
 export type EditStatus = EditStatus
 export type EditWordAction = EditWordAction
-export type EditWordState = WordsUnderEdit
+export type WordsUnderEdit = WordsUnderEdit
 export type WordUnderEdit = WordUnderEdit

@@ -1,9 +1,4 @@
-import {
-  ActionType,
-  createAction,
-  createAsyncAction,
-  createStandardAction,
-} from "typesafe-actions"
+import { ActionType, createAction, createAsyncAction } from "typesafe-actions"
 import { AddWordEntity } from "../../domains/words"
 import { WordEntity } from "../../domains/words/model"
 
@@ -30,9 +25,15 @@ const startEditing = createAction(
   "@@editWord/START_EDIT",
   (resolve) => (id: string) => resolve({ id }),
 )
-const startAdding = createAction("@@editWord/START_ADD")
+const resetAdding = createAction("@@editWord/RESET_ADD")
 
-const actions = { updateWord, doneEditing, startEditing, addWord, startAdding }
+const actions = {
+  updateWord,
+  doneEditing,
+  startEditing,
+  addWord,
+  resetAdding,
+}
 
 export type EditWordAction = ActionType<typeof actions>
 export default actions
