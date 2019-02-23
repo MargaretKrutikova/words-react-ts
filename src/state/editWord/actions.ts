@@ -1,27 +1,38 @@
-import { ActionType, createAction, createAsyncAction } from "typesafe-actions"
+import {
+  ActionType,
+  createAction,
+  createAsyncAction,
+  createStandardAction,
+} from "typesafe-actions"
+import { AddWordEntity } from "../../domains/words"
 import { WordEntity } from "../../domains/words/model"
 
-type WordActionPayload = {
-  id?: string,
-}
+type UpdateWordErrorPayload = { error: string; id: string }
 
-type SaveWordPayload = {
-  word: WordEntity,
-} & WordActionPayload
-
-type SaveWordErrorPayload = { error: string } & WordActionPayload
-
-const saveWord = createAsyncAction(
+const updateWord = createAsyncAction(
   "@@editWord/SAVE",
   "@@editWord/SAVE_SUCCESS",
   "@@editWord/SAVE_ERROR",
-)<SaveWordPayload, SaveWordPayload, SaveWordErrorPayload>()
+)<WordEntity, WordEntity, UpdateWordErrorPayload>()
 
-const resetStatus = createAction("@@editWord/RESET", (resolve) => (id?: string) =>
-  resolve({ id }),
+const addWord = createAsyncAction(
+  "@@editWord/ADD",
+  "@@editWord/ADD_SUCCESS",
+  "@@editWord/ADD_ERROR",
+)<AddWordEntity, WordEntity, string>()
+
+const doneEditing = createAction(
+  "@@editWord/DONE_EDIT",
+  (resolve) => (id: string) => resolve({ id }),
 )
 
-const actions = { saveWord, resetStatus }
+const startEditing = createAction(
+  "@@editWord/START_EDIT",
+  (resolve) => (id: string) => resolve({ id }),
+)
+const startAdding = createAction("@@editWord/START_ADD")
+
+const actions = { updateWord, doneEditing, startEditing, addWord, startAdding }
 
 export type EditWordAction = ActionType<typeof actions>
 export default actions

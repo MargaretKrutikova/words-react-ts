@@ -1,9 +1,10 @@
+import { AddWordEntity } from "."
 import apolloFetch from "../../graphql/apolloFetch"
 import { getWordQuery, getWordsQuery, saveWordMutation } from "./graphql"
 import {
   ApiPaginatedWords,
   ApiWordEntity,
-  mapToWord,
+  mapToWordEntity,
   PaginatedWords,
   WordEntity,
 } from "./model"
@@ -31,7 +32,7 @@ class WordsApi {
     }
     return apolloFetch(graphqlRequest).then(
       ({ words }: GetWordsResponse): PaginatedWords => ({
-        items: words.items.map((word: ApiWordEntity) => mapToWord(word)),
+        items: words.items.map((word: ApiWordEntity) => mapToWordEntity(word)),
         total: words.total,
       }),
     )
@@ -44,7 +45,7 @@ class WordsApi {
     }
 
     return apolloFetch(graphqlRequest).then(({ word }: WordResponse) =>
-      mapToWord(word),
+      mapToWordEntity(word),
     )
   }
 
@@ -55,7 +56,17 @@ class WordsApi {
       variables: { saveWord },
     }
     return apolloFetch(graphqlRequest).then(({ SaveWord }: SaveWordResponse) =>
-      mapToWord(SaveWord),
+      mapToWordEntity(SaveWord),
+    )
+  }
+
+  public async addWord(word: AddWordEntity): Promise<WordEntity> {
+    const graphqlRequest = {
+      query: saveWordMutation,
+      variables: { saveWord: word },
+    }
+    return apolloFetch(graphqlRequest).then(({ SaveWord }: SaveWordResponse) =>
+      mapToWordEntity(SaveWord),
     )
   }
 }

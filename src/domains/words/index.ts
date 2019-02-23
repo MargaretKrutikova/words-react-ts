@@ -1,9 +1,8 @@
-import { PaginatedWords, WordEntity } from "./model"
+import { AddWordEntity, PaginatedWords, WordEntity } from "./model"
 
-export { createWord, copyWord } from "./model"
+export { copyWord } from "./model"
 export { default as WordsApi } from "./service"
 
-// tslint:disable-next-line: no-empty-interface
-export interface WordEntity extends WordEntity {}
-// tslint:disable-next-line: no-empty-interface
-export interface PaginatedWords extends PaginatedWords {}
+export type WordEntity = WordEntity
+export type AddWordEntity = AddWordEntity
+export type PaginatedWords = PaginatedWords

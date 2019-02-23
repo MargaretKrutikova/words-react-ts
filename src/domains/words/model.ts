@@ -1,31 +1,36 @@
-export interface WordEntity {
-  id?: string
+type WordProperties = {
   value: string
   translations: string[]
   explanations: string[]
-  usages: string[]
-  createdDate?: Date
-  updatedDate?: Date
+  usages: string[],
 }
 
-export interface ApiWordEntity {
-  _id?: string // by default stored as _id in the mongo db
+export type AddWordEntity = WordProperties
+
+export type WordEntity = {
+  id: string
+  createdDate?: Date
+  updatedDate?: Date,
+} & WordProperties
+
+export type ApiWordEntity = {
+  _id: string // by default stored as _id in the mongo db
   value: string
   translations?: string[]
   explanations?: string[]
   usages?: string[]
   createdDate?: string // dates come as strings
-  updatedDate?: string
+  updatedDate?: string,
 }
 
-export interface PaginatedWords {
+export type PaginatedWords = {
   items: WordEntity[]
-  total: number
+  total: number,
 }
 
-export interface ApiPaginatedWords {
+export type ApiPaginatedWords = {
   items: ApiWordEntity[]
-  total: number
+  total: number,
 }
 
 const convertToDate = (dateString?: string) =>
@@ -33,17 +38,15 @@ const convertToDate = (dateString?: string) =>
 
 const copyOrEmpty = (array?: string[]): string[] => (!array ? [] : [...array])
 
-export const mapToWord = (apiWord: ApiWordEntity): WordEntity => {
-  return {
-    id: apiWord._id,
-    value: apiWord.value,
-    translations: copyOrEmpty(apiWord.translations),
-    explanations: copyOrEmpty(apiWord.explanations),
-    usages: copyOrEmpty(apiWord.usages),
-    createdDate: convertToDate(apiWord.createdDate),
-    updatedDate: convertToDate(apiWord.updatedDate),
-  }
-}
+export const mapToWordEntity = (apiWord: ApiWordEntity): WordEntity => ({
+  id: apiWord._id,
+  value: apiWord.value,
+  translations: copyOrEmpty(apiWord.translations),
+  explanations: copyOrEmpty(apiWord.explanations),
+  usages: copyOrEmpty(apiWord.usages),
+  createdDate: convertToDate(apiWord.createdDate),
+  updatedDate: convertToDate(apiWord.updatedDate),
+})
 
 export const copyWord = (word: WordEntity): WordEntity => {
   const { translations, explanations, usages, ...rest } = word
@@ -54,13 +57,3 @@ export const copyWord = (word: WordEntity): WordEntity => {
     usages: copyOrEmpty(usages),
   }
 }
-
-export const createWord = (): WordEntity => ({
-  id: undefined,
-  value: "",
-  translations: [],
-  explanations: [],
-  usages: [],
-  createdDate: undefined,
-  updatedDate: undefined,
-})
