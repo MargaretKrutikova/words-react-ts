@@ -9,7 +9,6 @@ import {
   OrderProps,
 } from "styled-system"
 import { space, width } from "styled-system-mapper"
-import { WithTheme } from "styled-system-mapper/dist/theme"
 import styled, {
   AsProps,
   ColorProps,
@@ -28,7 +27,7 @@ type Props = WidthProps &
   AsProps & {
     color?: ColorProps
     bg?: ColorProps,
-  } & WithTheme<any> // TODO: remove theme !
+  }
 
 const getColor = (theme: Theme, color: string) => (theme.colors as any)[color]
 
