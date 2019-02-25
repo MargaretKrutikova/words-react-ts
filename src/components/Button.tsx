@@ -5,7 +5,7 @@ import Box, { BoxProps } from "./Box"
 type Props = {
   icon?: boolean
   variant?: "primary" | "secondary",
-} & Omit<BoxProps, "as">
+} & BoxProps
 
 const Button = styled(Box)<Props>(
   ({
@@ -43,6 +43,7 @@ Button.defaultProps = {
   variant: "primary",
 }
 
+export type ButtonProps = Props
 export const InputButton = Button.withComponent("input")
 
 export default Button.withComponent("button")

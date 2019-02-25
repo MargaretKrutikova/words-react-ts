@@ -7,19 +7,20 @@ import {
   FontSizeProps,
   order,
   OrderProps,
-  space,
-  width,
-  WidthProps,
 } from "styled-system"
-import styled, { AsProps, ColorProps, omitProps, Theme } from "../theme"
-import {
-  convertSpacing,
-  convertWidth,
-  ThemeSpaceProps,
-} from "../theme/styled-system"
+import { space, width } from "styled-system-mapper"
+import { WithTheme } from "styled-system-mapper/dist/theme"
+import styled, {
+  AsProps,
+  ColorProps,
+  omitProps,
+  SpaceProps,
+  Theme,
+  WidthProps,
+} from "../theme"
 
 type Props = WidthProps &
-  ThemeSpaceProps &
+  SpaceProps &
   FontSizeProps &
   FlexProps &
   OrderProps &
@@ -27,7 +28,7 @@ type Props = WidthProps &
   AsProps & {
     color?: ColorProps
     bg?: ColorProps,
-  }
+  } & WithTheme<any> // TODO: remove theme !
 
 const getColor = (theme: Theme, color: string) => (theme.colors as any)[color]
 
@@ -37,8 +38,8 @@ const Box = styled("div", omitProps<Props>("width", "color"))<Props>(
     ...(props.color && { color: getColor(props.theme, props.color) }),
     ...(props.bg && { backgroundColor: getColor(props.theme, props.bg) }),
   }),
-  (props) => ({ ...space(convertSpacing(props.theme, props)) }),
-  (props) => ({ ...width(convertWidth(props.theme, props)) }),
+  space,
+  width,
   fontSize,
   flex,
   order,

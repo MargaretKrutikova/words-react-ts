@@ -1,6 +1,7 @@
 import isPropValid from "@emotion/is-prop-valid"
-import styled, { CreateStyled } from "@emotion/styled"
-import { StyledOptions } from "@emotion/styled"
+import styled, { CreateStyled, StyledOptions } from "@emotion/styled"
+import { StyledSpaceProps, StyledWidthProps } from "styled-system-mapper"
+
 import { Colors, themeColors } from "./colors"
 import { Breakpoints, breakpoints } from "./media"
 import { spacingPx, SpacingPx } from "./spacing"
@@ -55,6 +56,9 @@ export const theme: Theme = {
 }
 
 export const transitions = ["0.15s all ease"]
+
+export type SpaceProps = StyledSpaceProps<typeof spacingPx>
+export type WidthProps = StyledWidthProps<typeof spacingPx>
 
 export type Variant = Variant
 export default styled as CreateStyled<Theme>
