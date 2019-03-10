@@ -14,7 +14,7 @@ export type WordEntity = {
 } & WordProperties
 
 export type ApiWordEntity = {
-  _id: string // by default stored as _id in the mongo db
+  id: string
   value: string
   translations?: string[]
   explanations?: string[]
@@ -39,7 +39,7 @@ const convertToDate = (dateString?: string) =>
 const copyOrEmpty = (array?: string[]): string[] => (!array ? [] : [...array])
 
 export const mapToWordEntity = (apiWord: ApiWordEntity): WordEntity => ({
-  id: apiWord._id,
+  id: apiWord.id,
   value: apiWord.value,
   translations: copyOrEmpty(apiWord.translations),
   explanations: copyOrEmpty(apiWord.explanations),

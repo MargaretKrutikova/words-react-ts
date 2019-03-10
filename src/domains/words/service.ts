@@ -1,6 +1,11 @@
 import { AddWordEntity } from "."
 import apolloFetch from "../../graphql/apolloFetch"
-import { getWordQuery, getWordsQuery, saveWordMutation } from "./graphql"
+import {
+  deleteWordMutation,
+  getWordQuery,
+  getWordsQuery,
+  saveWordMutation,
+} from "./graphql"
 import {
   ApiPaginatedWords,
   ApiWordEntity,
@@ -18,7 +23,13 @@ type WordResponse = {
 }
 
 type SaveWordResponse = {
-  SaveWord: ApiWordEntity,
+  saveWord: ApiWordEntity,
+}
+
+type DeleteWordResponse = {
+  deleteWord: {
+    deleted: boolean,
+  },
 }
 
 class WordsApi {
@@ -50,13 +61,13 @@ class WordsApi {
   }
 
   public async saveWord(word: WordEntity): Promise<WordEntity> {
-    const { createdDate, updatedDate, ...saveWord } = word // eslint-disable-line no-unused-vars
+    const { createdDate, updatedDate, ...saveWord } = word
     const graphqlRequest = {
       query: saveWordMutation,
       variables: { saveWord },
     }
-    return apolloFetch(graphqlRequest).then(({ SaveWord }: SaveWordResponse) =>
-      mapToWordEntity(SaveWord),
+    return apolloFetch(graphqlRequest).then(
+      ({ saveWord: SaveWord }: SaveWordResponse) => mapToWordEntity(SaveWord),
     )
   }
 
@@ -65,11 +76,20 @@ class WordsApi {
       query: saveWordMutation,
       variables: { saveWord: word },
     }
-    return apolloFetch(graphqlRequest).then(({ SaveWord }: SaveWordResponse) =>
-      mapToWordEntity(SaveWord),
+    return apolloFetch(graphqlRequest).then(({ saveWord }: SaveWordResponse) =>
+      mapToWordEntity(saveWord),
+    )
+  }
+
+  public async deleteWord(id: string): Promise<boolean> {
+    const graphqlRequest = {
+      query: deleteWordMutation,
+      variables: { deleteWordInput: { id } },
+    }
+    return apolloFetch(graphqlRequest).then(
+      ({ deleteWord: { deleted } }: DeleteWordResponse) => deleted,
     )
   }
 }
 
-const wordsApi = new WordsApi()
-export default wordsApi
+export default new WordsApi()

@@ -3,7 +3,7 @@ import gql from "graphql-tag"
 
 export const wordFragment: ApolloLink.DocumentNode = gql`
   fragment WordFragment on WordType {
-    _id
+    id
     value
     translations
     explanations
@@ -35,10 +35,18 @@ export const getWordQuery: ApolloLink.DocumentNode = gql`
 `
 
 export const saveWordMutation: ApolloLink.DocumentNode = gql`
-  mutation SaveWord($saveWord: WordInputType!) {
-    SaveWord(input: $saveWord) {
+  mutation SaveWord($saveWord: SaveWordInputType!) {
+    saveWord(input: $saveWord) {
       ...WordFragment
     }
   }
   ${wordFragment}
+`
+
+export const deleteWordMutation: ApolloLink.DocumentNode = gql`
+  mutation DeleteWord($deleteWordInput: DeleteWordInputType!) {
+    deleteWord(input: $deleteWordInput) {
+      deleted
+    }
+  }
 `
