@@ -1,6 +1,7 @@
 import { ActionType, createAsyncAction, getType } from "typesafe-actions"
 import { PaginatedWords } from "../../domains/words/model"
-import { editWordActions } from "../editWord"
+import { newWordActions } from "../newWord"
+import { wordDraftsActions } from "../wordDrafts"
 
 const fetch = createAsyncAction(
   "@@wordList/FETCH",
@@ -10,8 +11,9 @@ const fetch = createAsyncAction(
 
 const actions = {
   fetch,
-  addWordSuccess: editWordActions.addWord.success,
-  updateWordSuccess: editWordActions.updateWord.success,
+  deleteWordSuccess: wordDraftsActions.deleteWord.success,
+  updateWordSuccess: wordDraftsActions.updateWord.success,
+  addWordSuccess: newWordActions.addWord.success,
 }
 
 export type WordListAction = ActionType<typeof actions>
