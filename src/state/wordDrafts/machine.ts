@@ -14,7 +14,17 @@ export type DraftWordStatus =
 type DraftWordStatusMachine = {
   [k in DraftWordStatus]: { [a in WordDraftsAction["type"]]?: DraftWordStatus }
 }
-type DraftWordStatusTransitions = { [k in DraftWordStatus]: DraftWordStatus[] }
+
+export const isEditMode = (status: DraftWordStatus) =>
+  status === "EDITING" ||
+  status === "SAVING" ||
+  status === "SAVING_ERROR" ||
+  status === "SAVED"
+
+export const isDeleteMode = (status: DraftWordStatus) =>
+  status === "DELETING" || status === "DELETING_ERROR" || status === "DELETED"
+
+export const isIdleMode = (status: DraftWordStatus) => status === "IDLE"
 
 export const draftWordStatusMachine: DraftWordStatusMachine = {
   IDLE: {
