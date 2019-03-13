@@ -4,27 +4,18 @@ import * as React from "react"
 import { useCallback, useEffect, useState } from "react"
 
 import { AppState, useDispatch, useMappedState } from "../../state"
-import {
-  EditStatus,
-  editWordActions,
-  getNewWordEditState,
-} from "../../state/editWord"
+import { newWordActions, NewWordStatus } from "../../state/newWord"
 import { addWord } from "../../state/wordEffects"
 
 import QuickAddView from "./QuickAddView"
 
 type StateProps = {
-  status: EditStatus
-  error: string | null,
+  status: NewWordStatus,
 }
 
-const mapState = (state: AppState): StateProps => {
-  const newWord = getNewWordEditState(state.wordsUnderEdit)
-  return {
-    status: newWord.status,
-    error: newWord.error,
-  }
-}
+const mapState = (state: AppState): StateProps => ({
+  status: state.newWord.status,
+})
 
 const QuickAdd: React.FunctionComponent<{}> = () => {
   const [wordValue, setWordValue] = useState("")
@@ -35,25 +26,20 @@ const QuickAdd: React.FunctionComponent<{}> = () => {
     [setWordValue],
   )
 
-  const { status, error } = useMappedState(
-    useCallback((state) => mapState(state), []),
-  )
+  const { status } = useMappedState(useCallback((state) => mapState(state), []))
   const dispatch = useDispatch()
-  const save = useCallback(
-    () =>
-      addWord(dispatch, {
-        value: wordValue,
-        explanations: [],
-        usages: [],
-        translations: [],
-      }),
-    [dispatch, wordValue],
-  )
+  const save = () =>
+    addWord(dispatch, {
+      value: wordValue,
+      explanations: [],
+      usages: [],
+      translations: [],
+    })
 
   useEffect(() => {
-    if (status === "SAVED") {
+    if (status === "ADDED") {
       setWordValue("")
-      dispatch(editWordActions.resetAdding())
+      dispatch(newWordActions.resetStatus())
     }
   }, [status])
 
@@ -62,7 +48,6 @@ const QuickAdd: React.FunctionComponent<{}> = () => {
       wordValue={wordValue}
       onWordValueChange={handleWordValueChange}
       status={status}
-      error={error}
       save={save}
     />
   )

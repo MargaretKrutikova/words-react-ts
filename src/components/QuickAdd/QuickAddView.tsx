@@ -1,17 +1,17 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import Plus from "react-feather/dist/icons/plus"
+import { Plus } from "react-feather"
 
-import { EditStatus } from "../../state/editWord"
+import { NewWordStatus } from "../../state/newWord"
+
 import Box from "../Box"
 import Button from "../Button"
 import Flex from "../Flex"
 import Input from "../Input"
 
 type Props = {
-  status: EditStatus
-  error: string | null
+  status: NewWordStatus
   wordValue: string
   onWordValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   save: () => void,
@@ -19,7 +19,6 @@ type Props = {
 
 const QuickAddView: React.FunctionComponent<Props> = ({
   status,
-  error,
   save,
   wordValue,
   onWordValueChange,
@@ -39,6 +38,7 @@ const QuickAddView: React.FunctionComponent<Props> = ({
         autoCorrect="off"
         autoComplete="off"
         type="text"
+        disabled={status === "ADDING"}
       />
     </Box>
     <Button icon={true} onClick={save}>

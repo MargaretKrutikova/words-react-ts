@@ -1,4 +1,3 @@
-import { Omit } from "emotion-theming/types/helper"
 import styled, { transitions } from "../theme"
 import Box, { BoxProps } from "./Box"
 
@@ -26,8 +25,12 @@ const Button = styled(Box)<Props>(
     backgroundColor: button[variant].bg,
     borderRadius: icon ? "50%" : borderRadius,
     transition: transitions[0],
-    ":hover": {
+    ":hover:enabled": {
       backgroundColor: button[variant].hover,
+    },
+    ":disabled": {
+      opacity: 0.6,
+      cursor: "default",
     },
     // font
     fontSize: 20,

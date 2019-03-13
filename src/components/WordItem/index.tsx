@@ -3,12 +3,13 @@ import { useCallback } from "react"
 
 import { WordEntity } from "../../domains/words"
 import { AppState, useDispatch, useMappedState } from "../../state"
-import {
-  EditStatus,
-  editWordActions,
-  getWordEditState,
-} from "../../state/editWord"
 
+import {
+  DraftWordStatus,
+  getWordDraftStatus,
+  wordDraftsActions,
+} from "../../state/wordDrafts"
+import { deleteWord } from "../../state/wordEffects"
 import WordItem from "./WordItem"
 
 type Props = {
@@ -16,43 +17,43 @@ type Props = {
 }
 
 type StateProps = {
-  editStatus?: EditStatus
-  error?: string | null,
+  status: DraftWordStatus,
 }
 
-const mapState = (state: AppState, wordId: string): StateProps => {
-  const wordEditState = getWordEditState(state.wordsUnderEdit, wordId)
-  return {
-    editStatus: wordEditState ? wordEditState.status : undefined,
-    error: wordEditState ? wordEditState.error : undefined,
-  }
-}
+const mapState = (state: AppState, wordId: string): StateProps => ({
+  status: getWordDraftStatus(state.wordDrafts, wordId),
+})
 
 const WordListItem = React.memo(({ word }: Props) => {
   const { id } = word
 
-  const { editStatus, error } = useMappedState(
+  const { status } = useMappedState(
     useCallback((state: AppState) => mapState(state, id), [id]),
   )
 
   const dispatch = useDispatch()
   const startEdit = useCallback(
-    () => dispatch(editWordActions.startEditing(id)),
+    () => dispatch(wordDraftsActions.startEditing(id)),
     [id],
   )
 
   const cancelEdit = useCallback(
-    () => dispatch(editWordActions.doneEditing(id)),
+    () => dispatch(wordDraftsActions.cancelEditing(id)),
     [id],
   )
+
+  const removeWord = useCallback(() => deleteWord(dispatch, word.id), [
+    dispatch,
+    word.id,
+  ])
 
   return (
     <WordItem
       word={word}
-      editStatus={editStatus}
-      editingError={error}
+      status={status}
       onStartEdit={startEdit}
       onCancelEdit={cancelEdit}
+      onRemove={removeWord}
     />
   )
 })

@@ -1,26 +1,22 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
-import * as React from "react"
 import { WordEntity } from "../../domains/words"
 import styled, { Theme } from "../../theme"
 import media from "../../theme/media"
 import Box from "../Box"
 import Typography from "../Typography"
 
-import CheckIcon from "react-feather/dist/icons/check"
-import EditIcon from "react-feather/dist/icons/edit-2"
-import RemoveIcon from "react-feather/dist/icons/trash-2"
-import CancelIcon from "react-feather/dist/icons/x"
-import { EditStatus } from "../../state/editWord"
-import Flex from "../Flex"
-import ActionButton from "./ActionButton"
+import { DraftWordStatus, isEditMode } from "../../state/wordDrafts"
+
+import Loader from "../Loader"
+import Actions from "./Actions"
 
 type Props = {
   word: WordEntity
-  editStatus?: EditStatus
-  editingError?: string | null
+  status: DraftWordStatus
   onStartEdit: () => void
-  onCancelEdit: () => void,
+  onCancelEdit: () => void
+  onRemove: () => void,
 }
 
 const getWordShortText = (word: WordEntity) => {
@@ -40,15 +36,28 @@ const StyledItemBox = styled(Box)((props) => ({
   },
 }))
 
+const StyledLoader = styled(Loader)<{ isLoading: boolean }>(
+  ({ isLoading, theme }) => ({
+    opacity: isLoading ? 1 : 0,
+    transition: "opacity 5s ease",
+    position: "absolute",
+    bottom: theme.space.xsmall,
+    right: theme.space.xxsmall,
+  }),
+)
+
 const WordItem = ({
   word,
-  editStatus,
-  editingError,
+  status,
   onStartEdit,
   onCancelEdit,
+  onRemove,
 }: Props) => {
   const shortText = getWordShortText(word)
   const hasShortText = !!shortText
+
+  const isLoading = status === "DELETING" || status === "SAVING"
+  const isEditing = isEditMode(status)
 
   return (
     <StyledItemBox
@@ -58,28 +67,16 @@ const WordItem = ({
           : { xs: "xsmall", md: "small" }
       }
     >
-      <Flex
-        // tslint:disable-next-line: jsx-no-lambda
-        css={(theme: Theme) => ({
-          position: "absolute",
-          height: theme.space.small,
-          right: 0,
-        })}
-        justifyContent="flex-end"
-      >
-        {!editStatus ? (
-          <ActionButton onClick={onStartEdit}>
-            <EditIcon size={20} />
-          </ActionButton>
-        ) : (
-          <ActionButton>
-            <CancelIcon size={20} onClick={onCancelEdit} />
-          </ActionButton>
-        )}
-        <ActionButton>
-          <RemoveIcon size={20} />
-        </ActionButton>
-      </Flex>
+      <StyledLoader isLoading={isLoading} />
+      <Actions
+        isEditing={isEditing}
+        isLoading={isLoading}
+        onStartEdit={onStartEdit}
+        onCancelEdit={onCancelEdit}
+        onRemove={onRemove}
+        canSave={false}
+        onSave={() => undefined}
+      />
       <Typography as="div" variant="h3">
         {word.value}
       </Typography>
