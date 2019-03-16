@@ -82,28 +82,26 @@ const Actions: React.FunctionComponent<Props> = React.memo(
               disabled={isLoading}
             />
 
-            <Box css={{ position: "relative", justifyContent: "center" }}>
-              <ActionButton
-                onClick={toggleConfirmationOpen}
-                disabled={isLoading}
-                icon={RemoveIcon}
-              />
-              {isConfirmationOpen && (
-                <SimpleModal>
-                  <ConfirmationModal ref={clickOutsideRef}>
-                    <SpeechBubble
-                      position="top"
-                      pointer="left"
-                      align="end"
-                      justifyContent="center"
-                    >
-                      <Box>Are you sure?</Box>
-                      <ActionButton onClick={onRemove} icon={CheckIcon} />
-                    </SpeechBubble>
-                  </ConfirmationModal>
-                </SimpleModal>
-              )}
-            </Box>
+            <ActionButton
+              onClick={toggleConfirmationOpen}
+              disabled={isLoading}
+              icon={RemoveIcon}
+            />
+            {isConfirmationOpen && (
+              <SimpleModal>
+                <ConfirmationModal ref={clickOutsideRef}>
+                  <SpeechBubble
+                    position="top"
+                    pointer="left"
+                    align="end"
+                    justifyContent="center"
+                  >
+                    <Box>Are you sure?</Box>
+                    <ActionButton onClick={onRemove} icon={CheckIcon} />
+                  </SpeechBubble>
+                </ConfirmationModal>
+              </SimpleModal>
+            )}
           </React.Fragment>
         )}
       </ActionContainer>

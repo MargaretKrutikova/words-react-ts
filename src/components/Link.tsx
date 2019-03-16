@@ -6,7 +6,7 @@ type Props = AsProps & BoxProps
 
 const Link = styled(Box)<Props>({
   textDecoration: "none",
-  color: "white",
+  color: "inherit",
 })
 
 Link.defaultProps = {
