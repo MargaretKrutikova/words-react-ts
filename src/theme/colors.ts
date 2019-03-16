@@ -16,6 +16,7 @@ export const baseColors = {
 }
 
 export const themeColors: Colors = {
+  themeBg: "#fff",
   siteBg: baseColors.whiteSmoke,
   primaryText: "#000",
   secondaryText: "#111",
@@ -47,6 +48,7 @@ export const themeColors: Colors = {
 }
 
 export type Colors = {
+  themeBg: string
   primary: string
   primaryContrastText: string
   secondary: string

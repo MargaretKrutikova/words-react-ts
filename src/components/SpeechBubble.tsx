@@ -1,5 +1,6 @@
 import { css } from "@emotion/core"
 import styled from "../theme"
+import { hex2Rgba } from "../utils"
 import Flex, { FlexProps } from "./Flex"
 
 export type Position = "top" | "bottom" | "left" | "right"
@@ -66,14 +67,14 @@ const SpeechBubble = styled(Flex)<Props>(
   ({ theme, position, pointer, align }) => ({
     position: "relative",
     borderRadius: theme.space.xsmall,
-    backgroundColor: "white",
+    backgroundColor: theme.colors.themeBg,
     padding: theme.space.xsmall,
     border: `2px ${theme.colors.border2} solid`,
     whiteSpace: "nowrap",
     [`margin${capitilize(position)}`]: 20,
-    filter: "drop-shadow(1px 3px 4px rgba(162,167,165,0.6))",
+    filter: `drop-shadow(1px 3px 4px ${hex2Rgba(theme.colors.border2, 0.6)})`,
     ":after": {
-      ...speechStyles(position, pointer, align, "white", 16),
+      ...speechStyles(position, pointer, align, theme.colors.themeBg, 16),
     },
     ":before": {
       ...speechStyles(position, pointer, align, theme.colors.border2, 16, 4),

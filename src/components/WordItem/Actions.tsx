@@ -12,6 +12,7 @@ import {
 import styled from "../../theme"
 import Box from "../Box"
 import useClickOutside from "../hooks/useClickOutside"
+import SimpleModal from "../SimpleModal"
 import SpeechBubble from "../SpeechBubble"
 import ActionButton from "./ActionButton"
 
@@ -62,40 +63,45 @@ const Actions: React.FunctionComponent<Props> = React.memo(
       <ActionContainer>
         {isEditing ? (
           <React.Fragment>
-            <ActionButton onClick={onSave} disabled={isLoading || !canSave}>
-              <SaveIcon size={20} />
-            </ActionButton>
-            <ActionButton onClick={onCancelEdit} disabled={isLoading}>
-              <CancelIcon size={20} />
-            </ActionButton>
+            <ActionButton
+              icon={SaveIcon}
+              onClick={onSave}
+              disabled={isLoading || !canSave}
+            />
+            <ActionButton
+              icon={CancelIcon}
+              onClick={onCancelEdit}
+              disabled={isLoading}
+            />
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <ActionButton onClick={onStartEdit} disabled={isLoading}>
-              <EditIcon size={20} />
-            </ActionButton>
+            <ActionButton
+              icon={EditIcon}
+              onClick={onStartEdit}
+              disabled={isLoading}
+            />
 
             <Box css={{ position: "relative", justifyContent: "center" }}>
               <ActionButton
                 onClick={toggleConfirmationOpen}
                 disabled={isLoading}
-              >
-                <RemoveIcon size={20} />
-              </ActionButton>
+                icon={RemoveIcon}
+              />
               {isConfirmationOpen && (
-                <ConfirmationModal ref={clickOutsideRef}>
-                  <SpeechBubble
-                    position="top"
-                    pointer="left"
-                    align="end"
-                    justifyContent="center"
-                  >
-                    <Box>Are you sure?</Box>
-                    <ActionButton onClick={onRemove}>
-                      <CheckIcon size={20} />
-                    </ActionButton>
-                  </SpeechBubble>
-                </ConfirmationModal>
+                <SimpleModal>
+                  <ConfirmationModal ref={clickOutsideRef}>
+                    <SpeechBubble
+                      position="top"
+                      pointer="left"
+                      align="end"
+                      justifyContent="center"
+                    >
+                      <Box>Are you sure?</Box>
+                      <ActionButton onClick={onRemove} icon={CheckIcon} />
+                    </SpeechBubble>
+                  </ConfirmationModal>
+                </SimpleModal>
               )}
             </Box>
           </React.Fragment>
