@@ -1,26 +1,60 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
+import { Moon as MoonIcon, Sun as SunIcon } from "react-feather"
+
+import { ThemeMode } from "../../theme"
+import useThemeDispatch from "../hooks/useThemeDispatch"
+import { themeActions } from "../hooks/useThemeMode"
+
 import Container from "../Container"
 import { RouterLink } from "../Link"
+import SvgIcon from "../SvgIcon"
 import Typography from "../Typography"
 import Navigation from "./Navigation"
+import ThemeSwitch, { SwitchButton } from "./ThemeSwitch"
 
-const Header: React.FunctionComponent<{}> = () => (
-  <Container
-    flexContainer={true}
-    py={{ xs: "xxsmall", md: "xsmall" }}
-    bg="primary"
-    as="header"
-    alignItems="baseline"
-    justifyContent={{ xs: "space-between", sm: "flex-start" }}
-  >
-    <Typography as="h1" mr="large" variant="h2">
-      <RouterLink to="/">Words</RouterLink>
-    </Typography>
+type Props = {
+  themeMode: ThemeMode,
+}
 
-    <Navigation />
-  </Container>
-)
+const Header: React.FunctionComponent<Props> = ({ themeMode }) => {
+  const dispatch = useThemeDispatch()
+  const setDark = React.useCallback(
+    () => dispatch && dispatch(themeActions.setDark()),
+    [],
+  )
+  const setLight = React.useCallback(
+    () => dispatch && dispatch(themeActions.setLight()),
+    [],
+  )
+
+  return (
+    <Container
+      flexContainer={true}
+      py={{ xs: "xxsmall", md: "xsmall" }}
+      bg="primary"
+      color="primaryContrastText"
+      as="header"
+      alignItems="baseline"
+      justifyContent={{ xs: "space-between", sm: "flex-start" }}
+    >
+      <Typography as="h1" mr="large" variant="h2">
+        <RouterLink to="/">Words</RouterLink>
+      </Typography>
+
+      <Navigation />
+
+      <ThemeSwitch mode={themeMode}>
+        <SwitchButton onClick={setDark} isActive={themeMode === "dark"}>
+          <SvgIcon icon={MoonIcon} />
+        </SwitchButton>
+        <SwitchButton onClick={setLight} isActive={themeMode === "light"}>
+          <SvgIcon icon={SunIcon} />
+        </SwitchButton>
+      </ThemeSwitch>
+    </Container>
+  )
+}
 
 export default Header

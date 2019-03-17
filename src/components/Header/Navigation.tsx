@@ -12,7 +12,6 @@ const Navigation: React.FunctionComponent<{}> = () => (
     <RouterLink to="/list/page" mr="small">
       List
     </RouterLink>
-    <RouterLink to="/">Add</RouterLink>
   </Flex>
 )
 
