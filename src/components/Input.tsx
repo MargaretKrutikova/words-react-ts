@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import styled, { transitions } from "../theme"
+import styled from "../theme"
 
 type Props = {} & React.InputHTMLAttributes<HTMLInputElement>
 
@@ -9,7 +9,7 @@ const getInputShadow = (color: string, focused: boolean = false) =>
   !focused ? `0 0 0 1px ${color}` : `0 0 0 2px ${color}`
 
 const StyledInput = styled.input<Props>(
-  ({ theme: { colors, borderRadius, space } }) => ({
+  ({ theme: { colors, borderRadius, space, transitions } }) => ({
     // reset
     border: "none",
     outline: "none",

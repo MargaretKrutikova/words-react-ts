@@ -1,4 +1,4 @@
-import styled, { transitions } from "../theme"
+import styled from "../theme"
 import Box, { BoxProps } from "./Box"
 
 type Props = {
@@ -13,6 +13,7 @@ const Button = styled(Box)<Props>(
       space,
       colors: { button },
       borderRadius,
+      transitions,
     },
     variant = "primary",
   }) => ({
