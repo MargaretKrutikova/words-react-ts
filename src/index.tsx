@@ -1,9 +1,8 @@
-import * as React from "react"
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
 import * as ReactDOM from "react-dom"
-import App from "./App"
+import App from "./components/App"
 import registerServiceWorker from "./registerServiceWorker"
-
-import "./index.css"
 
 import "./fonts/fonts.css"
 

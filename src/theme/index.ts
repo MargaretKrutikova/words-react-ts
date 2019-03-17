@@ -25,6 +25,7 @@ export const omitProps = <Props>(
 export type ColorProps = keyof Colors
 
 export type Theme = {
+  mode: ThemeMode
   borderRadius: number
   space: SpacingPx
   breakpoints: Breakpoints
@@ -36,22 +37,25 @@ export type Theme = {
     },
   }
   colors: Colors
-  maxWidth: number,
+  maxWidth: number
+  transitions: string[],
 }
 
-export const createTheme = (isDark: boolean): Theme => ({
+export type ThemeMode = "light" | "dark"
+
+export const createTheme = (mode: ThemeMode): Theme => ({
+  mode,
   borderRadius: 3,
   space: spacingPx,
   breakpoints,
-  colors: isDark ? createDarkPalette() : createLightPalette(),
+  colors: mode === "dark" ? createDarkPalette() : createLightPalette(),
   typography: {
     variants: typographyVariants,
     defaultFont,
   },
   maxWidth: 1200,
+  transitions: ["0.15s all ease"],
 })
-
-export const transitions = ["0.15s all ease"]
 
 export type SpaceProps = StyledSpaceProps<typeof spacingPx>
 export type WidthProps = StyledWidthProps<typeof spacingPx>

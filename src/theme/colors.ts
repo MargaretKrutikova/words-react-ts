@@ -21,7 +21,7 @@ export const createLightPalette = (): Colors => {
     text1: invert(background1),
     background2,
     primary: blackOlive,
-    primaryContrastText: invert(blackOlive),
+    primaryContrastText: white,
     button: {
       primary: {
         bg: blackOlive,
