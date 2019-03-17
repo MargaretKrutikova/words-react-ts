@@ -1,61 +1,94 @@
+import { darken, invert, lighten } from "polished"
+
 export const baseColors = {
-  blackOlive: {
-    darker: "#2B2C31",
-    primary: "#393E41",
-    lighter1: "#53595A",
-    lighter2: "#6E7474",
-    lighter3: "#888D8C",
-    lighter4: "#A2A7A5",
-    lighter5: "#BDC0BE",
-    lighter6: "#D7D9D8",
-  },
-  verdigris: {
-    primary: "#44BBA4",
-  },
+  white: "#fff",
+  blackOlive: "#393E41",
   whiteSmoke: "#F7F5F4",
+  arsenic: "#3B3F47",
+  timerwolf: "#dbd9d4",
 }
 
-export const themeColors: Colors = {
-  themeBg: "#fff",
-  siteBg: baseColors.whiteSmoke,
-  primaryText: "#000",
-  secondaryText: "#111",
-  primary: baseColors.blackOlive.primary,
-  primaryContrastText: "#fff",
-  secondary: baseColors.verdigris.primary,
-  secondaryContrastText: "#000",
-  button: {
-    primary: {
-      bg: baseColors.blackOlive.primary,
-      text: "#fff",
-      border: baseColors.blackOlive.primary,
-      hover: baseColors.blackOlive.darker,
+export const createLightPalette = (): Colors => {
+  const { blackOlive, whiteSmoke, white } = baseColors
+
+  const background1 = whiteSmoke
+  const background2 = white
+  const border1 = lighten(0.15, blackOlive)
+  const border2 = lighten(0.4, blackOlive)
+
+  return {
+    background1,
+    text1: invert(background1),
+    background2,
+    primary: blackOlive,
+    primaryContrastText: invert(blackOlive),
+    button: {
+      primary: {
+        bg: blackOlive,
+        text: white,
+        border: blackOlive,
+        hover: darken(0.1, blackOlive),
+      },
+      secondary: {
+        bg: darken(0.07, whiteSmoke),
+        text: blackOlive,
+        border: blackOlive,
+        hover: darken(0.12, whiteSmoke),
+      },
     },
-    secondary: {
-      bg: baseColors.whiteSmoke,
-      text: baseColors.blackOlive.primary,
-      border: baseColors.blackOlive.primary,
-      hover: baseColors.blackOlive.lighter6,
+    input: {
+      bg: background2,
+      border: border1,
+      text: invert(background2),
     },
-  },
-  input: {
-    bg: "#fff",
-    border: baseColors.blackOlive.lighter2,
-    text: "#000",
-  },
-  border1: baseColors.blackOlive.lighter2,
-  border2: baseColors.blackOlive.lighter4,
+    border1,
+    border2,
+  }
+}
+
+export const createDarkPalette = (): Colors => {
+  const { timerwolf, arsenic } = baseColors
+
+  const background1 = darken(0.05, arsenic)
+  const primary = timerwolf
+  const background2 = lighten(0.1, background1)
+
+  return {
+    background1,
+    text1: primary,
+    background2,
+    primary,
+    primaryContrastText: invert(primary),
+    button: {
+      primary: {
+        bg: primary,
+        text: arsenic,
+        border: primary,
+        hover: darken(0.1, primary),
+      },
+      secondary: {
+        bg: background2,
+        text: primary,
+        border: darken(0.1, primary),
+        hover: lighten(0.15, background1),
+      },
+    },
+    input: {
+      bg: background2,
+      border: darken(0.1, primary),
+      text: invert(background2),
+    },
+    border1: darken(0.1, primary),
+    border2: darken(0.2, primary),
+  }
 }
 
 export type Colors = {
-  themeBg: string
+  background1: string
+  background2: string
   primary: string
   primaryContrastText: string
-  secondary: string
-  secondaryContrastText: string
-  primaryText: string
-  secondaryText: string
-  siteBg: string
+  text1: string
   button: {
     primary: {
       bg: string

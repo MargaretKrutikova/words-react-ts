@@ -2,7 +2,7 @@ import isPropValid from "@emotion/is-prop-valid"
 import styled, { CreateStyled, StyledOptions } from "@emotion/styled"
 import { StyledSpaceProps, StyledWidthProps } from "styled-system-mapper"
 
-import { Colors, themeColors } from "./colors"
+import { Colors, createDarkPalette, createLightPalette } from "./colors"
 import { Breakpoints, breakpoints } from "./media"
 import { spacingPx, SpacingPx } from "./spacing"
 import {
@@ -39,21 +39,17 @@ export type Theme = {
   maxWidth: number,
 }
 
-export const theme: Theme = {
+export const createTheme = (isDark: boolean): Theme => ({
   borderRadius: 3,
   space: spacingPx,
   breakpoints,
-  colors: themeColors,
-  // primaryBg: "#fff",
-  // primaryText: "#4A4A4A",
-  // purple: "#393E41", // "#913E66" "#661B3F",
-  // lightText: "#fefefe",
+  colors: isDark ? createDarkPalette() : createLightPalette(),
   typography: {
     variants: typographyVariants,
     defaultFont,
   },
   maxWidth: 1200,
-}
+})
 
 export const transitions = ["0.15s all ease"]
 

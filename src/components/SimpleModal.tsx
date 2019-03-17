@@ -10,7 +10,7 @@ const Overlay = styled.div({
   height: "100%",
   width: "100%",
   zIndex: 1,
-  backgroundColor: "rgba(0,0,0,0.15)",
+  backgroundColor: "rgba(0,0,0,0.2)",
 })
 
 const SimpleModal: React.FunctionComponent<{}> = ({ children }) => (

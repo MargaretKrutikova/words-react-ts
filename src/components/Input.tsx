@@ -14,7 +14,7 @@ const StyledInput = styled.input<Props>(
     border: "none",
     outline: "none",
     // style
-    color: colors.input.text,
+    color: colors.text1,
     backgroundColor: colors.input.bg,
     borderRadius,
     transition: transitions[0],
