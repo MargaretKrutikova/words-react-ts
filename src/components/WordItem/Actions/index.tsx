@@ -2,19 +2,19 @@
 import { jsx } from "@emotion/core"
 import * as React from "react"
 import {
-  Check as CheckIcon,
   Edit2 as EditIcon,
   Save as SaveIcon,
   Trash2 as RemoveIcon,
   X as CancelIcon,
 } from "react-feather"
 
-import styled from "../../theme"
-import Box from "../Box"
-import useClickOutside from "../hooks/useClickOutside"
-import SimpleModal from "../SimpleModal"
-import SpeechBubble from "../SpeechBubble"
+import styled from "../../../theme"
 import ActionButton from "./ActionButton"
+import ActionConfirmation from "./ActionConfirmationButton"
+import reducer, {
+  toggleCancelEditConfirmation,
+  toggleRemoveConfirmation,
+} from "./reducer"
 
 type Props = {
   isLoading: boolean
@@ -34,13 +34,6 @@ const ActionContainer = styled.div((props) => ({
   top: props.theme.space.xsmall,
 }))
 
-const ConfirmationModal = styled.div(() => ({
-  position: "absolute",
-  right: 0,
-  top: "100%",
-  zIndex: 1,
-}))
-
 const Actions: React.FunctionComponent<Props> = React.memo(
   ({
     isLoading,
@@ -51,13 +44,16 @@ const Actions: React.FunctionComponent<Props> = React.memo(
     onRemove,
     onSave,
   }) => {
-    const [isConfirmationOpen, setConfirmationOpen] = React.useState(false)
-    const closeConfirmation = React.useCallback(() => {
-      setConfirmationOpen(false)
-    }, [setConfirmationOpen])
+    const [state, dispatch] = React.useReducer(reducer, {
+      isCancelEditConfirmationOpen: false,
+      isRemoveConfirmationOpen: false,
+    })
 
-    const toggleConfirmationOpen = () => setConfirmationOpen((open) => !open)
-    const clickOutsideRef = useClickOutside(closeConfirmation)
+    const onToggleRemoveConfirmation = () =>
+      dispatch(toggleRemoveConfirmation())
+
+    const onToggleCancelEditConfirmation = () =>
+      dispatch(toggleCancelEditConfirmation())
 
     return (
       <ActionContainer>
@@ -68,10 +64,14 @@ const Actions: React.FunctionComponent<Props> = React.memo(
               onClick={onSave}
               disabled={isLoading || !canSave}
             />
-            <ActionButton
+
+            <ActionConfirmation
               icon={CancelIcon}
-              onClick={onCancelEdit}
               disabled={isLoading}
+              onConfirm={onCancelEdit}
+              message="Cancel edit?"
+              isConfirmationOpen={state.isCancelEditConfirmationOpen}
+              onToggleConfirmation={onToggleCancelEditConfirmation}
             />
           </React.Fragment>
         ) : (
@@ -82,26 +82,14 @@ const Actions: React.FunctionComponent<Props> = React.memo(
               disabled={isLoading}
             />
 
-            <ActionButton
-              onClick={toggleConfirmationOpen}
-              disabled={isLoading}
+            <ActionConfirmation
               icon={RemoveIcon}
+              disabled={isLoading}
+              onConfirm={onRemove}
+              message="Remove word?"
+              isConfirmationOpen={state.isRemoveConfirmationOpen}
+              onToggleConfirmation={onToggleRemoveConfirmation}
             />
-            {isConfirmationOpen && (
-              <SimpleModal>
-                <ConfirmationModal ref={clickOutsideRef}>
-                  <SpeechBubble
-                    position="top"
-                    pointer="left"
-                    align="end"
-                    justifyContent="center"
-                  >
-                    <Box>Are you sure?</Box>
-                    <ActionButton onClick={onRemove} icon={CheckIcon} />
-                  </SpeechBubble>
-                </ConfirmationModal>
-              </SimpleModal>
-            )}
           </React.Fragment>
         )}
       </ActionContainer>
