@@ -7,6 +7,7 @@ import styled from "../../../theme"
 import useClickOutside from "../../hooks/useClickOutside"
 
 import Box from "../../Box"
+import SimpleModal from "../../SimpleModal"
 import SpeechBubble from "../../SpeechBubble"
 import ActionButton from "./ActionButton"
 
@@ -40,12 +41,14 @@ const ConfirmationModal: React.FunctionComponent<Props> = ({
   )
 
   return (
-    <ConfirmationContainer ref={clickOutsideRef}>
-      <SpeechBubble position="top" pointer="left" align="end">
-        <Box>{message}</Box>
-        <ActionButton onClick={handleConfirm} icon={CheckIcon} />
-      </SpeechBubble>
-    </ConfirmationContainer>
+    <SimpleModal>
+      <ConfirmationContainer ref={clickOutsideRef}>
+        <SpeechBubble position="top" pointer="left" align="end">
+          <Box>{message}</Box>
+          <ActionButton onClick={handleConfirm} icon={CheckIcon} />
+        </SpeechBubble>
+      </ConfirmationContainer>
+    </SimpleModal>
   )
 }
 
