@@ -1,3 +1,4 @@
+import { Omit } from "emotion-theming/types/helper"
 import {
   alignSelf,
   AlignSelfProps,
@@ -18,7 +19,7 @@ import styled, {
   WidthProps,
 } from "../theme"
 
-type Props = WidthProps &
+type AllProps = WidthProps &
   SpaceProps &
   FontSizeProps &
   FlexProps &
@@ -28,6 +29,8 @@ type Props = WidthProps &
     color?: ColorProps
     bg?: ColorProps,
   }
+
+type Props = Partial<Omit<AllProps, "">>
 
 const getColor = (theme: Theme, color: string) => (theme.colors as any)[color]
 

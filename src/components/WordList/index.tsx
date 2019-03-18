@@ -7,7 +7,7 @@ import { WordEntity } from "../../domains/words"
 import { AppState, useDispatch, useMappedState } from "../../state"
 import { getPaginatedWords } from "../../state/wordEffects"
 
-import Box from "../Box"
+import InnerContainer from "../InnerContainer"
 import QuickAdd from "../QuickAdd"
 import WordItem from "../WordItem"
 
@@ -32,13 +32,17 @@ const WordsList: React.FunctionComponent<{}> = () => {
   }, [])
 
   return (
-    <Box pt={{ xs: "small", md: "smedium" }} width={{ xs: 1, md: 550 }}>
+    <InnerContainer
+      flexDirection="column"
+      pt={{ xs: "small", md: "smedium" }}
+      mb={{ md: "smedium" }}
+    >
       <QuickAdd />
 
       {words.map((word) => (
         <WordItem key={word.id} word={word} />
       ))}
-    </Box>
+    </InnerContainer>
   )
 }
 
