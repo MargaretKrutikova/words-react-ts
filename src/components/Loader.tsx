@@ -2,6 +2,7 @@
 import { jsx, keyframes } from "@emotion/core"
 import * as React from "react"
 import { Loader as LoaderIcon, Props } from "react-feather"
+import useElapsed from "./hooks/useElapsed"
 
 const rotate = keyframes`
 100%{
@@ -18,4 +19,22 @@ const Loader: React.FunctionComponent<Props> = (props) => (
   />
 )
 
+const TRANSITION_MS = 3000
+const SHOW_DELAY_MS = 50
+
+const LazyLoader: React.FunctionComponent<Props> = (props) => {
+  const elapsed = useElapsed(SHOW_DELAY_MS)
+
+  return (
+    <Loader
+      {...props}
+      css={{
+        opacity: elapsed ? 1 : 0,
+        transition: `opacity ${TRANSITION_MS}ms ease`,
+      }}
+    />
+  )
+}
+
+export { LazyLoader }
 export default Loader
