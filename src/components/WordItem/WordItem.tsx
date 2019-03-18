@@ -65,7 +65,7 @@ const WordItem = ({
         canSave={false}
         onSave={() => undefined}
       />
-      <Typography as="div" variant="h3" fontSize={{ xs: 22 }}>
+      <Typography as="div" variant="h3" fontSize={{ xs: 26 }}>
         {word.value}
       </Typography>
       {hasShortText && <span>{shortText}</span>}

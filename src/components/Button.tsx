@@ -40,17 +40,9 @@ const Button = styled(Box)<Props>(
     fontFamily: "inherit",
     // space
     padding: icon ? 6 : `${space.xsmall}px ${space.medium}px`,
-    ...(icon && {
-      [media.down("sm")]: {
-        padding: 4,
-      },
-    }),
     ...(icon && { display: "flex", alignSelf: "center" }),
     "& + &": {
       marginLeft: space.xsmall,
-      [media.down("sm")]: {
-        marginLeft: space.xxsmall,
-      },
     },
   }),
 )
