@@ -33,12 +33,12 @@ const mediaQuery = (options: QueryType) => {
   const queries = []
 
   const minBreakpoint = breakpointFromQuery(minWidth)
-  if (minBreakpoint) {
+  if (minBreakpoint !== undefined) {
     queries.push(`(min-width: ${minBreakpoint}px)`)
   }
 
   const maxBreakpoint = breakpointFromQuery(maxWidth)
-  if (maxBreakpoint) {
+  if (maxBreakpoint !== undefined) {
     queries.push(`(max-width: ${maxBreakpoint}px)`)
   }
 

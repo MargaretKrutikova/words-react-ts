@@ -43,7 +43,7 @@ const Header: React.FunctionComponent<Props> = ({ themeMode }) => {
         alignItems="baseline"
         justifyContent={{ xs: "space-between", sm: "flex-start" }}
       >
-        <Typography as="h1" mr="large" variant="h2">
+        <Typography as="h1" mr={{ xs: "small", md: "large" }} variant="h2">
           <RouterLink to="/">Words</RouterLink>
         </Typography>
 

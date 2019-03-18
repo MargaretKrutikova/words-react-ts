@@ -11,6 +11,7 @@ import {
   TextAlignProps,
 } from "styled-system"
 import styled, { AsProps, Variant } from "../theme"
+import media from "../theme/media"
 import Box, { BoxProps } from "./Box"
 
 type Props = AsProps &
@@ -25,9 +26,18 @@ type Props = AsProps &
   }
 
 const Typography = styled(Box)<Props>(
-  (props) => ({
-    ...(props.variant && props.theme.typography.variants[props.variant]),
+  ({ variant, theme: { typography } }) => ({
+    ...(variant && typography.variants[variant]),
     display: "block",
+    [media.up("sm")]: {
+      ...(variant && typography.variants[variant]),
+    },
+    [media.up("md")]: {
+      ...(variant && typography.variants[variant]),
+    },
+    [media.up("lg")]: {
+      ...(variant && typography.variants[variant]),
+    },
   }),
   textAlign,
   fontSizeStyled,

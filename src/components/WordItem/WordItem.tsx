@@ -28,7 +28,6 @@ const getWordShortText = (word: WordEntity) => {
 }
 
 const StyledItemBox = styled(Box)((props) => ({
-  [media.up("md")]: {},
   position: "relative",
   borderTop: `1px solid ${props.theme.colors.border2}`,
   ":last-of-type": {
@@ -60,14 +59,8 @@ const WordItem = ({
   const isEditing = isEditMode(status)
 
   return (
-    <StyledItemBox
-      py={
-        hasShortText
-          ? { xs: "xxsmall", md: "xsmall" }
-          : { xs: "xsmall", md: "small" }
-      }
-    >
-      <StyledLoader isLoading={isLoading} />
+    <StyledItemBox py={hasShortText ? "xsmall" : "small"}>
+      {isLoading && <StyledLoader isLoading={isLoading} />}
       <Actions
         isEditing={isEditing}
         isLoading={isLoading}
@@ -77,7 +70,7 @@ const WordItem = ({
         canSave={false}
         onSave={() => undefined}
       />
-      <Typography as="div" variant="h3">
+      <Typography as="div" variant="h3" fontSize={{ xs: 22 }}>
         {word.value}
       </Typography>
       {hasShortText && <span>{shortText}</span>}
