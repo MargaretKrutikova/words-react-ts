@@ -10,7 +10,7 @@ import {
   textAlign,
   TextAlignProps,
 } from "styled-system"
-import styled, { AsProps, Variant } from "../theme"
+import styled, { AsProps, omitProps, Variant } from "../theme"
 import media from "../theme/media"
 import Box, { BoxProps } from "./Box"
 
@@ -25,9 +25,8 @@ type Props = AsProps &
     variant?: Variant,
   }
 
-const Typography = styled(Box)<Props>(
+const Typography = styled(Box, omitProps<Props>("fontSize"))<Props>(
   ({ variant, theme: { typography } }) => ({
-    ...(variant && typography.variants[variant]),
     display: "block",
     [media.up("sm")]: {
       ...(variant && typography.variants[variant]),

@@ -15,6 +15,7 @@ const SwitchButton = styled.div<SwitchButtonProps>(({ theme, isActive }) => ({
   position: "relative",
   zIndex: 1,
   color: isActive ? theme.colors.primary : "inherit",
+  cursor: isActive ? "default" : "pointer",
 }))
 
 const ThemeSwitch = styled("div", omitProps<Props>("mode"))<Props>(

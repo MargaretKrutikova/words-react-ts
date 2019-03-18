@@ -1,14 +1,13 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import { WordEntity } from "../../domains/words"
-import styled, { Theme } from "../../theme"
-import media from "../../theme/media"
+import styled from "../../theme"
 import Box from "../Box"
 import Typography from "../Typography"
 
 import { DraftWordStatus, isEditMode } from "../../state/wordDrafts"
 
-import Loader from "../Loader"
+import { LazyLoader } from "../Loader"
 import Actions from "./Actions"
 
 type Props = {
@@ -35,15 +34,11 @@ const StyledItemBox = styled(Box)((props) => ({
   },
 }))
 
-const StyledLoader = styled(Loader)<{ isLoading: boolean }>(
-  ({ isLoading, theme }) => ({
-    opacity: isLoading ? 1 : 0,
-    transition: "opacity 5s ease",
-    position: "absolute",
-    bottom: theme.space.xsmall,
-    right: theme.space.xxsmall,
-  }),
-)
+const StyledLoader = styled(LazyLoader)(({ theme }) => ({
+  position: "absolute",
+  bottom: theme.space.xsmall,
+  right: theme.space.xxsmall,
+}))
 
 const WordItem = ({
   word,
@@ -60,7 +55,7 @@ const WordItem = ({
 
   return (
     <StyledItemBox py={hasShortText ? "xsmall" : "small"}>
-      {isLoading && <StyledLoader isLoading={isLoading} />}
+      {isLoading && <StyledLoader />}
       <Actions
         isEditing={isEditing}
         isLoading={isLoading}
