@@ -4,7 +4,7 @@ import { Omit } from "emotion-theming/types/helper"
 import * as React from "react"
 import { Icon, Props as IconProps } from "react-feather"
 
-type Props = {
+export type Props = {
   icon: Icon
   size?: "small" | "normal" | "large",
 } & Omit<IconProps, keyof "size">

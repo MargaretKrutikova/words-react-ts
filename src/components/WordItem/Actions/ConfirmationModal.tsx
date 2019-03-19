@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import { Check as CheckIcon } from "react-feather"
+import { ThumbsUp as ThumbsUpIcon } from "react-feather"
 
 import styled from "../../../theme"
 import useClickOutside from "../../hooks/useClickOutside"
@@ -25,6 +25,10 @@ const ConfirmationContainer = styled.div({
   zIndex: 1,
 })
 
+const ConfirmButton = styled(ActionButton)(({ theme }) => ({
+  marginLeft: theme.space.xsmall,
+}))
+
 const ConfirmationModal: React.FunctionComponent<Props> = ({
   message,
   onClose,
@@ -45,7 +49,11 @@ const ConfirmationModal: React.FunctionComponent<Props> = ({
       <ConfirmationContainer ref={clickOutsideRef}>
         <SpeechBubble position="top" pointer="left" align="end">
           <Box>{message}</Box>
-          <ActionButton onClick={handleConfirm} icon={CheckIcon} />
+          <ConfirmButton
+            onClick={handleConfirm}
+            icon={ThumbsUpIcon}
+            size="small"
+          />
         </SpeechBubble>
       </ConfirmationContainer>
     </SimpleModal>

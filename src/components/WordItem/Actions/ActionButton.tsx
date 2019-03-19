@@ -2,19 +2,17 @@
 import { jsx } from "@emotion/core"
 import { Omit } from "emotion-theming/types/helper"
 import * as React from "react"
-import { Icon } from "react-feather"
 import Button, { ButtonProps } from "../../Button"
-import SvgIcon from "../../SvgIcon"
+import SvgIcon, { Props as SvgIconProps } from "../../SvgIcon"
 
-type Props = {
-  icon: Icon,
-} & Partial<Omit<ButtonProps, "icon">> &
-  Omit<React.HTMLProps<HTMLButtonElement>, "color" | "width">
+type Props = SvgIconProps &
+  Partial<Omit<ButtonProps, "icon">> &
+  Omit<React.HTMLProps<HTMLButtonElement>, "color" | "width" | "size">
 
 const ActionButton = React.forwardRef<HTMLButtonElement, Props>(
-  ({ icon, ...rest }, ref) => (
+  ({ icon, size, ...rest }, ref) => (
     <Button ref={ref} icon={true} variant="secondary" {...rest}>
-      <SvgIcon icon={icon} />
+      <SvgIcon icon={icon} size={size} />
     </Button>
   ),
 )
