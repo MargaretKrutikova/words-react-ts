@@ -7,6 +7,7 @@ import { AppState, useDispatch, useMappedState } from "../../state"
 import { newWordActions, NewWordStatus } from "../../state/newWord"
 import { addWord } from "../../state/wordEffects"
 
+import useInputChange from "../hooks/useInputChange"
 import QuickAddView from "./QuickAddView"
 
 type StateProps = {
@@ -18,13 +19,7 @@ const mapState = (state: AppState): StateProps => ({
 })
 
 const QuickAdd: React.FunctionComponent<{}> = () => {
-  const [wordValue, setWordValue] = useState("")
-  const handleWordValueChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setWordValue(e.target.value)
-    },
-    [setWordValue],
-  )
+  const [wordValue, handleWordValueChange, setWordValue] = useInputChange("")
 
   const { status } = useMappedState(useCallback((state) => mapState(state), []))
   const dispatch = useDispatch()

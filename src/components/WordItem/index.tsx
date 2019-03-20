@@ -9,7 +9,8 @@ import {
   getWordDraftStatus,
   wordDraftsActions,
 } from "../../state/wordDrafts"
-import { deleteWord } from "../../state/wordEffects"
+import { deleteWord, updateWord } from "../../state/wordEffects"
+import useInputChange from "../hooks/useInputChange"
 import WordItem from "./WordItem"
 
 type Props = {
@@ -26,6 +27,10 @@ const mapState = (state: AppState, wordId: string): StateProps => ({
 
 const WordListItem = React.memo(({ word }: Props) => {
   const { id } = word
+  const [wordValue, handleWordValueChange] = useInputChange("")
+  const [translation, handleTranslationChange] = useInputChange("")
+  const [explanation, handleExplanationChange] = useInputChange("")
+  const [usage, handleUsageChange] = useInputChange("")
 
   const { status } = useMappedState(
     useCallback((state: AppState) => mapState(state, id), [id]),
@@ -47,10 +52,16 @@ const WordListItem = React.memo(({ word }: Props) => {
     word.id,
   ])
 
+  const saveWord = useCallback(
+    (updatedWord: WordEntity) => updateWord(dispatch, updatedWord),
+    [dispatch],
+  )
+
   return (
     <WordItem
       word={word}
       status={status}
+      onSave={saveWord}
       onStartEdit={startEdit}
       onCancelEdit={cancelEdit}
       onRemove={removeWord}

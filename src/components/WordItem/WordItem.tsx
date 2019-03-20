@@ -12,10 +12,12 @@ import Actions from "./Actions"
 
 type Props = {
   word: WordEntity
+  // wordUnderEdits: WordEntity
   status: DraftWordStatus
   onStartEdit: () => void
   onCancelEdit: () => void
-  onRemove: () => void,
+  onRemove: () => void
+  onSave: (word: WordEntity) => void,
 }
 
 const getWordShortText = (word: WordEntity) => {
