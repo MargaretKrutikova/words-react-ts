@@ -2,6 +2,7 @@
 import { jsx } from "@emotion/core"
 import * as React from "react"
 import styled from "../theme"
+import media from "../theme/media"
 
 type Props = {} & React.InputHTMLAttributes<HTMLInputElement>
 
@@ -32,6 +33,10 @@ const StyledInput = styled.input<Props>(
     width: "100%",
     padding: `${space.xxsmall}px ${space.xsmall}px`,
     WebkitAppearance: "none",
+    [media.down("sm")]: {
+      fontSize: 18,
+      letterSpacing: 1,
+    },
   }),
 )
 

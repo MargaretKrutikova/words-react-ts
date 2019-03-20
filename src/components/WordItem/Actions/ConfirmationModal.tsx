@@ -45,18 +45,17 @@ const ConfirmationModal: React.FunctionComponent<Props> = ({
   )
 
   return (
-    <SimpleModal>
-      <ConfirmationContainer ref={clickOutsideRef}>
-        <SpeechBubble position="top" pointer="left" align="end">
-          <Box>{message}</Box>
-          <ConfirmButton
-            onClick={handleConfirm}
-            icon={ThumbsUpIcon}
-            size="small"
-          />
-        </SpeechBubble>
-      </ConfirmationContainer>
-    </SimpleModal>
+    <ConfirmationContainer ref={clickOutsideRef}>
+      <SpeechBubble
+        position="top"
+        pointer="left"
+        align="end"
+        alignItems="center"
+      >
+        <Box>{message}</Box>
+        <ConfirmButton onClick={handleConfirm} icon={ThumbsUpIcon} />
+      </SpeechBubble>
+    </ConfirmationContainer>
   )
 }
 

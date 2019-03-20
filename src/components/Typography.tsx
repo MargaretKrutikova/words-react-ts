@@ -5,6 +5,7 @@ import {
   FontStyleProps,
   fontWeight,
   FontWeightProps,
+  lineHeight,
   LineHeightProps,
   SpaceProps,
   textAlign,
@@ -42,6 +43,7 @@ const Typography = styled(Box, omitProps<Props>("fontSize"))<Props>(
   fontSizeStyled,
   fontWeight,
   fontStyle,
+  lineHeight,
 )
 
 Typography.defaultProps = {

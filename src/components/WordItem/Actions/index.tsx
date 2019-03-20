@@ -26,12 +26,12 @@ type Props = {
   onSave: () => void,
 }
 
-const ActionContainer = styled.div((props) => ({
-  position: "absolute",
+const ActionContainer = styled.div(({ theme }) => ({
   display: "flex",
   justifyContent: "flex-end",
-  right: 0,
-  top: props.theme.space.xsmall,
+  position: "relative",
+  alignSelf: "flex-start",
+  marginLeft: theme.space.small,
 }))
 
 const Actions: React.FunctionComponent<Props> = React.memo(

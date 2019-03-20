@@ -17,10 +17,11 @@ export const createLightPalette = (): Colors => {
   const border2 = lighten(0.4, blackOlive)
 
   return {
+    primary: blackOlive,
+    secondary: whiteSmoke,
     background1,
     text1: invert(background1),
     background2,
-    primary: blackOlive,
     primaryContrastText: white,
     button: {
       primary: {
@@ -54,10 +55,11 @@ export const createDarkPalette = (): Colors => {
   const background2 = lighten(0.1, background1)
 
   return {
+    primary,
+    secondary: arsenic,
     background1,
     text1: primary,
     background2,
-    primary,
     primaryContrastText: invert(primary),
     button: {
       primary: {
@@ -87,6 +89,7 @@ export type Colors = {
   background1: string
   background2: string
   primary: string
+  secondary: string
   primaryContrastText: string
   text1: string
   button: {
