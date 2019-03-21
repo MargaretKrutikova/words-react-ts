@@ -4,12 +4,14 @@ import Box, { BoxProps } from "./Box"
 
 type Props = {
   icon?: boolean
+  size?: "small" | "normal" | "large"
   variant?: "primary" | "secondary",
 } & BoxProps
 
 const Button = styled(Box)<Props>(
   ({
     icon,
+    size = "normal",
     theme: {
       space,
       colors: { button },
@@ -35,11 +37,15 @@ const Button = styled(Box)<Props>(
       cursor: "default",
     },
     // font
-    fontSize: 20,
+    fontSize: size === "small" ? 16 : 20,
     letterSpacing: 2,
     fontFamily: "inherit",
     // space
-    padding: icon ? 6 : `${space.xsmall}px ${space.medium}px`,
+    padding: icon
+      ? 6
+      : size === "small"
+      ? `3px ${space.xsmall}px`
+      : `${space.xsmall}px ${space.small}px`,
     ...(icon && { display: "flex", alignSelf: "center" }),
     "& + &": {
       marginLeft: space.xsmall,

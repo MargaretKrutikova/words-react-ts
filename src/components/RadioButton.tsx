@@ -11,6 +11,7 @@ const Label = styled.label(({ theme: { space } }) => ({
   display: "block",
   position: "relative",
   lineHeight: "initial",
+  height: CHECKMARK_SIZE,
   paddingLeft: CHECKMARK_SIZE + space.xsmall,
   marginBottom: space.xsmall,
   cursor: "pointer",

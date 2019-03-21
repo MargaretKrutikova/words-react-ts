@@ -8,9 +8,9 @@ import {
   X as CancelIcon,
 } from "react-feather"
 
-import styled from "../../../theme"
-import ActionButton from "./ActionButton"
-import ActionConfirmation from "./ActionConfirmationButton"
+import styled from "../../theme"
+import ConfirmationButton from "../Confirmation/ConfirmationButton"
+import IconButton from "../IconButton"
 import reducer, {
   toggleCancelEditConfirmation,
   toggleRemoveConfirmation,
@@ -59,37 +59,39 @@ const Actions: React.FunctionComponent<Props> = React.memo(
       <ActionContainer>
         {isEditing ? (
           <React.Fragment>
-            <ActionButton
+            <IconButton
               icon={SaveIcon}
               onClick={onSave}
               disabled={isLoading || !canSave}
             />
 
-            <ActionConfirmation
+            <ConfirmationButton
               icon={CancelIcon}
               disabled={isLoading}
               onConfirm={onCancelEdit}
-              message="Cancel edit?"
               isConfirmationOpen={state.isCancelEditConfirmationOpen}
               onToggleConfirmation={onToggleCancelEditConfirmation}
-            />
+            >
+              Cancel edit?
+            </ConfirmationButton>
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <ActionButton
+            <IconButton
               icon={EditIcon}
               onClick={onStartEdit}
               disabled={isLoading}
             />
 
-            <ActionConfirmation
+            <ConfirmationButton
               icon={RemoveIcon}
               disabled={isLoading}
               onConfirm={onRemove}
-              message="Remove word?"
               isConfirmationOpen={state.isRemoveConfirmationOpen}
               onToggleConfirmation={onToggleRemoveConfirmation}
-            />
+            >
+              Remove word?
+            </ConfirmationButton>
           </React.Fragment>
         )}
       </ActionContainer>

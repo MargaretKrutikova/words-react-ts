@@ -3,27 +3,26 @@ import { jsx } from "@emotion/core"
 import * as React from "react"
 import { Icon } from "react-feather"
 
-import ActionButton from "./ActionButton"
-import ConfirmationModal from "./ConfirmationModal"
+import IconButton from "../IconButton"
+import Modal from "./Modal"
 
 type Props = {
   onToggleConfirmation: () => void
   onConfirm: () => void
-  message: string
   icon: Icon
   disabled?: boolean
   isConfirmationOpen: boolean,
 }
 
-const ActionConfirmation: React.FunctionComponent<Props> = ({
-  message,
+const ConfirmationButton: React.FunctionComponent<Props> = ({
   onToggleConfirmation,
   onConfirm,
   disabled,
   isConfirmationOpen,
+  children,
   icon,
 }) => {
-  const actionButtonRef = React.useRef<HTMLButtonElement>(null)
+  const buttonRef = React.useRef<HTMLButtonElement>(null)
   const handleConfirm = () => {
     onToggleConfirmation()
     onConfirm()
@@ -31,23 +30,24 @@ const ActionConfirmation: React.FunctionComponent<Props> = ({
 
   return (
     <React.Fragment>
-      <ActionButton
-        ref={actionButtonRef}
+      <IconButton
+        ref={buttonRef}
         icon={icon}
         onClick={onToggleConfirmation}
         disabled={disabled}
       />
 
       {isConfirmationOpen && (
-        <ConfirmationModal
-          actionButtonRef={actionButtonRef}
-          message={message}
+        <Modal
+          buttonRef={buttonRef}
           onConfirm={handleConfirm}
           onClose={onToggleConfirmation}
-        />
+        >
+          {children}
+        </Modal>
       )}
     </React.Fragment>
   )
 }
 
-export default ActionConfirmation
+export default ConfirmationButton
