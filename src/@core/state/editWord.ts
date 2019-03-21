@@ -1,5 +1,5 @@
 import { ActionType, createStandardAction, getType } from "typesafe-actions"
-import { WordProperties } from "../../domains/words/model"
+import { WordProperties } from "../api/model"
 
 const setValue = createStandardAction("SET_WORD_VALUE")<string>()
 const setTranslation = createStandardAction("SET_WORD_TRANSLATION")<string>()

@@ -1,5 +1,5 @@
 import { ActionType, createAsyncAction, getType } from "typesafe-actions"
-import { PaginatedWords } from "../../domains/words/model"
+import { PaginatedWords } from "../../api"
 import { newWordActions } from "../newWord"
 import { wordDraftsActions } from "../wordDrafts"
 

@@ -3,7 +3,7 @@ import { ThemeProvider } from "emotion-theming"
 import * as React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
-import { makeStore, StoreContext } from "../../state"
+import { makeStore, StoreContext } from "../../redux"
 import { Theme } from "../../theme"
 import { ThemeDispatchProvider } from "../hooks/useThemeDispatch"
 import useThemeMode from "../hooks/useThemeMode"

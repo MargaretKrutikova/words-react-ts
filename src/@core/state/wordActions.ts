@@ -1,11 +1,9 @@
-import { ActionType, createStandardAction, getType } from "typesafe-actions"
+import { ActionType, createAction, getType } from "typesafe-actions"
 
-const toggleRemoveConfirmation = createStandardAction(
-  "TOGGLE_REMOVE_CONFIRMATION",
-)()
-const toggleCancelEditConfirmation = createStandardAction(
+const toggleRemoveConfirmation = createAction("TOGGLE_REMOVE_CONFIRMATION")
+const toggleCancelEditConfirmation = createAction(
   "TOGGLE_CANCEL_EDIT_CONFIRMATION",
-)()
+)
 
 type Action = ActionType<
   typeof toggleRemoveConfirmation | typeof toggleCancelEditConfirmation

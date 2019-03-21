@@ -1,12 +1,27 @@
 import { combineReducers, createStore, Store } from "redux"
 import { create } from "redux-react-hook"
-import { newWordInitState, newWordReducer } from "./newWord"
-import { AppAction, AppState } from "./types"
-import { wordDraftsInitState, wordDraftsReducer } from "./wordDrafts"
-import { wordListInitState, wordListReducer } from "./wordList"
+import { AppAction } from "../@core/state"
+import {
+  newWordInitState,
+  newWordReducer,
+  NewWordState,
+} from "../@core/state/newWord"
+import {
+  wordDraftsInitState,
+  wordDraftsReducer,
+  WordDraftsState,
+} from "../@core/state/wordDrafts"
+import {
+  wordListInitState,
+  wordListReducer,
+  WordListState,
+} from "../@core/state/wordList"
 
-export type AppAction = AppAction
-export type AppState = AppState
+export type AppState = {
+  wordList: WordListState
+  wordDrafts: WordDraftsState
+  newWord: NewWordState,
+}
 
 const rootReducer = combineReducers<AppState>({
   wordList: wordListReducer,

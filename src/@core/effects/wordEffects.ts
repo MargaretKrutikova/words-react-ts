@@ -1,9 +1,9 @@
 import { Dispatch } from "react"
-import { AddWordEntity, WordEntity, WordsApi } from "../domains/words"
-import { newWordActions } from "./newWord"
-import { AppAction } from "./types"
-import { wordDraftsActions } from "./wordDrafts"
-import { wordListActions } from "./wordList"
+import { AddWordEntity, WordEntity, WordsApi } from "../api"
+import { AppAction } from "../state"
+import { newWordActions } from "../state/newWord"
+import { wordDraftsActions } from "../state/wordDrafts"
+import { wordListActions } from "../state/wordList"
 
 export const getPaginatedWords = async (dispatch: Dispatch<AppAction>) => {
   dispatch(wordListActions.fetch.request())

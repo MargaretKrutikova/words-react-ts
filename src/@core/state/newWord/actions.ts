@@ -1,6 +1,5 @@
 import { ActionType, createAction, createAsyncAction } from "typesafe-actions"
-import { AddWordEntity } from "../../domains/words"
-import { WordEntity } from "../../domains/words/model"
+import { AddWordEntity, WordEntity } from "../../api/"
 
 const addWord = createAsyncAction(
   "newWord/ADD",

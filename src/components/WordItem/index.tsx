@@ -1,15 +1,15 @@
 import * as React from "react"
 import { useCallback } from "react"
 
-import { WordEntity } from "../../domains/words"
-import { AppState, useDispatch, useMappedState } from "../../state"
+import { WordEntity } from "../../@core/api"
+import { AppState, useDispatch, useMappedState } from "../../redux"
 
+import { deleteWord, updateWord } from "../../@core/effects/wordEffects"
 import {
   DraftWordStatus,
   getWordDraftStatus,
   wordDraftsActions,
-} from "../../state/wordDrafts"
-import { deleteWord, updateWord } from "../../state/wordEffects"
+} from "../../@core/state/wordDrafts"
 import useInputChange from "../hooks/useInputChange"
 import WordItem from "./WordItem"
 

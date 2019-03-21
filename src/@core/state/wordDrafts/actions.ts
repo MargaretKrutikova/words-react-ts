@@ -1,5 +1,5 @@
 import { ActionType, createAction, createAsyncAction } from "typesafe-actions"
-import { WordEntity } from "../../domains/words/model"
+import { WordEntity } from "../../api"
 
 type WordPayload = { id: string }
 type ErrorPayload = { error: string } & WordPayload

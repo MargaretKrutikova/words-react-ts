@@ -1,5 +1,5 @@
 import { AddWordEntity } from "."
-import apolloFetch from "../../graphql/apolloFetch"
+import apolloFetch from "./apolloFetch"
 import {
   deleteWordMutation,
   getWordQuery,

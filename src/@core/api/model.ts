@@ -1,4 +1,4 @@
-type WordProperties = {
+export type WordProperties = {
   value: string
   translations: string[]
   explanations: string[]

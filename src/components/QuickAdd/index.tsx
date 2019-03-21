@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect } from "react"
 
-import { AppState, useDispatch, useMappedState } from "../../state"
-import { newWordActions, NewWordStatus } from "../../state/newWord"
-import { addWord } from "../../state/wordEffects"
+import { addWord } from "../../@core/effects/wordEffects"
+import { newWordActions, NewWordStatus } from "../../@core/state/newWord"
+import { AppState, useDispatch, useMappedState } from "../../redux"
 
 import useInputChange from "../hooks/useInputChange"
 import QuickAddView from "./QuickAddView"

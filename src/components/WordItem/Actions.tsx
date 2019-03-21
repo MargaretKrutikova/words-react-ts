@@ -8,13 +8,13 @@ import {
   X as CancelIcon,
 } from "react-feather"
 
-import styled from "../../theme"
-import ConfirmationButton from "../Confirmation/ConfirmationButton"
-import IconButton from "../IconButton"
 import reducer, {
   toggleCancelEditConfirmation,
   toggleRemoveConfirmation,
-} from "./reducer"
+} from "../../@core/state/wordActions"
+import styled from "../../theme"
+import ConfirmationButton from "../Confirmation/ConfirmationButton"
+import IconButton from "../IconButton"
 
 type Props = {
   isLoading: boolean

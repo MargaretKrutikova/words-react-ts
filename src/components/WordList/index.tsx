@@ -3,9 +3,9 @@ import { jsx } from "@emotion/core"
 import * as React from "react"
 import { useCallback, useEffect } from "react"
 
-import { WordEntity } from "../../domains/words"
-import { AppState, useDispatch, useMappedState } from "../../state"
-import { getPaginatedWords } from "../../state/wordEffects"
+import { WordEntity } from "../../@core/api"
+import { getPaginatedWords } from "../../@core/effects/wordEffects"
+import { AppState, useDispatch, useMappedState } from "../../redux"
 
 import InnerContainer from "../InnerContainer"
 import QuickAdd from "../QuickAdd"
