@@ -16,6 +16,9 @@ export const createLightPalette = (): Colors => {
   const border1 = lighten(0.15, blackOlive)
   const border2 = lighten(0.4, blackOlive)
 
+  const darkerBg1 = darken(0.07, whiteSmoke)
+  const darkerBg2 = darken(0.12, whiteSmoke)
+
   return {
     background1,
     text1: invert(background1),
@@ -30,11 +33,15 @@ export const createLightPalette = (): Colors => {
         hover: darken(0.1, blackOlive),
       },
       secondary: {
-        bg: darken(0.07, whiteSmoke),
+        bg: darkerBg1,
         text: blackOlive,
         border: blackOlive,
-        hover: darken(0.12, whiteSmoke),
+        hover: darkerBg2,
       },
+    },
+    radio: {
+      bg: background1,
+      hover: darkerBg1,
     },
     input: {
       bg: background2,
@@ -49,9 +56,11 @@ export const createLightPalette = (): Colors => {
 export const createDarkPalette = (): Colors => {
   const { timerwolf, arsenic } = baseColors
 
-  const background1 = darken(0.05, arsenic)
   const primary = timerwolf
+  const background1 = darken(0.05, arsenic)
   const background2 = lighten(0.1, background1)
+
+  const ligherBg2 = lighten(0.15, background1)
 
   return {
     background1,
@@ -72,6 +81,10 @@ export const createDarkPalette = (): Colors => {
         border: darken(0.1, primary),
         hover: lighten(0.15, background1),
       },
+    },
+    radio: {
+      bg: background2,
+      hover: ligherBg2,
     },
     input: {
       bg: background2,
@@ -102,6 +115,10 @@ export type Colors = {
       text: string
       hover: string,
     },
+  }
+  radio: {
+    bg: string
+    hover: string,
   }
   input: {
     bg: string
