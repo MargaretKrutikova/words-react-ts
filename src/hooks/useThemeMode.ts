@@ -1,7 +1,7 @@
 import * as React from "react"
 import { ActionType, createStandardAction, getType } from "typesafe-actions"
 
-import { createTheme, Theme, ThemeMode } from "../../theme"
+import { createTheme, Theme, ThemeMode } from "../theme"
 
 export type ThemeModeDispatch = React.Dispatch<ThemeModeAction>
 

@@ -2,7 +2,7 @@
 import { jsx, keyframes } from "@emotion/core"
 import * as React from "react"
 import { Loader as LoaderIcon, Props } from "react-feather"
-import useElapsed from "./hooks/useElapsed"
+import useElapsed from "../hooks/useElapsed"
 
 const rotate = keyframes`
 100%{

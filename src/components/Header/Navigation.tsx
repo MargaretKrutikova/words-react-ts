@@ -1,8 +1,8 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import Flex from "../Flex"
-import { RouterLink } from "../Link"
+import Flex from "../../common/Flex"
+import { RouterLink } from "../../common/Link"
 
 const Navigation: React.FunctionComponent<{}> = () => (
   <Flex as="nav">

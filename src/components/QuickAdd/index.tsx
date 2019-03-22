@@ -7,7 +7,7 @@ import { addWord } from "../../@core/effects/wordEffects"
 import { newWordActions, NewWordStatus } from "../../@core/state/newWord"
 import { AppState, useDispatch, useMappedState } from "../../redux"
 
-import useInputChange from "../hooks/useInputChange"
+import useInputChange from "../../hooks/useInputChange"
 import QuickAddView from "./QuickAddView"
 
 type StateProps = {

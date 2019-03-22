@@ -1,5 +1,4 @@
-import { omitProps, ThemeMode } from "../../theme"
-import styled from "../../theme"
+import styled, { omitProps, ThemeMode } from "../../theme"
 
 type Props = {
   mode: ThemeMode,

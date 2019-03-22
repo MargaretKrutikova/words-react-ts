@@ -3,12 +3,12 @@ import { ThemeProvider } from "emotion-theming"
 import * as React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 
+import { ThemeDispatchProvider } from "../../hooks/useThemeDispatch"
+import useThemeMode from "../../hooks/useThemeMode"
 import { makeStore, StoreContext } from "../../redux"
 import { Theme } from "../../theme"
-import { ThemeDispatchProvider } from "../hooks/useThemeDispatch"
-import useThemeMode from "../hooks/useThemeMode"
 
-import Container from "../Container"
+import Container from "../../common/Container"
 import Header from "../Header"
 import WordsList from "../WordList"
 

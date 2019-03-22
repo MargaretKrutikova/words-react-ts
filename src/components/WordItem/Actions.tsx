@@ -12,9 +12,9 @@ import reducer, {
   toggleCancelEditConfirmation,
   toggleRemoveConfirmation,
 } from "../../@core/state/wordActions"
+import ConfirmationButton from "../../common/Confirmation/ConfirmationButton"
+import IconButton from "../../common/IconButton"
 import styled from "../../theme"
-import ConfirmationButton from "../Confirmation/ConfirmationButton"
-import IconButton from "../IconButton"
 
 type Props = {
   isLoading: boolean

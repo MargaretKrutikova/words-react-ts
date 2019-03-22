@@ -7,7 +7,7 @@ import { WordEntity } from "../../@core/api"
 import { getPaginatedWords } from "../../@core/effects/wordEffects"
 import { AppState, useDispatch, useMappedState } from "../../redux"
 
-import InnerContainer from "../InnerContainer"
+import InnerContainer from "../../common/InnerContainer"
 import QuickAdd from "../QuickAdd"
 import WordItem from "../WordItem"
 

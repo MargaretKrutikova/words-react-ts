@@ -10,7 +10,7 @@ import {
   getWordDraftStatus,
   wordDraftsActions,
 } from "../../@core/state/wordDrafts"
-import useInputChange from "../hooks/useInputChange"
+import useInputChange from "../../hooks/useInputChange"
 import WordItem from "./WordItem"
 
 type Props = {

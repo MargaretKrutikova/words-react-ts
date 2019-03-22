@@ -2,8 +2,8 @@
 import { jsx } from "@emotion/core"
 import * as React from "react"
 
+import useClickOutside from "../../hooks/useClickOutside"
 import styled from "../../theme"
-import useClickOutside from "../hooks/useClickOutside"
 
 import Box from "../Box"
 import Button from "../Button"
