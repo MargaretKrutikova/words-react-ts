@@ -45,7 +45,7 @@ const Button = styled(Box)<Props>(
       ? 6
       : size === "small"
       ? `3px ${space.xsmall}px`
-      : `${space.xsmall}px ${space.small}px`,
+      : `${space.xxsmall}px ${space.xsmall}px`,
     ...(icon && { display: "flex", alignSelf: "center" }),
     "& + &": {
       marginLeft: space.xsmall,

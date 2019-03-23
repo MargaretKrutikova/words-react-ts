@@ -25,13 +25,14 @@ const StyledInput = styled.input<Props>(
     },
     // font
     fontFamily: "inherit",
-    fontSize: 22,
+    fontSize: 20,
     letterSpacing: 2,
     display: "block",
     // space
     boxSizing: "border-box",
     width: "100%",
     padding: `${space.xxsmall}px ${space.xsmall}px`,
+    marginBottom: space.xsmall,
     WebkitAppearance: "none",
     [media.down("sm")]: {
       fontSize: 18,
@@ -41,7 +42,7 @@ const StyledInput = styled.input<Props>(
 )
 
 const Input: React.FunctionComponent<Props> = (props) => (
-  <StyledInput {...props} />
+  <StyledInput autoCorrect="off" autoComplete="off" type="text" {...props} />
 )
 
 export default Input
