@@ -81,7 +81,11 @@ const EditModal: React.FunctionComponent<Props> = ({
       <Flex justifyContent="space-between" alignItems="center" pt="xxsmall">
         {isLoading && <LazyLoader />}
         <Box ml="auto">
-          <Button onClick={handleSave} mr="xsmall" disabled={isLoading}>
+          <Button
+            onClick={handleSave}
+            mr="xsmall"
+            disabled={isLoading || !editWord.value}
+          >
             Save
           </Button>
           <Button variant="secondary" onClick={onCancelEdit}>

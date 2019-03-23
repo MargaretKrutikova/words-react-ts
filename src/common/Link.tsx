@@ -14,6 +14,13 @@ Link.defaultProps = {
 }
 
 export const RouterLink = Link.withComponent(ReactRouterLink)
-export const ButtonLink = Link.withComponent("button")
+export const ButtonLink = styled(Link.withComponent("button"))(({ theme }) => ({
+  border: "none",
+  backgroundColor: "transparent",
+  outline: "none",
+  cursor: "pointer",
+  textDecoration: "underline",
+  ...theme.typography.variants.body1,
+}))
 
 export default Link

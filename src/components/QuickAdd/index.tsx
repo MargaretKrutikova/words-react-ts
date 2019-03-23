@@ -7,7 +7,10 @@ import { addWord } from "../../@core/effects/wordEffects"
 import { newWordActions, NewWordStatus } from "../../@core/state/newWord"
 import { AppState, useDispatch, useMappedState } from "../../redux"
 
+import { WordProperties } from "../../@core/api/model"
 import useInputChange from "../../hooks/useInputChange"
+import useToggle from "../../hooks/useToggle"
+
 import QuickAddView from "./QuickAddView"
 
 type StateProps = {
@@ -19,31 +22,32 @@ const mapState = (state: AppState): StateProps => ({
 })
 
 const QuickAdd: React.FunctionComponent<{}> = () => {
+  const [isEditModalOpen, toggleEditModalOpen] = useToggle(false)
   const [wordValue, handleWordValueChange, setWordValue] = useInputChange("")
 
   const { status } = useMappedState(useCallback((state) => mapState(state), []))
   const dispatch = useDispatch()
-  const save = () =>
-    addWord(dispatch, {
-      value: wordValue,
-      explanations: [],
-      usages: [],
-      translations: [],
-    })
+  const save = React.useCallback(
+    (word: WordProperties) => addWord(dispatch, word),
+    [],
+  )
 
   useEffect(() => {
     if (status === "ADDED") {
       setWordValue("")
+      toggleEditModalOpen()
       dispatch(newWordActions.resetStatus())
     }
-  }, [status])
+  }, [status, toggleEditModalOpen])
 
   return (
     <QuickAddView
       wordValue={wordValue}
       onWordValueChange={handleWordValueChange}
-      status={status}
-      save={save}
+      isLoading={status === "ADDING"}
+      onSave={save}
+      isEditModalOpen={isEditModalOpen}
+      onToggleEditModalOpen={toggleEditModalOpen}
     />
   )
 }

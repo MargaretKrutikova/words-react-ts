@@ -3,48 +3,74 @@ import { jsx } from "@emotion/core"
 import * as React from "react"
 import { Plus } from "react-feather"
 
-import { NewWordStatus } from "../../state/newWord"
-
-import Box from "../Box"
-import Button from "../Button"
-import Flex from "../Flex"
-import Input from "../Input"
+import { WordProperties } from "../../@core/api/model"
+import Box from "../../common/Box"
+import Button from "../../common/Button"
+import Flex from "../../common/Flex"
+import Input from "../../common/Input"
+import { ButtonLink } from "../../common/Link"
+import EditModal from "../EditModal"
 
 type Props = {
-  status: NewWordStatus
+  isLoading: boolean
   wordValue: string
   onWordValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  save: () => void,
+  onSave: (word: WordProperties) => void
+  isEditModalOpen: boolean
+  onToggleEditModalOpen: () => void,
 }
 
 const QuickAddView: React.FunctionComponent<Props> = ({
-  status,
-  save,
+  isLoading,
+  onSave,
   wordValue,
   onWordValueChange,
-}) => (
-  <Flex mb={{ xs: "small", md: "smedium" }}>
-    <Box
-      mr="smedium"
-      flex="1 1 auto"
-      css={{
-        maxWidth: 300,
-      }}
-    >
-      <Input
-        onChange={onWordValueChange}
-        value={wordValue}
-        placeholder="ord"
-        autoCorrect="off"
-        autoComplete="off"
-        type="text"
-        disabled={status === "ADDING"}
-      />
+  isEditModalOpen,
+  onToggleEditModalOpen,
+}) => {
+  const handleQuickSave = React.useCallback(
+    () =>
+      onSave({
+        value: wordValue,
+        explanations: [],
+        usages: [],
+        translations: [],
+      }),
+    [onSave],
+  )
+
+  return (
+    <Box mb="small">
+      <Flex mb="xxsmall">
+        <Box
+          mr="smedium"
+          flex="1 1 auto"
+          css={{
+            maxWidth: 300,
+          }}
+        >
+          <Input
+            onChange={onWordValueChange}
+            value={wordValue}
+            placeholder="word"
+            disabled={isLoading}
+          />
+        </Box>
+        <Button icon={true} onClick={handleQuickSave} disabled={!wordValue}>
+          <Plus />
+        </Button>
+      </Flex>
+
+      <ButtonLink onClick={onToggleEditModalOpen}>More</ButtonLink>
+      {isEditModalOpen && (
+        <EditModal
+          onSave={onSave}
+          isLoading={isLoading}
+          onCancelEdit={onToggleEditModalOpen}
+        />
+      )}
     </Box>
-    <Button icon={true} onClick={save}>
-      <Plus />
-    </Button>
-  </Flex>
-)
+  )
+}
 
 export default QuickAddView
