@@ -51,6 +51,12 @@ const WordListItem = React.memo(({ word }: Props) => {
     [dispatch],
   )
 
+  React.useEffect(() => {
+    if (status === "SAVED") {
+      dispatch(wordDraftsActions.resetStatus(word.id))
+    }
+  }, [status, word.id])
+
   return (
     <WordItem
       word={word}

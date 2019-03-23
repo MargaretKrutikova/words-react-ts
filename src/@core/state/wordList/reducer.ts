@@ -53,6 +53,15 @@ const reducer = (
         total: state.total + 1,
       }
 
+    case getType(actions.updateWordSuccess): {
+      const updatedWord = action.payload
+      const items = state.items.map((item) =>
+        item.id === updatedWord.id ? updatedWord : item,
+      )
+
+      return { ...state, items }
+    }
+
     case getType(actions.deleteWordSuccess): {
       const items = state.items.filter((item) => item.id !== action.payload.id)
       const total = state.total - (state.items.length - items.length)

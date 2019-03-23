@@ -16,10 +16,7 @@ type DraftWordStatusMachine = {
 }
 
 export const isEditMode = (status: DraftWordStatus) =>
-  status === "EDITING" ||
-  status === "SAVING" ||
-  status === "SAVING_ERROR" ||
-  status === "SAVED"
+  status === "EDITING" || status === "SAVING" || status === "SAVING_ERROR"
 
 export const isDeleteMode = (status: DraftWordStatus) =>
   status === "DELETING" || status === "DELETING_ERROR" || status === "DELETED"
@@ -36,7 +33,7 @@ export const draftWordStatusMachine: DraftWordStatusMachine = {
     "word/UPDATE": "SAVING",
   },
   SAVING: {
-    "word/UPDATE": "SAVED",
+    "word/UPDATE_SUCCESS": "SAVED",
     "word/UPDATE_ERROR": "SAVING_ERROR",
   },
   SAVING_ERROR: {
