@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint:recommended", "tslint-react"],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
@@ -12,6 +12,17 @@
     "no-unused-vars": false,
     "object-literal-sort-keys": false,
     "no-console": false,
-    "interface-name": false
+    "semicolon": false,
+    "jsx-no-multiline-js": false,
+    "interface-name": false,
+    "object-literal-key-quotes": false,
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "case-insensitive",
+        "module-source-path": "full",
+        "named-imports-order": "case-insensitive"
+      }
+    ]
   }
 }

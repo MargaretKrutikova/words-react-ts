@@ -104,7 +104,7 @@
           "description": null,
           "fields": [
             {
-              "name": "_id",
+              "name": "id",
               "description": null,
               "args": [],
               "type": {
@@ -309,7 +309,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "_id",
+              "name": "id",
               "description": null,
               "type": {
                 "kind": "SCALAR",

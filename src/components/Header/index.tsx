@@ -1,35 +1,65 @@
-import * as React from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
-import { Collapse, Navbar, NavbarBrand, NavbarToggler } from 'reactstrap';
-import { Container } from 'reactstrap';
-import Navigation from './Navigation';
+/** @jsx jsx */
+import { jsx } from "@emotion/core"
+import * as React from "react"
+import { Moon as MoonIcon, Sun as SunIcon } from "react-feather"
 
-type HeaderState = {
-  isNavBarOpen: boolean;
-};
+import useThemeDispatch from "../../hooks/useThemeDispatch"
+import { themeActions } from "../../hooks/useThemeMode"
+import styled, { ThemeMode } from "../../theme"
 
-class Header extends React.Component<{}, HeaderState> {
-  public state = {
-    isNavBarOpen: false
-  };
-  public toggle = () => {
-    this.setState(prevState => ({ isNavBarOpen: !prevState.isNavBarOpen }));
-  };
-  public render() {
-    return (
-      <Navbar color="light" light={true} expand="md" className="border-bottom">
-        <Container>
-          <NavbarBrand tag={RouterLink} exact={true} to="/">
-            Words
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isNavBarOpen} navbar={true}>
-            <Navigation />
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
+import Container from "../../common/Container"
+import InnerContainer from "../../common/InnerContainer"
+import { RouterLink } from "../../common/Link"
+import SvgIcon from "../../common/SvgIcon"
+import Typography from "../../common/Typography"
+import Navigation from "./Navigation"
+import ThemeSwitch, { SwitchButton } from "./ThemeSwitch"
+
+type Props = {
+  themeMode: ThemeMode,
 }
 
-export default Header;
+const HeaderContainer = styled(Container)(({ theme: { colors } }) => ({
+  color: colors.primaryContrastText,
+  backgroundColor: colors.primary,
+}))
+
+const Header: React.FunctionComponent<Props> = ({ themeMode }) => {
+  const dispatch = useThemeDispatch()
+  const setDark = React.useCallback(
+    () => dispatch && dispatch(themeActions.setDark()),
+    [],
+  )
+  const setLight = React.useCallback(
+    () => dispatch && dispatch(themeActions.setLight()),
+    [],
+  )
+
+  return (
+    <HeaderContainer>
+      <InnerContainer
+        py={{ xs: "xxsmall", md: "xsmall" }}
+        as="header"
+        alignItems="baseline"
+        justifyContent={{ xs: "space-between", sm: "flex-start" }}
+      >
+        <Typography as="h1" mr={{ xs: "small", md: "large" }} variant="h2">
+          <RouterLink to="/">Words</RouterLink>
+        </Typography>
+
+        <Navigation />
+
+        <ThemeSwitch mode={themeMode}>
+          <SwitchButton onClick={setDark} isActive={themeMode === "dark"}>
+            <SvgIcon icon={MoonIcon} />
+          </SwitchButton>
+          <SwitchButton onClick={setLight} isActive={themeMode === "light"}>
+            <SvgIcon icon={SunIcon} />
+          </SwitchButton>
+        </ThemeSwitch>
+      </InnerContainer>
+    </HeaderContainer>
+  )
+}
+
+export default Header

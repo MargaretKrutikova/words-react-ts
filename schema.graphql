@@ -9,7 +9,7 @@ type PaginatedWordsType {
 }
 
 type RootMutationType {
-  SaveWord(input: WordInputType!): WordType
+  saveWord(input: WordInputType!): WordType
 }
 
 type RootQueryType {
@@ -19,7 +19,7 @@ type RootQueryType {
 }
 
 input WordInputType {
-  _id: String
+  id: String
   value: String!
   translations: [String]
   explanations: [String]
@@ -27,7 +27,7 @@ input WordInputType {
 }
 
 type WordType {
-  _id: ID
+  id: ID
   value: String
   createdDate: String
   updatedDate: String
