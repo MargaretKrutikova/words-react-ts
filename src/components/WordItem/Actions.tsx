@@ -1,29 +1,17 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import {
-  Edit2 as EditIcon,
-  Save as SaveIcon,
-  Trash2 as RemoveIcon,
-  X as CancelIcon,
-} from "react-feather"
+import { Edit2 as EditIcon, Trash2 as RemoveIcon } from "react-feather"
 
-import reducer, {
-  toggleCancelEditConfirmation,
-  toggleRemoveConfirmation,
-} from "../../@core/state/wordActions"
 import ConfirmationButton from "../../common/Confirmation/ConfirmationButton"
 import IconButton from "../../common/IconButton"
 import styled from "../../theme"
 
 type Props = {
   isLoading: boolean
-  isEditing: boolean
-  canSave: boolean
   onStartEdit: () => void
   onCancelEdit: () => void
-  onRemove: () => void
-  onSave: () => void,
+  onRemove: () => void,
 }
 
 const ActionContainer = styled.div(({ theme }) => ({
@@ -35,65 +23,32 @@ const ActionContainer = styled.div(({ theme }) => ({
 }))
 
 const Actions: React.FunctionComponent<Props> = React.memo(
-  ({
-    isLoading,
-    isEditing,
-    canSave,
-    onStartEdit,
-    onCancelEdit,
-    onRemove,
-    onSave,
-  }) => {
-    const [state, dispatch] = React.useReducer(reducer, {
-      isCancelEditConfirmationOpen: false,
-      isRemoveConfirmationOpen: false,
-    })
+  ({ isLoading, onStartEdit, onRemove }) => {
+    const [
+      isRemoveConfirmationOpen,
+      setIsRemoveConfirmationOpen,
+    ] = React.useState(false)
 
     const onToggleRemoveConfirmation = () =>
-      dispatch(toggleRemoveConfirmation())
-
-    const onToggleCancelEditConfirmation = () =>
-      dispatch(toggleCancelEditConfirmation())
+      setIsRemoveConfirmationOpen((prevIsOpen) => !prevIsOpen)
 
     return (
       <ActionContainer>
-        {isEditing ? (
-          <React.Fragment>
-            <IconButton
-              icon={SaveIcon}
-              onClick={onSave}
-              disabled={isLoading || !canSave}
-            />
+        <IconButton
+          icon={EditIcon}
+          onClick={onStartEdit}
+          disabled={isLoading}
+        />
 
-            <ConfirmationButton
-              icon={CancelIcon}
-              disabled={isLoading}
-              onConfirm={onCancelEdit}
-              isConfirmationOpen={state.isCancelEditConfirmationOpen}
-              onToggleConfirmation={onToggleCancelEditConfirmation}
-            >
-              Cancel edit?
-            </ConfirmationButton>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <IconButton
-              icon={EditIcon}
-              onClick={onStartEdit}
-              disabled={isLoading}
-            />
-
-            <ConfirmationButton
-              icon={RemoveIcon}
-              disabled={isLoading}
-              onConfirm={onRemove}
-              isConfirmationOpen={state.isRemoveConfirmationOpen}
-              onToggleConfirmation={onToggleRemoveConfirmation}
-            >
-              Remove word?
-            </ConfirmationButton>
-          </React.Fragment>
-        )}
+        <ConfirmationButton
+          icon={RemoveIcon}
+          disabled={isLoading}
+          onConfirm={onRemove}
+          isConfirmationOpen={isRemoveConfirmationOpen}
+          onToggleConfirmation={onToggleRemoveConfirmation}
+        >
+          Remove word?
+        </ConfirmationButton>
       </ActionContainer>
     )
   },

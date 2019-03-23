@@ -1,18 +1,19 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
-import { WordEntity } from "../../domains/words"
+import * as React from "react"
+import { WordEntity } from "../../@core/api"
+import { DraftWordStatus, isEditMode } from "../../@core/state/wordDrafts"
 import styled from "../../theme"
-import Box from "../Box"
-import Typography from "../Typography"
 
-import { DraftWordStatus, isEditMode } from "../../state/wordDrafts"
-
-import { LazyLoader } from "../Loader"
+import { WordProperties } from "../../@core/api/model"
+import Flex from "../../common/Flex"
+import { LazyLoader } from "../../common/Loader"
 import Actions from "./Actions"
+import EditModal from "./EditModal"
+import ReadonlyWord from "./ReadonlyWord"
 
 type Props = {
   word: WordEntity
-  // wordUnderEdits: WordEntity
   status: DraftWordStatus
   onStartEdit: () => void
   onCancelEdit: () => void
@@ -20,15 +21,7 @@ type Props = {
   onSave: (word: WordEntity) => void,
 }
 
-const getWordShortText = (word: WordEntity) => {
-  const shortText = [word.translations[0], word.explanations[0], word.usages[0]]
-    .filter((value: string) => value)
-    .join(", ")
-
-  return shortText
-}
-
-const StyledItemBox = styled(Box)((props) => ({
+const StyledItemBox = styled(Flex)((props) => ({
   position: "relative",
   borderTop: `1px solid ${props.theme.colors.border2}`,
   ":last-of-type": {
@@ -48,29 +41,35 @@ const WordItem = ({
   onStartEdit,
   onCancelEdit,
   onRemove,
+  onSave,
 }: Props) => {
-  const shortText = getWordShortText(word)
-  const hasShortText = !!shortText
-
   const isLoading = status === "DELETING" || status === "SAVING"
   const isEditing = isEditMode(status)
 
+  const handleSave = (wordProperties: WordProperties) =>
+    onSave({ ...word, ...wordProperties })
+
   return (
-    <StyledItemBox py={hasShortText ? "xsmall" : "small"}>
-      {isLoading && <StyledLoader />}
+    <StyledItemBox py="xsmall" alignItems="center">
+      <ReadonlyWord word={word} />
+
+      {isEditing && (
+        <EditModal
+          onCancelEdit={onCancelEdit}
+          isLoading={isLoading}
+          onSave={handleSave}
+          word={word}
+        />
+      )}
+
       <Actions
-        isEditing={isEditing}
         isLoading={isLoading}
         onStartEdit={onStartEdit}
         onCancelEdit={onCancelEdit}
         onRemove={onRemove}
-        canSave={false}
-        onSave={() => undefined}
       />
-      <Typography as="div" variant="h3" fontSize={{ xs: 26 }}>
-        {word.value}
-      </Typography>
-      {hasShortText && <span>{shortText}</span>}
+
+      {isLoading && <StyledLoader />}
     </StyledItemBox>
   )
 }

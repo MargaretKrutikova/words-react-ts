@@ -10,7 +10,6 @@ import {
   getWordDraftStatus,
   wordDraftsActions,
 } from "../../@core/state/wordDrafts"
-import useInputChange from "../../hooks/useInputChange"
 import WordItem from "./WordItem"
 
 type Props = {
@@ -27,11 +26,6 @@ const mapState = (state: AppState, wordId: string): StateProps => ({
 
 const WordListItem = React.memo(({ word }: Props) => {
   const { id } = word
-  const [wordValue, handleWordValueChange] = useInputChange("")
-  const [translation, handleTranslationChange] = useInputChange("")
-  const [explanation, handleExplanationChange] = useInputChange("")
-  const [usage, handleUsageChange] = useInputChange("")
-
   const { status } = useMappedState(
     useCallback((state: AppState) => mapState(state, id), [id]),
   )

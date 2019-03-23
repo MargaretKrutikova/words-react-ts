@@ -1,36 +1,72 @@
-import { ActionType, createStandardAction, getType } from "typesafe-actions"
+import {
+  ActionType,
+  createAction,
+  createStandardAction,
+  getType,
+} from "typesafe-actions"
 import { WordProperties } from "../api/model"
 
 const setValue = createStandardAction("SET_WORD_VALUE")<string>()
-const setTranslation = createStandardAction("SET_WORD_TRANSLATION")<string>()
-const setExplanation = createStandardAction("SET_WORD_EXPLANATION")<string>()
-const setUsage = createStandardAction("SET_WORD_USAGE")<string>()
-const setVisibleProperty = createStandardAction("SET_VISIBLE_PROPERTY")<
-  VisibleProperty
->()
+
+const setPropertyValue = createAction(
+  "SET_WORD_PROPERTY_VALUE",
+  (resolve) => (value: string, property: WordProperty) =>
+    resolve({ value, property }),
+)
 
 export const editWordActions = {
   setValue,
-  setTranslation,
-  setExplanation,
-  setUsage,
-  setVisibleProperty,
+  setPropertyValue,
 }
 
-export type VisibleProperty = "translation" | "usage" | "explanation"
+export enum WordProperty {
+  Translation = "translation",
+  Usage = "usage",
+  Explanation = "explanation",
+}
 
 type EditWordAction = ActionType<typeof editWordActions>
 
-type EditWordState = WordProperties & {
-  visibleProperty: VisibleProperty,
-}
+type EditWordState = WordProperties
 
 export const editWordInitialState: EditWordState = {
   value: "",
   translations: [""],
   explanations: [""],
   usages: [""],
-  visibleProperty: "translation",
+}
+
+export const getPropertyFirstValue = (
+  property: WordProperty,
+  word: WordProperties,
+) => {
+  switch (property) {
+    case "translation":
+      return word.translations[0] || ""
+    case "explanation":
+      return word.explanations[0] || ""
+    case "usage":
+      return word.usages[0] || ""
+    default:
+      return ""
+  }
+}
+
+const updatePropertyValue = (
+  state: EditWordState,
+  action: ActionType<typeof setPropertyValue>,
+): EditWordState => {
+  const { value, property } = action.payload
+  switch (property) {
+    case "translation":
+      return { ...state, translations: [value] }
+    case "explanation":
+      return { ...state, explanations: [value] }
+    case "usage":
+      return { ...state, usages: [value] }
+    default:
+      return state
+  }
 }
 
 const reducer = (
@@ -39,30 +75,11 @@ const reducer = (
 ): EditWordState => {
   switch (action.type) {
     case getType(setValue):
-      return {
-        ...state,
-        value: action.payload,
-      }
-    case getType(setTranslation):
-      return {
-        ...state,
-        translations: [action.payload],
-      }
-    case getType(setExplanation):
-      return {
-        ...state,
-        explanations: [action.payload],
-      }
-    case getType(setUsage):
-      return {
-        ...state,
-        usages: [action.payload],
-      }
-    case getType(setVisibleProperty):
-      return {
-        ...state,
-        visibleProperty: action.payload,
-      }
+      return { ...state, value: action.payload }
+
+    case getType(setPropertyValue):
+      return updatePropertyValue(state, action)
+
     default:
       return state
   }
