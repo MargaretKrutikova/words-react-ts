@@ -5,11 +5,15 @@ import { newWordActions } from "../state/newWord"
 import { wordDraftsActions } from "../state/wordDrafts"
 import { wordListActions } from "../state/wordList"
 
-export const getPaginatedWords = async (dispatch: Dispatch<AppAction>) => {
+export const getPaginatedWords = async (
+  itemsPerPage: number,
+  page: number,
+  dispatch: Dispatch<AppAction>,
+) => {
   dispatch(wordListActions.fetch.request())
   try {
-    const words = await WordsApi.getWords(1, 100)
-    dispatch(wordListActions.fetch.success(words))
+    const words = await WordsApi.getWords(page, itemsPerPage)
+    dispatch(wordListActions.fetch.success({ words, page }))
   } catch {
     dispatch(wordListActions.fetch.failure("error fetching"))
   }

@@ -20,6 +20,7 @@ export const ButtonLink = styled(Link.withComponent("button"))(({ theme }) => ({
   outline: "none",
   cursor: "pointer",
   textDecoration: "underline",
+  padding: 0,
   ...theme.typography.variants.body1,
 }))
 

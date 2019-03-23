@@ -3,11 +3,16 @@ import { PaginatedWords } from "../../api"
 import { newWordActions } from "../newWord"
 import { wordDraftsActions } from "../wordDrafts"
 
+type FetchSuccessPayload = {
+  words: PaginatedWords
+  page: number,
+}
+
 const fetch = createAsyncAction(
   "@@wordList/FETCH",
   "@@wordList/FETCH_SUCCESS",
   "@@wordList/FETCH_ERROR",
-)<void, PaginatedWords, string>()
+)<void, FetchSuccessPayload, string>()
 
 const actions = {
   fetch,
@@ -19,11 +24,15 @@ const actions = {
 export type WordListAction = ActionType<typeof actions>
 
 export type WordListState = {
+  itemsPerPage: number
+  page: number
   isLoading: boolean
   error: string | null,
 } & PaginatedWords
 
 const initialState: WordListState = {
+  itemsPerPage: 10,
+  page: 1,
   items: [],
   total: 0,
   error: null,
@@ -39,8 +48,17 @@ const reducer = (
       return { ...state, isLoading: true, error: null }
 
     case getType(actions.fetch.success): {
-      const { items, total } = action.payload
-      return { ...state, items, total, isLoading: false }
+      const {
+        words: { items, total },
+        page,
+      } = action.payload
+      return {
+        ...state,
+        page,
+        items: state.items.concat(items),
+        total,
+        isLoading: false,
+      }
     }
 
     case getType(actions.fetch.failure):
