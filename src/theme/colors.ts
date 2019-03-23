@@ -25,6 +25,7 @@ export const createLightPalette = (): Colors => {
     background1,
     text1: invert(background1),
     background2,
+    overlay: "rgba(0,0,0,0.4)",
     primaryContrastText: white,
     button: {
       primary: {
@@ -68,8 +69,9 @@ export const createDarkPalette = (): Colors => {
     secondary: arsenic,
     background1,
     text1: primary,
-    background2,
+    background2: darken(0.1, arsenic),
     primaryContrastText: invert(primary),
+    overlay: "rgba(255,255,255,0.4)",
     button: {
       primary: {
         bg: primary,
@@ -103,6 +105,7 @@ export type Colors = {
   background2: string
   primary: string
   secondary: string
+  overlay: string
   primaryContrastText: string
   text1: string
   button: {
