@@ -32,11 +32,13 @@ const StyledInput = styled.input<Props>(
     boxSizing: "border-box",
     width: "100%",
     padding: `${space.xxsmall}px ${space.xsmall}px`,
-    marginBottom: space.xsmall,
     WebkitAppearance: "none",
     [media.down("sm")]: {
       fontSize: 18,
       letterSpacing: 1,
+    },
+    ":disabled": {
+      opacity: 0.5,
     },
   }),
 )

@@ -33,7 +33,9 @@ const Slider = <T extends {}>({
   const [currentSlide, dispatch] = React.useReducer(currentSlideReducer, 0)
 
   React.useEffect(() => {
-    onSlideChange && onSlideChange(items[currentSlide])
+    if (onSlideChange) {
+      onSlideChange(items[currentSlide])
+    }
   }, [currentSlide])
 
   const goToNextSlide = () => dispatch("next")

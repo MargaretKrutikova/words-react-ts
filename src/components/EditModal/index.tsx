@@ -1,46 +1,28 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
 import * as React from "react"
-import { WordEntity } from "../../@core/api"
+
 import { WordProperties } from "../../@core/api/model"
 import editWordReducer, {
   editWordActions,
   editWordInitialState,
-  getPropertyFirstValue,
   WordProperty,
 } from "../../@core/state/editWord"
+
+import Box from "../../common/Box"
 import Button from "../../common/Button"
+import Flex from "../../common/Flex"
 import Input from "../../common/Input"
+import Label from "../../common/Label"
+import { LazyLoader } from "../../common/Loader"
 import Modal from "../../common/Modal"
-import styled from "../../theme"
+import PropertyInput from "./PropertyInput"
 
 type Props = {
   onCancelEdit: () => void
   isLoading: boolean
   onSave: (word: WordProperties) => void
   word?: WordProperties,
-}
-
-type InputProps = {
-  property: WordProperty
-  word: WordProperties
-  onChange: (value: string, property: WordProperty) => void,
-}
-const WordPropertyInput: React.FunctionComponent<InputProps> = ({
-  property,
-  word,
-  onChange,
-}) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value, property)
-  }
-  return (
-    <Input
-      value={getPropertyFirstValue(property, word)}
-      placeholder={property}
-      onChange={handleChange}
-    />
-  )
 }
 
 const EditModal: React.FunctionComponent<Props> = ({
@@ -69,31 +51,44 @@ const EditModal: React.FunctionComponent<Props> = ({
 
   const handleSave = () => onSave(editWord)
   return (
-    <Modal onClose={onCancelEdit}>
-      <Input
-        onChange={handleValueChange}
-        value={editWord.value}
-        placeholder="word"
-      />
-      <WordPropertyInput
+    <Modal onClose={onCancelEdit} title={!!word ? "Edit word" : "Add word"}>
+      <Label>
+        <Input
+          onChange={handleValueChange}
+          value={editWord.value}
+          disabled={isLoading}
+          placeholder="word"
+        />
+      </Label>
+      <PropertyInput
         property={WordProperty.Translation}
         word={editWord}
+        disabled={isLoading}
         onChange={handlePropertyValueChange}
       />
-      <WordPropertyInput
+      <PropertyInput
         property={WordProperty.Explanation}
         word={editWord}
+        disabled={isLoading}
         onChange={handlePropertyValueChange}
       />
-      <WordPropertyInput
+      <PropertyInput
         property={WordProperty.Usage}
         word={editWord}
+        disabled={isLoading}
         onChange={handlePropertyValueChange}
       />
-      <Button onClick={handleSave}>Save</Button>
-      <Button variant="secondary" onClick={onCancelEdit}>
-        Cancel
-      </Button>
+      <Flex justifyContent="space-between" alignItems="center" pt="xxsmall">
+        {isLoading && <LazyLoader />}
+        <Box ml="auto">
+          <Button onClick={handleSave} mr="xsmall" disabled={isLoading}>
+            Save
+          </Button>
+          <Button variant="secondary" onClick={onCancelEdit}>
+            Cancel
+          </Button>
+        </Box>
+      </Flex>
     </Modal>
   )
 }

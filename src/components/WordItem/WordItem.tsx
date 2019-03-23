@@ -8,8 +8,8 @@ import styled from "../../theme"
 import { WordProperties } from "../../@core/api/model"
 import Flex from "../../common/Flex"
 import { LazyLoader } from "../../common/Loader"
+import EditModal from "../EditModal"
 import Actions from "./Actions"
-import EditModal from "./EditModal"
 import ReadonlyWord from "./ReadonlyWord"
 
 type Props = {

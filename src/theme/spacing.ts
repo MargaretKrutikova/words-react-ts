@@ -6,7 +6,8 @@ export type SpacingPx = {
   medium: number
   large: number
   xlarge: number
-  xxlarge: number,
+  xxlarge: number
+  unit: number,
 }
 
 const spacingUnit = 10
@@ -20,4 +21,5 @@ export const spacingPx: SpacingPx = {
   large: spacingUnit * 6,
   xlarge: spacingUnit * 8,
   xxlarge: spacingUnit * 10,
+  unit: spacingUnit,
 }
