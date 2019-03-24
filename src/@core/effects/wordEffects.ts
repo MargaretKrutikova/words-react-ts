@@ -32,6 +32,7 @@ export const updateWord = (word: WordEntity) => async (
     const updatedWord = await WordsApi.saveWord(word)
 
     dispatch(success(updatedWord))
+    dispatch(wordDraftsActions.doneProcessing(updatedWord.id))
   } catch {
     dispatch(failure({ id: word.id, error: "error updating :(" }))
   }
@@ -48,6 +49,7 @@ export const deleteWord = (id: string) => async (
     const isDeleted = await WordsApi.deleteWord(id)
     if (isDeleted) {
       dispatch(success({ id }))
+      dispatch(wordDraftsActions.doneProcessing(id))
     } else {
       dispatch(failure({ id, error: "no words deleted" }))
     }

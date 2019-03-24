@@ -7,7 +7,6 @@ import {
   wordDraftsActions,
   wordDraftsSelectors,
 } from "../../@core/state/wordDrafts"
-import useToggle from "../../hooks/useToggle"
 import { AppState, useDispatch, useMappedState } from "../../redux"
 
 import WordItem from "./WordItem"
@@ -18,40 +17,26 @@ type Props = {
 
 type StateProps = {
   isLoading: boolean
-  isUpdateSuccess: boolean
-  isDeleteSuccess: boolean,
+  isEditDialogOpen: boolean,
 }
 
 const mapState = (state: AppState, wordId: string): StateProps => ({
   isLoading: wordDraftsSelectors.getWordIsProcessing(state, wordId),
-  isUpdateSuccess: wordDraftsSelectors.getIsUpdateSuccess(state, wordId),
-  isDeleteSuccess: wordDraftsSelectors.getIsDeleteSuccess(state, wordId),
+  isEditDialogOpen: wordDraftsSelectors.getIsEditDialogOpen(state, wordId),
 })
 
 const WordListItem = React.memo(({ word }: Props) => {
-  const [isEditDialogOpen, toggleEditDialogOpen] = useToggle(false)
   const { id } = word
-  const { isLoading, isUpdateSuccess, isDeleteSuccess } = useMappedState(
+  const { isLoading, isEditDialogOpen } = useMappedState(
     useCallback((state: AppState) => mapState(state, id), [id]),
   )
 
   const dispatch = useDispatch()
   const removeWord = () => dispatch(deleteWord(word.id))
+  const toggleEditDialogOpen = () =>
+    dispatch(wordDraftsActions.toggleEditDialogOpen(word.id))
   const saveWord = (updatedWord: WordEntity) =>
     dispatch(updateWord(updatedWord))
-
-  React.useEffect(() => {
-    if (isUpdateSuccess) {
-      dispatch(wordDraftsActions.done(id))
-      toggleEditDialogOpen()
-    }
-  }, [isUpdateSuccess, toggleEditDialogOpen])
-
-  React.useEffect(() => {
-    if (isDeleteSuccess) {
-      dispatch(wordDraftsActions.done(id))
-    }
-  }, [isDeleteSuccess])
 
   return (
     <WordItem
