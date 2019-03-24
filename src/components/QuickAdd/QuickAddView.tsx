@@ -53,7 +53,11 @@ const QuickAddView: React.FunctionComponent<Props> = ({
             disabled={isLoading}
           />
         </Box>
-        <Button icon={true} onClick={handleQuickSave} disabled={!wordValue}>
+        <Button
+          icon={true}
+          onClick={handleQuickSave}
+          disabled={!wordValue || isLoading}
+        >
           <Plus />
         </Button>
       </Flex>

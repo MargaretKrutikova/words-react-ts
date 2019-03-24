@@ -9,27 +9,25 @@ import { AppState, useDispatch, useMappedState } from "../../redux"
 
 import { WordProperties } from "../../@core/api/model"
 import useInputChange from "../../hooks/useInputChange"
-import useToggle from "../../hooks/useToggle"
 
 import QuickAddView from "./QuickAddView"
 
 type StateProps = {
   isLoading: boolean
-  isSuccess: boolean,
+  isSuccess: boolean
+  isEditDialogOpen: boolean,
 }
 
 const mapState = (state: AppState): StateProps => ({
   isLoading: newWordSelectors.getIsLoading(state),
   isSuccess: newWordSelectors.getIsAddSuccess(state),
+  isEditDialogOpen: newWordSelectors.getIsEditDialogOpen(state),
 })
 
 const QuickAdd: React.FunctionComponent<{}> = () => {
-  const [isEditModalOpen, toggleEditModalOpen, setEditModalOpen] = useToggle(
-    false,
-  )
   const [wordValue, handleWordValueChange, setWordValue] = useInputChange("")
 
-  const { isLoading, isSuccess } = useMappedState(
+  const { isLoading, isSuccess, isEditDialogOpen } = useMappedState(
     useCallback((state) => mapState(state), []),
   )
   const dispatch = useDispatch()
@@ -37,14 +35,16 @@ const QuickAdd: React.FunctionComponent<{}> = () => {
     (word: WordProperties) => dispatch(addWord(word)),
     [],
   )
+  const toggleEditModalOpen = React.useCallback(
+    () => dispatch(newWordActions.toggleEditDialogOpen()),
+    [],
+  )
 
   useEffect(() => {
     if (isSuccess) {
       setWordValue("")
-      setEditModalOpen(false)
-      dispatch(newWordActions.done())
     }
-  }, [isSuccess, toggleEditModalOpen])
+  }, [isSuccess])
 
   return (
     <QuickAddView
@@ -52,7 +52,7 @@ const QuickAdd: React.FunctionComponent<{}> = () => {
       onWordValueChange={handleWordValueChange}
       isLoading={isLoading}
       onSave={save}
-      isEditModalOpen={isEditModalOpen}
+      isEditModalOpen={isEditDialogOpen}
       onToggleEditModalOpen={toggleEditModalOpen}
     />
   )

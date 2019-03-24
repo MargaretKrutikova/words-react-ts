@@ -8,8 +8,9 @@ const addWord = createAsyncAction(
   "newWord/ADD_ERROR",
 )<AddWordEntity, WordEntity, string>()
 
-const done = createAction("newWord/DONE")
-const actions = { addWord, done }
+const toggleEditDialogOpen = createAction("newWord/TOGGLE_EDIT_DIALOG_OPEN")
+
+const actions = { addWord, toggleEditDialogOpen }
 
 export type NewWordAction = ActionType<typeof actions>
 
