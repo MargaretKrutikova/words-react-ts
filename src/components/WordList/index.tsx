@@ -27,15 +27,15 @@ const mapState = ({ wordList }: AppState): StateProps => ({
 })
 
 const WordsList: React.FunctionComponent<{}> = () => {
-  const { total, words, itemsPerPage, page } = useMappedState(
+  const { total, words, page } = useMappedState(
     useCallback((state) => mapState(state), []),
   )
   const dispatch = useDispatch()
   const fetchMore = () => {
-    getPaginatedWords(itemsPerPage, page + 1, dispatch)
+    dispatch(getPaginatedWords(page + 1))
   }
   useEffect(() => {
-    getPaginatedWords(itemsPerPage, page, dispatch)
+    dispatch(getPaginatedWords(page))
   }, [])
 
   const hasMore = words.length < total

@@ -1,8 +1,6 @@
 /** @jsx jsx */
 import { jsx } from "@emotion/core"
-import * as React from "react"
 import { WordEntity } from "../../@core/api"
-import { DraftWordStatus, isEditMode } from "../../@core/state/wordDrafts"
 import styled from "../../theme"
 
 import { WordProperties } from "../../@core/api/model"
@@ -14,9 +12,9 @@ import ReadonlyWord from "./ReadonlyWord"
 
 type Props = {
   word: WordEntity
-  status: DraftWordStatus
-  onStartEdit: () => void
-  onCancelEdit: () => void
+  isLoading: boolean
+  isEditing: boolean
+  onToggleEditDialog: () => void
   onRemove: () => void
   onSave: (word: WordEntity) => void,
 }
@@ -37,15 +35,12 @@ const StyledLoader = styled(LazyLoader)(({ theme }) => ({
 
 const WordItem = ({
   word,
-  status,
-  onStartEdit,
-  onCancelEdit,
+  isLoading,
+  onToggleEditDialog,
+  isEditing,
   onRemove,
   onSave,
 }: Props) => {
-  const isLoading = status === "DELETING" || status === "SAVING"
-  const isEditing = isEditMode(status)
-
   const handleSave = (wordProperties: WordProperties) =>
     onSave({ ...word, ...wordProperties })
 
@@ -55,7 +50,7 @@ const WordItem = ({
 
       {isEditing && (
         <EditModal
-          onCancelEdit={onCancelEdit}
+          onCancelEdit={onToggleEditDialog}
           isLoading={isLoading}
           onSave={handleSave}
           word={word}
@@ -64,8 +59,7 @@ const WordItem = ({
 
       <Actions
         isLoading={isLoading}
-        onStartEdit={onStartEdit}
-        onCancelEdit={onCancelEdit}
+        onStartEdit={onToggleEditDialog}
         onRemove={onRemove}
       />
 

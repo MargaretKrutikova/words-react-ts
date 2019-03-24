@@ -5,12 +5,12 @@ import { Edit2 as EditIcon, Trash2 as RemoveIcon } from "react-feather"
 
 import ConfirmationButton from "../../common/Confirmation/ConfirmationButton"
 import IconButton from "../../common/IconButton"
+import useToggle from "../../hooks/useToggle"
 import styled from "../../theme"
 
 type Props = {
   isLoading: boolean
   onStartEdit: () => void
-  onCancelEdit: () => void
   onRemove: () => void,
 }
 
@@ -24,13 +24,7 @@ const ActionContainer = styled.div(({ theme }) => ({
 
 const Actions: React.FunctionComponent<Props> = React.memo(
   ({ isLoading, onStartEdit, onRemove }) => {
-    const [
-      isRemoveConfirmationOpen,
-      setIsRemoveConfirmationOpen,
-    ] = React.useState(false)
-
-    const onToggleRemoveConfirmation = () =>
-      setIsRemoveConfirmationOpen((prevIsOpen) => !prevIsOpen)
+    const [isConfirmationOpen, toggleConfirmationOpen] = useToggle(false)
 
     return (
       <ActionContainer>
@@ -44,8 +38,8 @@ const Actions: React.FunctionComponent<Props> = React.memo(
           icon={RemoveIcon}
           disabled={isLoading}
           onConfirm={onRemove}
-          isConfirmationOpen={isRemoveConfirmationOpen}
-          onToggleConfirmation={onToggleRemoveConfirmation}
+          isConfirmationOpen={isConfirmationOpen}
+          onToggleConfirmation={toggleConfirmationOpen}
         >
           Remove word?
         </ConfirmationButton>

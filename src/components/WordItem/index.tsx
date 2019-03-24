@@ -2,14 +2,14 @@ import * as React from "react"
 import { useCallback } from "react"
 
 import { WordEntity } from "../../@core/api"
-import { AppState, useDispatch, useMappedState } from "../../redux"
-
 import { deleteWord, updateWord } from "../../@core/effects/wordEffects"
 import {
-  DraftWordStatus,
-  getWordDraftStatus,
   wordDraftsActions,
+  wordDraftsSelectors,
 } from "../../@core/state/wordDrafts"
+import useToggle from "../../hooks/useToggle"
+import { AppState, useDispatch, useMappedState } from "../../redux"
+
 import WordItem from "./WordItem"
 
 type Props = {
@@ -17,54 +17,50 @@ type Props = {
 }
 
 type StateProps = {
-  status: DraftWordStatus,
+  isLoading: boolean
+  isUpdateSuccess: boolean
+  isDeleteSuccess: boolean,
 }
 
 const mapState = (state: AppState, wordId: string): StateProps => ({
-  status: getWordDraftStatus(state.wordDrafts, wordId),
+  isLoading: wordDraftsSelectors.getWordIsProcessing(state, wordId),
+  isUpdateSuccess: wordDraftsSelectors.getIsUpdateSuccess(state, wordId),
+  isDeleteSuccess: wordDraftsSelectors.getIsDeleteSuccess(state, wordId),
 })
 
 const WordListItem = React.memo(({ word }: Props) => {
+  const [isEditDialogOpen, toggleEditDialogOpen] = useToggle(false)
   const { id } = word
-  const { status } = useMappedState(
+  const { isLoading, isUpdateSuccess, isDeleteSuccess } = useMappedState(
     useCallback((state: AppState) => mapState(state, id), [id]),
   )
 
   const dispatch = useDispatch()
-  const startEdit = useCallback(
-    () => dispatch(wordDraftsActions.startEditing(id)),
-    [id],
-  )
-
-  const cancelEdit = useCallback(
-    () => dispatch(wordDraftsActions.cancelEditing(id)),
-    [id],
-  )
-
-  const removeWord = useCallback(() => deleteWord(dispatch, word.id), [
-    dispatch,
-    word.id,
-  ])
-
-  const saveWord = useCallback(
-    (updatedWord: WordEntity) => updateWord(dispatch, updatedWord),
-    [dispatch],
-  )
+  const removeWord = () => dispatch(deleteWord(word.id))
+  const saveWord = (updatedWord: WordEntity) =>
+    dispatch(updateWord(updatedWord))
 
   React.useEffect(() => {
-    if (status === "SAVED") {
-      dispatch(wordDraftsActions.resetStatus(word.id))
+    if (isUpdateSuccess) {
+      dispatch(wordDraftsActions.done(id))
+      toggleEditDialogOpen()
     }
-  }, [status, word.id])
+  }, [isUpdateSuccess])
+
+  React.useEffect(() => {
+    if (isDeleteSuccess) {
+      dispatch(wordDraftsActions.done(id))
+    }
+  }, [isDeleteSuccess])
 
   return (
     <WordItem
       word={word}
-      status={status}
+      isLoading={isLoading}
       onSave={saveWord}
-      onStartEdit={startEdit}
-      onCancelEdit={cancelEdit}
       onRemove={removeWord}
+      isEditing={isEditDialogOpen}
+      onToggleEditDialog={toggleEditDialogOpen}
     />
   )
 })

@@ -16,26 +16,11 @@ const deleteWord = createAsyncAction(
   "word/DELETE_ERROR",
 )<WordPayload, WordPayload, ErrorPayload>()
 
-const cancelEditing = createAction(
-  "word/CANCEL_EDIT",
-  (resolve) => (id: string) => resolve({ id }),
-)
-
-const startEditing = createAction("word/START_EDIT", (resolve) => (id: string) =>
+const done = createAction("word/DONE", (resolve) => (id: string) =>
   resolve({ id }),
 )
 
-const resetStatus = createAction("word/RESET_STATUS", (resolve) => (id: string) =>
-  resolve({ id }),
-)
-
-const actions = {
-  updateWord,
-  cancelEditing,
-  startEditing,
-  deleteWord,
-  resetStatus,
-}
+const actions = { updateWord, deleteWord, done }
 
 export type WordDraftsAction = ActionType<typeof actions>
 export default actions
