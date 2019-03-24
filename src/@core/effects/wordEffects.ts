@@ -1,16 +1,20 @@
 import { Dispatch } from "react"
+import { AppState } from "../../redux"
 import { AddWordEntity, WordEntity, WordsApi } from "../api"
 import { AppAction } from "../state"
 import { newWordActions } from "../state/newWord"
 import { wordDraftsActions } from "../state/wordDrafts"
 import { wordListActions } from "../state/wordList"
 
-export const getPaginatedWords = async (
-  itemsPerPage: number,
-  page: number,
+export const getPaginatedWords = (page: number) => async (
   dispatch: Dispatch<AppAction>,
+  getState: () => AppState,
 ) => {
+  const {
+    wordList: { itemsPerPage },
+  } = getState()
   dispatch(wordListActions.fetch.request())
+
   try {
     const words = await WordsApi.getWords(page, itemsPerPage)
     dispatch(wordListActions.fetch.success({ words, page }))
@@ -19,9 +23,8 @@ export const getPaginatedWords = async (
   }
 }
 
-export const updateWord = async (
+export const updateWord = (word: WordEntity) => async (
   dispatch: Dispatch<AppAction>,
-  word: WordEntity,
 ) => {
   const { request, success, failure } = wordDraftsActions.updateWord
   try {
@@ -34,7 +37,9 @@ export const updateWord = async (
   }
 }
 
-export const deleteWord = async (dispatch: Dispatch<AppAction>, id: string) => {
+export const deleteWord = (id: string) => async (
+  dispatch: Dispatch<AppAction>,
+) => {
   const { request, success, failure } = wordDraftsActions.deleteWord
 
   try {

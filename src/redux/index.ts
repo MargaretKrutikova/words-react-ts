@@ -1,5 +1,13 @@
-import { combineReducers, createStore, Store } from "redux"
+import {
+  applyMiddleware,
+  combineReducers,
+  compose,
+  createStore,
+  Store,
+} from "redux"
 import { create } from "redux-react-hook"
+import thunk from "redux-thunk"
+
 import { AppAction } from "../@core/state"
 import {
   newWordInitState,
@@ -35,11 +43,19 @@ const initialState: AppState = {
   newWord: newWordInitState,
 }
 
-export const makeStore = (): Store<AppState, AppAction> =>
-  createStore(rootReducer, initialState)
+export const makeStore = (): Store<AppState, AppAction> => {
+  const composeEnhancers =
+    (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+  return createStore(
+    rootReducer,
+    initialState,
+    composeEnhancers(applyMiddleware(thunk)),
+  )
+}
 
 export const { StoreContext, useDispatch, useMappedState } = create<
   AppState,
-  AppAction,
+  any, // AppAction,
   Store<AppState, AppAction>
 >()
