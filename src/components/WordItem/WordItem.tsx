@@ -5,7 +5,6 @@ import styled from "../../theme"
 
 import { WordProperties } from "../../@core/api/model"
 import Flex from "../../common/Flex"
-import { LazyLoader } from "../../common/Loader"
 import EditModal from "../EditModal"
 import Actions from "./Actions"
 import ReadonlyWord from "./ReadonlyWord"
@@ -27,12 +26,6 @@ const StyledItemBox = styled(Flex)((props) => ({
   },
 }))
 
-const StyledLoader = styled(LazyLoader)(({ theme }) => ({
-  position: "absolute",
-  bottom: theme.space.xsmall,
-  right: theme.space.xxsmall,
-}))
-
 const WordItem = ({
   word,
   isLoading,
@@ -46,7 +39,13 @@ const WordItem = ({
 
   return (
     <StyledItemBox py="xsmall" alignItems="center">
-      <ReadonlyWord word={word} />
+      <ReadonlyWord word={word}>
+        <Actions
+          isLoading={isLoading}
+          onStartEdit={onToggleEditDialog}
+          onRemove={onRemove}
+        />
+      </ReadonlyWord>
 
       {isEditing && (
         <EditModal
@@ -56,14 +55,6 @@ const WordItem = ({
           word={word}
         />
       )}
-
-      <Actions
-        isLoading={isLoading}
-        onStartEdit={onToggleEditDialog}
-        onRemove={onRemove}
-      />
-
-      {isLoading && <StyledLoader />}
     </StyledItemBox>
   )
 }

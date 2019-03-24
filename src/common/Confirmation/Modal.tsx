@@ -28,10 +28,6 @@ const Modal: React.FunctionComponent<Props> = ({
   onConfirm,
   buttonRef: { current: buttonElement },
 }) => {
-  const handleConfirm = () => {
-    onClose()
-    onConfirm()
-  }
   const clickOutsideRef = useClickOutside(
     onClose,
     buttonElement ? [buttonElement] : [],
@@ -46,7 +42,7 @@ const Modal: React.FunctionComponent<Props> = ({
         alignItems="center"
       >
         <Box mr="xsmall">{children}</Box>
-        <Button size="small" variant="secondary" onClick={handleConfirm}>
+        <Button size="small" variant="secondary" onClick={onConfirm}>
           Ok
         </Button>
       </SpeechBubble>
