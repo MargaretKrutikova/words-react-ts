@@ -1,40 +1,41 @@
-import { NewWordAction } from "./actions"
+import { getType } from "typesafe-actions"
+import { AppState } from "../../../redux"
+import actions, { NewWordAction } from "./actions"
 
-export type NewWordStatus = "IDLE" | "ADDING" | "ADDED" | "ERROR"
 export type NewWordState = {
-  status: NewWordStatus,
+  isLoading: boolean
+  status: "success" | "error" | null,
 }
 export const initialState: NewWordState = {
-  status: "IDLE",
-}
-
-type NewWordStatusMachine = {
-  [k in NewWordStatus]: { [a in NewWordAction["type"]]?: NewWordStatus }
-}
-const newWordStatusMachine: NewWordStatusMachine = {
-  IDLE: {
-    "newWord/ADD": "ADDING",
-  },
-  ADDING: {
-    "newWord/ADD_ERROR": "ERROR",
-    "newWord/ADD_SUCCESS": "ADDED",
-  },
-  ADDED: {
-    "newWord/RESET_STATUS": "IDLE",
-  },
-  ERROR: {
-    "newWord/RESET_STATUS": "IDLE",
-  },
+  isLoading: false,
+  status: null,
 }
 
 const reducer = (
   state: NewWordState = initialState,
   action: NewWordAction,
 ): NewWordState => {
-  const statusActionMap = newWordStatusMachine[state.status]
-  const status = !!statusActionMap ? statusActionMap[action.type] : state.status
+  switch (action.type) {
+    case getType(actions.addWord.request):
+      return { ...state, isLoading: true, status: null }
 
-  return !status || status === state.status ? state : { ...state, status }
+    case getType(actions.addWord.success):
+      return { ...state, isLoading: false, status: "success" }
+
+    case getType(actions.addWord.failure):
+      return { ...state, isLoading: false, status: "error" }
+
+    case getType(actions.done):
+      return { ...state, isLoading: false, status: null }
+
+    default:
+      return state
+  }
+}
+
+export const selectors = {
+  getIsLoading: (state: AppState) => state.newWord.isLoading,
+  getIsAddSuccess: (state: AppState) => state.newWord.status === "success",
 }
 
 export default reducer

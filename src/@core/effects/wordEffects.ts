@@ -56,9 +56,8 @@ export const deleteWord = (id: string) => async (
   }
 }
 
-export const addWord = async (
+export const addWord = (word: AddWordEntity) => async (
   dispatch: Dispatch<AppAction>,
-  word: AddWordEntity,
 ) => {
   const { request, success, failure } = newWordActions.addWord
   try {

@@ -3,10 +3,9 @@ import {
   default as newWordReducer,
   initialState as newWordInitState,
   NewWordState,
-  NewWordStatus,
+  selectors as newWordSelectors,
 } from "./reducer"
 
-export { newWordActions, newWordReducer, newWordInitState }
-export type NewWordStatus = NewWordStatus
+export { newWordActions, newWordReducer, newWordSelectors, newWordInitState }
 export type NewWordState = NewWordState
 export type NewWordAction = NewWordAction

@@ -4,7 +4,7 @@ import * as React from "react"
 import { useCallback, useEffect } from "react"
 
 import { addWord } from "../../@core/effects/wordEffects"
-import { newWordActions, NewWordStatus } from "../../@core/state/newWord"
+import { newWordActions, newWordSelectors } from "../../@core/state/newWord"
 import { AppState, useDispatch, useMappedState } from "../../redux"
 
 import { WordProperties } from "../../@core/api/model"
@@ -14,37 +14,43 @@ import useToggle from "../../hooks/useToggle"
 import QuickAddView from "./QuickAddView"
 
 type StateProps = {
-  status: NewWordStatus,
+  isLoading: boolean
+  isSuccess: boolean,
 }
 
 const mapState = (state: AppState): StateProps => ({
-  status: state.newWord.status,
+  isLoading: newWordSelectors.getIsLoading(state),
+  isSuccess: newWordSelectors.getIsAddSuccess(state),
 })
 
 const QuickAdd: React.FunctionComponent<{}> = () => {
-  const [isEditModalOpen, toggleEditModalOpen] = useToggle(false)
+  const [isEditModalOpen, toggleEditModalOpen, setEditModalOpen] = useToggle(
+    false,
+  )
   const [wordValue, handleWordValueChange, setWordValue] = useInputChange("")
 
-  const { status } = useMappedState(useCallback((state) => mapState(state), []))
+  const { isLoading, isSuccess } = useMappedState(
+    useCallback((state) => mapState(state), []),
+  )
   const dispatch = useDispatch()
   const save = React.useCallback(
-    (word: WordProperties) => addWord(dispatch, word),
+    (word: WordProperties) => dispatch(addWord(word)),
     [],
   )
 
   useEffect(() => {
-    if (status === "ADDED") {
+    if (isSuccess) {
       setWordValue("")
-      toggleEditModalOpen()
-      dispatch(newWordActions.resetStatus())
+      setEditModalOpen(false)
+      dispatch(newWordActions.done())
     }
-  }, [status, toggleEditModalOpen])
+  }, [isSuccess, toggleEditModalOpen])
 
   return (
     <QuickAddView
       wordValue={wordValue}
       onWordValueChange={handleWordValueChange}
-      isLoading={status === "ADDING"}
+      isLoading={isLoading}
       onSave={save}
       isEditModalOpen={isEditModalOpen}
       onToggleEditModalOpen={toggleEditModalOpen}

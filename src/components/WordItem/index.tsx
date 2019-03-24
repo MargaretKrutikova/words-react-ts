@@ -45,7 +45,7 @@ const WordListItem = React.memo(({ word }: Props) => {
       dispatch(wordDraftsActions.done(id))
       toggleEditDialogOpen()
     }
-  }, [isUpdateSuccess])
+  }, [isUpdateSuccess, toggleEditDialogOpen])
 
   React.useEffect(() => {
     if (isDeleteSuccess) {

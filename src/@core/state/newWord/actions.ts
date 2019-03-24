@@ -1,4 +1,5 @@
-import { ActionType, createAction, createAsyncAction } from "typesafe-actions"
+import { createAction, createAsyncAction } from "typesafe-actions"
+import { ActionType } from "typesafe-actions/dist/type-helpers"
 import { AddWordEntity, WordEntity } from "../../api/"
 
 const addWord = createAsyncAction(
@@ -7,8 +8,9 @@ const addWord = createAsyncAction(
   "newWord/ADD_ERROR",
 )<AddWordEntity, WordEntity, string>()
 
-const resetStatus = createAction("newWord/RESET_STATUS")
+const done = createAction("newWord/DONE")
+const actions = { addWord, done }
 
-export type NewWordAction = ActionType<typeof addWord | typeof resetStatus>
+export type NewWordAction = ActionType<typeof actions>
 
-export default { addWord, resetStatus }
+export default actions

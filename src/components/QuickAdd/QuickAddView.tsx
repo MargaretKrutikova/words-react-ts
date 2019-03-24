@@ -28,16 +28,13 @@ const QuickAddView: React.FunctionComponent<Props> = ({
   isEditModalOpen,
   onToggleEditModalOpen,
 }) => {
-  const handleQuickSave = React.useCallback(
-    () =>
-      onSave({
-        value: wordValue,
-        explanations: [],
-        usages: [],
-        translations: [],
-      }),
-    [onSave],
-  )
+  const handleQuickSave = () =>
+    onSave({
+      value: wordValue,
+      explanations: [],
+      usages: [],
+      translations: [],
+    })
 
   return (
     <Box mb="small">
