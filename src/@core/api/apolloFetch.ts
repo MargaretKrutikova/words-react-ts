@@ -1,8 +1,7 @@
 import * as ApolloLink from "apollo-link"
 import { HttpLink } from "apollo-link-http"
 
-const uri =
-  "http://my-apps.westeurope.cloudapp.azure.com/words-api/development/graphql"
+const uri = process.env.REACT_APP_API_URL
 const link = new HttpLink({ uri })
 
 const apolloFetch = (query: ApolloLink.GraphQLRequest): Promise<any> => {
