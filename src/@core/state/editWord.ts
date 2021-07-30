@@ -14,9 +14,12 @@ const setPropertyValue = createAction(
     resolve({ value, property })
 )
 
+const setTags = createStandardAction("SET_WORD_TAGS")<string[]>()
+
 export const editWordActions = {
   setValue,
-  setPropertyValue
+  setPropertyValue,
+  setTags
 }
 
 export enum WordProperty {
@@ -80,6 +83,9 @@ const reducer = (
 
     case getType(setPropertyValue):
       return updatePropertyValue(state, action)
+
+    case getType(setTags):
+      return { ...state, tags: action.payload }
 
     default:
       return state

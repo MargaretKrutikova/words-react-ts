@@ -11,12 +11,7 @@ type Props = {
 }
 
 const getWordShortText = (word: WordEntity) => {
-  const shortText = [
-    word.translations[0],
-    word.explanations[0],
-    word.usages[0],
-    ...word.tags
-  ]
+  const shortText = [word.translations[0], word.explanations[0], word.usages[0]]
     .filter((value: string) => value)
     .join(", ")
 
