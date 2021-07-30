@@ -8,6 +8,7 @@ export const wordFragment: ApolloLink.DocumentNode = gql`
     translations
     explanations
     usages
+    tags
     createdDate
     updatedDate
   }

@@ -7,11 +7,16 @@ import Flex from "../../common/Flex"
 import Typography from "../../common/Typography"
 
 type Props = {
-  word: WordEntity,
+  word: WordEntity
 }
 
 const getWordShortText = (word: WordEntity) => {
-  const shortText = [word.translations[0], word.explanations[0], word.usages[0]]
+  const shortText = [
+    word.translations[0],
+    word.explanations[0],
+    word.usages[0],
+    ...word.tags
+  ]
     .filter((value: string) => value)
     .join(", ")
 
@@ -41,6 +46,21 @@ const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
           {shortText}
         </Typography>
       )}
+      {word.tags.map(tag => (
+        <span
+          key={tag}
+          style={{
+            margin: 2,
+            padding: 4,
+            borderRadius: 5,
+            lineHeight: "1",
+            border: "1px solid green",
+            fontSize: 12
+          }}
+        >
+          {tag}
+        </span>
+      ))}
     </Box>
   )
 }

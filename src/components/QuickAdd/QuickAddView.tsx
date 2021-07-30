@@ -17,7 +17,7 @@ type Props = {
   onWordValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onSave: (word: WordProperties) => void
   isEditModalOpen: boolean
-  onToggleEditModalOpen: () => void,
+  onToggleEditModalOpen: () => void
 }
 
 const QuickAddView: React.FunctionComponent<Props> = ({
@@ -26,7 +26,7 @@ const QuickAddView: React.FunctionComponent<Props> = ({
   wordValue,
   onWordValueChange,
   isEditModalOpen,
-  onToggleEditModalOpen,
+  onToggleEditModalOpen
 }) => {
   const handleQuickSave = () =>
     onSave({
@@ -34,6 +34,7 @@ const QuickAddView: React.FunctionComponent<Props> = ({
       explanations: [],
       usages: [],
       translations: [],
+      tags: []
     })
 
   return (
@@ -43,7 +44,7 @@ const QuickAddView: React.FunctionComponent<Props> = ({
           mr="smedium"
           flex="1 1 auto"
           css={{
-            maxWidth: 300,
+            maxWidth: 300
           }}
         >
           <Input
