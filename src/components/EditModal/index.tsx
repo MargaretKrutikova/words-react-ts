@@ -16,6 +16,7 @@ import Input from "../../common/Input"
 import Label from "../../common/Label"
 import { LazyLoader } from "../../common/Loader"
 import Modal from "../../common/Modal"
+import { useMappedState } from "../../redux"
 import PropertyInput from "./PropertyInput"
 import TagsInput from "./TagsInput"
 
@@ -32,6 +33,10 @@ const EditModal: React.FunctionComponent<Props> = ({
   onSave,
   word
 }) => {
+  const { useTags } = useMappedState(
+    React.useCallback(state => state.featureFlags, [])
+  )
+
   const [editWord, editWordDispatch] = React.useReducer(editWordReducer, {
     ...editWordInitialState,
     ...word
@@ -83,11 +88,13 @@ const EditModal: React.FunctionComponent<Props> = ({
         disabled={isLoading}
         onChange={handlePropertyValueChange}
       />
-      <TagsInput
-        word={editWord}
-        disabled={isLoading}
-        onChange={handleTagsChange}
-      />
+      {useTags ? (
+        <TagsInput
+          word={editWord}
+          disabled={isLoading}
+          onChange={handleTagsChange}
+        />
+      ) : null}
       <Flex justifyContent="space-between" alignItems="center" pt="xxsmall">
         {isLoading && <LazyLoader />}
         <Box ml="auto">

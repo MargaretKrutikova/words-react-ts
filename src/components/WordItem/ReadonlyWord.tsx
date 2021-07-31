@@ -5,6 +5,7 @@ import { WordEntity } from "../../@core/api"
 import Box from "../../common/Box"
 import Flex from "../../common/Flex"
 import Typography from "../../common/Typography"
+import { useMappedState } from "../../redux"
 
 type Props = {
   word: WordEntity
@@ -21,6 +22,10 @@ const getWordShortText = (word: WordEntity) => {
 const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
   const shortText = getWordShortText(word)
   const hasShortText = !!shortText
+
+  const { useTags } = useMappedState(
+    React.useCallback(state => state.featureFlags, [])
+  )
 
   return (
     <Box flex={1} py={hasShortText ? 4 : "xxsmall"}>
@@ -41,21 +46,24 @@ const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
           {shortText}
         </Typography>
       )}
-      {word.tags.map(tag => (
-        <span
-          key={tag}
-          style={{
-            margin: 2,
-            padding: 4,
-            borderRadius: 5,
-            lineHeight: "1",
-            border: "1px solid green",
-            fontSize: 12
-          }}
-        >
-          {tag}
-        </span>
-      ))}
+
+      {useTags
+        ? word.tags.map(tag => (
+            <span
+              key={tag}
+              style={{
+                margin: 2,
+                padding: 4,
+                borderRadius: 5,
+                lineHeight: "1",
+                border: "1px solid green",
+                fontSize: 12
+              }}
+            >
+              {tag}
+            </span>
+          ))
+        : null}
     </Box>
   )
 }
