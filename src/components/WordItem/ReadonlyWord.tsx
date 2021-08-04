@@ -5,7 +5,7 @@ import { WordEntity } from "../../@core/api"
 import Box from "../../common/Box"
 import Flex from "../../common/Flex"
 import Typography from "../../common/Typography"
-import { useMappedState } from "../../redux"
+import useFeatureFlags from "../../hooks/useFeatureFlags"
 
 type Props = {
   word: WordEntity
@@ -23,9 +23,7 @@ const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
   const shortText = getWordShortText(word)
   const hasShortText = !!shortText
 
-  const { useTags } = useMappedState(
-    React.useCallback(state => state.featureFlags, [])
-  )
+  const { useTags } = useFeatureFlags()
 
   return (
     <Box flex={1} py={hasShortText ? 4 : "xxsmall"}>

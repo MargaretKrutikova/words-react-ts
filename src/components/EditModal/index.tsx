@@ -16,7 +16,7 @@ import Input from "../../common/Input"
 import Label from "../../common/Label"
 import { LazyLoader } from "../../common/Loader"
 import Modal from "../../common/Modal"
-import { useMappedState } from "../../redux"
+import useFeatureFlags from "../../hooks/useFeatureFlags"
 import PropertyInput from "./PropertyInput"
 import TagsInput from "./TagsInput"
 
@@ -33,9 +33,7 @@ const EditModal: React.FunctionComponent<Props> = ({
   onSave,
   word
 }) => {
-  const { useTags } = useMappedState(
-    React.useCallback(state => state.featureFlags, [])
-  )
+  const { useTags } = useFeatureFlags()
 
   const [editWord, editWordDispatch] = React.useReducer(editWordReducer, {
     ...editWordInitialState,

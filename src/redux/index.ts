@@ -25,40 +25,31 @@ import {
   WordListState
 } from "../@core/state/wordList"
 
-type FeatureFlags = {
-  useTags: boolean
-}
-
-const defaultFeatureFlags: FeatureFlags = { useTags: false }
-
 export type AppState = {
   wordList: WordListState
   wordDrafts: WordDraftsState
   newWord: NewWordState
-  featureFlags: FeatureFlags
 }
 
 const rootReducer = combineReducers<AppState>({
   wordList: wordListReducer,
   wordDrafts: wordDraftsReducer,
-  newWord: newWordReducer,
-  featureFlags: (f: FeatureFlags = defaultFeatureFlags) => f
+  newWord: newWordReducer
 })
 
-const createInitialState = (useTags: boolean): AppState => ({
+const initialState: AppState = {
   wordList: wordListInitState,
   wordDrafts: wordDraftsInitState,
-  newWord: newWordInitState,
-  featureFlags: { useTags }
-})
+  newWord: newWordInitState
+}
 
-export const makeStore = (useTags: boolean): Store<AppState, AppAction> => {
+export const makeStore = (): Store<AppState, AppAction> => {
   const composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
   return createStore(
     rootReducer,
-    createInitialState(useTags),
+    initialState,
     composeEnhancers(applyMiddleware(thunk))
   )
 }

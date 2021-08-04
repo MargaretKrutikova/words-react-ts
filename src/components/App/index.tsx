@@ -23,9 +23,7 @@ const globalStyles = (th: Theme) =>
     }
   })
 
-const urlParams = new URLSearchParams(window.location.search)
-const useTags = urlParams.get("usetags")
-const store = makeStore(useTags === "true")
+const store = makeStore()
 
 const App: React.FunctionComponent<{}> = () => {
   const [theme, dispatch] = useThemeMode()
