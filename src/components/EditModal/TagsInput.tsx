@@ -13,6 +13,14 @@ type Props = {
   onChange: (tags: string[]) => void
 }
 
+export const canAddTag = (currentTag: string, createdTags: string[]) => {
+  if (currentTag.length === 0) return false
+
+  if (createdTags.includes(currentTag)) return false
+
+  return true
+}
+
 const TagsInput: React.FunctionComponent<Props> = ({
   word,
   onChange,
@@ -21,9 +29,8 @@ const TagsInput: React.FunctionComponent<Props> = ({
   const [currentTag, setCurrentTag] = React.useState<string>("")
   const [createdTags, setCreatedTags] = React.useState<string[]>(word.tags)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setCurrentTag(e.target.value)
-  }
 
   const addTag = () => {
     setCreatedTags(oldCreatedTags => {
@@ -59,7 +66,9 @@ const TagsInput: React.FunctionComponent<Props> = ({
         placeholder="tag"
         onChange={handleChange}
       />
-      <button onClick={addTag}>+</button>
+      <button disabled={!canAddTag(currentTag, createdTags)} onClick={addTag}>
+        +
+      </button>
     </>
   )
 }
