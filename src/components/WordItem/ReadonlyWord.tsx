@@ -4,6 +4,7 @@ import * as React from "react"
 import { WordEntity } from "../../@core/api"
 import Box from "../../common/Box"
 import Flex from "../../common/Flex"
+import { StyledTag } from "../../common/Tag"
 import Typography from "../../common/Typography"
 import useFeatureFlags from "../../hooks/useFeatureFlags"
 
@@ -46,21 +47,7 @@ const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
       )}
 
       {useTags
-        ? word.tags.map(tag => (
-            <span
-              key={tag}
-              style={{
-                margin: 2,
-                padding: 4,
-                borderRadius: 5,
-                lineHeight: "1",
-                border: "1px solid green",
-                fontSize: 12
-              }}
-            >
-              {tag}
-            </span>
-          ))
+        ? word.tags.map(tag => <StyledTag key={tag}>{tag}</StyledTag>)
         : null}
     </Box>
   )

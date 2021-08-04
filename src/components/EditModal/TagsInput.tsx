@@ -5,12 +5,14 @@ import * as React from "react"
 import { WordProperties } from "../../@core/api/model"
 
 import Input from "../../common/Input"
+import { StyledTag } from "../../common/Tag"
 
 type Props = {
   word: WordProperties
   disabled: boolean
   onChange: (tags: string[]) => void
 }
+
 const TagsInput: React.FunctionComponent<Props> = ({
   word,
   onChange,
@@ -43,22 +45,12 @@ const TagsInput: React.FunctionComponent<Props> = ({
     <>
       {createdTags.map(t => {
         return (
-          <span
-            key={t}
-            style={{
-              margin: 2,
-              padding: 4,
-              borderRadius: 5,
-              lineHeight: "1",
-              border: "1px solid green",
-              fontSize: 12
-            }}
-          >
+          <StyledTag key={t}>
             {t}
             <button key={t} id={t} onClick={e => removeTag(t)}>
               x
             </button>
-          </span>
+          </StyledTag>
         )
       })}
       <Input
