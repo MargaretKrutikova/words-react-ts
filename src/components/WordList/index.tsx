@@ -11,31 +11,39 @@ import Button from "../../common/Button"
 import InnerContainer from "../../common/InnerContainer"
 import QuickAdd from "../QuickAdd"
 import WordItem from "../WordItem"
+import useFeatureFlags from "../../hooks/useFeatureFlags"
+import useTagsFromUrl from "../../hooks/useUrlTags"
 
 type StateProps = {
   words: WordEntity[]
   total: number
   itemsPerPage: number
-  page: number,
+  page: number
 }
 
 const mapState = ({ wordList }: AppState): StateProps => ({
   itemsPerPage: wordList.itemsPerPage,
   page: wordList.page,
   words: wordList.items,
-  total: wordList.total,
+  total: wordList.total
 })
 
 const WordsList: React.FunctionComponent<{}> = () => {
   const { total, words, page } = useMappedState(
-    useCallback((state) => mapState(state), []),
+    useCallback(state => mapState(state), [])
   )
+
+  const { useTags } = useFeatureFlags()
+  const { tagsFromUrl } = useTagsFromUrl()
+
+  const tags = useTags ? tagsFromUrl : null
+
   const dispatch = useDispatch()
   const fetchMore = () => {
-    dispatch(getPaginatedWords(page + 1))
+    dispatch(getPaginatedWords(page + 1, tags))
   }
   useEffect(() => {
-    dispatch(getPaginatedWords(page))
+    dispatch(getPaginatedWords(page, tags))
   }, [])
 
   const hasMore = words.length < total
@@ -47,7 +55,7 @@ const WordsList: React.FunctionComponent<{}> = () => {
     >
       <QuickAdd />
 
-      {words.map((word) => (
+      {words.map(word => (
         <WordItem key={word.id} word={word} />
       ))}
 

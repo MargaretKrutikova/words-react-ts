@@ -4,59 +4,63 @@ import {
   deleteWordMutation,
   getWordQuery,
   getWordsQuery,
-  saveWordMutation,
+  getWordsWithTagsQuery,
+  saveWordMutation
 } from "./graphql"
 import {
   ApiPaginatedWords,
   ApiWordEntity,
   mapToWordEntity,
   PaginatedWords,
-  WordEntity,
+  WordEntity
 } from "./model"
 
 type GetWordsResponse = {
-  words: ApiPaginatedWords,
+  words: ApiPaginatedWords
 }
 
 type WordResponse = {
-  word: ApiWordEntity,
+  word: ApiWordEntity
 }
 
 type SaveWordResponse = {
-  saveWord: ApiWordEntity,
+  saveWord: ApiWordEntity
 }
 
 type DeleteWordResponse = {
   deleteWord: {
-    deleted: boolean,
-  },
+    deleted: boolean
+  }
 }
 
 class WordsApi {
   public getWords = async (
     page: number,
     itemsPerPage: number,
+    tags: string[] | null
   ): Promise<PaginatedWords> => {
+    const variablesWithoutTags = { page, itemsPerPage }
     const graphqlRequest = {
-      query: getWordsQuery,
-      variables: { page, itemsPerPage },
+      query: tags === null ? getWordsQuery : getWordsWithTagsQuery,
+      variables:
+        tags !== null ? { ...variablesWithoutTags, tags } : variablesWithoutTags
     }
     return apolloFetch(graphqlRequest).then(
       ({ words }: GetWordsResponse): PaginatedWords => ({
         items: words.items.map((word: ApiWordEntity) => mapToWordEntity(word)),
-        total: words.total,
-      }),
+        total: words.total
+      })
     )
   }
 
   public async getWord(wordId: string): Promise<WordEntity> {
     const graphqlRequest = {
       query: getWordQuery,
-      variables: { wordId },
+      variables: { wordId }
     }
 
     return apolloFetch(graphqlRequest).then(({ word }: WordResponse) =>
-      mapToWordEntity(word),
+      mapToWordEntity(word)
     )
   }
 
@@ -64,30 +68,30 @@ class WordsApi {
     const { createdDate, updatedDate, ...saveWord } = word
     const graphqlRequest = {
       query: saveWordMutation,
-      variables: { saveWord },
+      variables: { saveWord }
     }
     return apolloFetch(graphqlRequest).then(
-      ({ saveWord: SaveWord }: SaveWordResponse) => mapToWordEntity(SaveWord),
+      ({ saveWord: SaveWord }: SaveWordResponse) => mapToWordEntity(SaveWord)
     )
   }
 
   public async addWord(word: AddWordEntity): Promise<WordEntity> {
     const graphqlRequest = {
       query: saveWordMutation,
-      variables: { saveWord: word },
+      variables: { saveWord: word }
     }
     return apolloFetch(graphqlRequest).then(({ saveWord }: SaveWordResponse) =>
-      mapToWordEntity(saveWord),
+      mapToWordEntity(saveWord)
     )
   }
 
   public async deleteWord(id: string): Promise<boolean> {
     const graphqlRequest = {
       query: deleteWordMutation,
-      variables: { deleteWordInput: { id } },
+      variables: { deleteWordInput: { id } }
     }
     return apolloFetch(graphqlRequest).then(
-      ({ deleteWord: { deleted } }: DeleteWordResponse) => deleted,
+      ({ deleteWord: { deleted } }: DeleteWordResponse) => deleted
     )
   }
 }
