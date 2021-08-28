@@ -43,18 +43,18 @@ const TagsInput: React.FunctionComponent<Props> = ({
 
   const removeTag = (tagToRemove: string) =>
     setCreatedTags(oldCreatedTags => {
-      const updatedTags = oldCreatedTags.filter(t => t !== tagToRemove)
+      const updatedTags = oldCreatedTags.filter(tag => tag !== tagToRemove)
       onChange(updatedTags)
       return updatedTags
     })
 
   return (
     <>
-      {createdTags.map(t => {
+      {createdTags.map(tag => {
         return (
-          <StyledTag key={t}>
-            {t}
-            <button key={t} id={t} onClick={e => removeTag(t)}>
+          <StyledTag key={tag}>
+            {tag}
+            <button key={tag} id={tag} onClick={() => removeTag(tag)}>
               x
             </button>
           </StyledTag>

@@ -4,9 +4,7 @@ type FeatureFlags = {
   useTags: boolean
 }
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search)
-}
+const useQuery = () => new URLSearchParams(useLocation().search)
 
 const useFeatureFlags = (): FeatureFlags => {
   const query = useQuery()
