@@ -8,6 +8,7 @@ export const wordFragment: ApolloLink.DocumentNode = gql`
     translations
     explanations
     usages
+    tags
     createdDate
     updatedDate
   }
@@ -16,6 +17,18 @@ export const wordFragment: ApolloLink.DocumentNode = gql`
 export const getWordsQuery: ApolloLink.DocumentNode = gql`
   query PaginatedWords($page: Int!, $itemsPerPage: Int!) {
     words(page: $page, itemsPerPage: $itemsPerPage) {
+      total
+      items {
+        ...WordFragment
+      }
+    }
+  }
+  ${wordFragment}
+`
+
+export const getWordsWithTagsQuery: ApolloLink.DocumentNode = gql`
+  query PaginatedWords($page: Int!, $itemsPerPage: Int!, $tags: [String]) {
+    words(page: $page, itemsPerPage: $itemsPerPage, tags: $tags) {
       total
       items {
         ...WordFragment

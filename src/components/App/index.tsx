@@ -19,8 +19,8 @@ const globalStyles = (th: Theme) =>
       padding: 0,
       backgroundColor: th.colors.background1,
       color: th.colors.text1,
-      ...th.typography.variants.body1,
-    },
+      ...th.typography.variants.body1
+    }
   })
 
 const store = makeStore()

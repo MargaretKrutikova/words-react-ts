@@ -4,10 +4,12 @@ import * as React from "react"
 import { WordEntity } from "../../@core/api"
 import Box from "../../common/Box"
 import Flex from "../../common/Flex"
+import { StyledTag } from "../../common/Tag"
 import Typography from "../../common/Typography"
+import useFeatureFlags from "../../hooks/useFeatureFlags"
 
 type Props = {
-  word: WordEntity,
+  word: WordEntity
 }
 
 const getWordShortText = (word: WordEntity) => {
@@ -21,6 +23,8 @@ const getWordShortText = (word: WordEntity) => {
 const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
   const shortText = getWordShortText(word)
   const hasShortText = !!shortText
+
+  const { useTags } = useFeatureFlags()
 
   return (
     <Box flex={1} py={hasShortText ? 4 : "xxsmall"}>
@@ -41,6 +45,10 @@ const ReadonlyWord: React.FunctionComponent<Props> = ({ word, children }) => {
           {shortText}
         </Typography>
       )}
+
+      {useTags
+        ? word.tags.map(tag => <StyledTag key={tag}>{tag}</StyledTag>)
+        : null}
     </Box>
   )
 }

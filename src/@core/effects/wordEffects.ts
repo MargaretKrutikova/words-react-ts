@@ -6,17 +6,17 @@ import { newWordActions } from "../state/newWord"
 import { wordDraftsActions } from "../state/wordDrafts"
 import { wordListActions } from "../state/wordList"
 
-export const getPaginatedWords = (page: number) => async (
-  dispatch: Dispatch<AppAction>,
-  getState: () => AppState,
-) => {
+export const getPaginatedWords = (
+  page: number,
+  tags: string[] | null
+) => async (dispatch: Dispatch<AppAction>, getState: () => AppState) => {
   const {
-    wordList: { itemsPerPage },
+    wordList: { itemsPerPage }
   } = getState()
   dispatch(wordListActions.fetch.request())
 
   try {
-    const words = await WordsApi.getWords(page, itemsPerPage)
+    const words = await WordsApi.getWords(page, itemsPerPage, tags)
     dispatch(wordListActions.fetch.success({ words, page }))
   } catch {
     dispatch(wordListActions.fetch.failure("error fetching"))
@@ -24,7 +24,7 @@ export const getPaginatedWords = (page: number) => async (
 }
 
 export const updateWord = (word: WordEntity) => async (
-  dispatch: Dispatch<AppAction>,
+  dispatch: Dispatch<AppAction>
 ) => {
   const { request, success, failure } = wordDraftsActions.updateWord
   try {
@@ -39,7 +39,7 @@ export const updateWord = (word: WordEntity) => async (
 }
 
 export const deleteWord = (id: string) => async (
-  dispatch: Dispatch<AppAction>,
+  dispatch: Dispatch<AppAction>
 ) => {
   const { request, success, failure } = wordDraftsActions.deleteWord
 
@@ -59,7 +59,7 @@ export const deleteWord = (id: string) => async (
 }
 
 export const addWord = (word: AddWordEntity) => async (
-  dispatch: Dispatch<AppAction>,
+  dispatch: Dispatch<AppAction>
 ) => {
   const { request, success, failure } = newWordActions.addWord
   try {

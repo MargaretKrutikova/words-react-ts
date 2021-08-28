@@ -3,7 +3,7 @@ import {
   combineReducers,
   compose,
   createStore,
-  Store,
+  Store
 } from "redux"
 import { create } from "redux-react-hook"
 import thunk from "redux-thunk"
@@ -12,35 +12,35 @@ import { AppAction } from "../@core/state"
 import {
   newWordInitState,
   newWordReducer,
-  NewWordState,
+  NewWordState
 } from "../@core/state/newWord"
 import {
   wordDraftsInitState,
   wordDraftsReducer,
-  WordDraftsState,
+  WordDraftsState
 } from "../@core/state/wordDrafts"
 import {
   wordListInitState,
   wordListReducer,
-  WordListState,
+  WordListState
 } from "../@core/state/wordList"
 
 export type AppState = {
   wordList: WordListState
   wordDrafts: WordDraftsState
-  newWord: NewWordState,
+  newWord: NewWordState
 }
 
 const rootReducer = combineReducers<AppState>({
   wordList: wordListReducer,
   wordDrafts: wordDraftsReducer,
-  newWord: newWordReducer,
+  newWord: newWordReducer
 })
 
 const initialState: AppState = {
   wordList: wordListInitState,
   wordDrafts: wordDraftsInitState,
-  newWord: newWordInitState,
+  newWord: newWordInitState
 }
 
 export const makeStore = (): Store<AppState, AppAction> => {
@@ -50,7 +50,7 @@ export const makeStore = (): Store<AppState, AppAction> => {
   return createStore(
     rootReducer,
     initialState,
-    composeEnhancers(applyMiddleware(thunk)),
+    composeEnhancers(applyMiddleware(thunk))
   )
 }
 

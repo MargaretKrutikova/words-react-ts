@@ -2,7 +2,7 @@ import {
   ActionType,
   createAction,
   createStandardAction,
-  getType,
+  getType
 } from "typesafe-actions"
 import { WordProperties } from "../api/model"
 
@@ -10,19 +10,22 @@ const setValue = createStandardAction("SET_WORD_VALUE")<string>()
 
 const setPropertyValue = createAction(
   "SET_WORD_PROPERTY_VALUE",
-  (resolve) => (value: string, property: WordProperty) =>
-    resolve({ value, property }),
+  resolve => (value: string, property: WordProperty) =>
+    resolve({ value, property })
 )
+
+const setTags = createStandardAction("SET_WORD_TAGS")<string[]>()
 
 export const editWordActions = {
   setValue,
   setPropertyValue,
+  setTags
 }
 
 export enum WordProperty {
   Translation = "translation",
   Usage = "usage",
-  Explanation = "explanation",
+  Explanation = "explanation"
 }
 
 type EditWordAction = ActionType<typeof editWordActions>
@@ -34,11 +37,12 @@ export const editWordInitialState: EditWordState = {
   translations: [""],
   explanations: [""],
   usages: [""],
+  tags: []
 }
 
 export const getPropertyFirstValue = (
   property: WordProperty,
-  word: WordProperties,
+  word: WordProperties
 ) => {
   switch (property) {
     case "translation":
@@ -54,7 +58,7 @@ export const getPropertyFirstValue = (
 
 const updatePropertyValue = (
   state: EditWordState,
-  action: ActionType<typeof setPropertyValue>,
+  action: ActionType<typeof setPropertyValue>
 ): EditWordState => {
   const { value, property } = action.payload
   switch (property) {
@@ -71,7 +75,7 @@ const updatePropertyValue = (
 
 const reducer = (
   state: EditWordState,
-  action: EditWordAction,
+  action: EditWordAction
 ): EditWordState => {
   switch (action.type) {
     case getType(setValue):
@@ -79,6 +83,9 @@ const reducer = (
 
     case getType(setPropertyValue):
       return updatePropertyValue(state, action)
+
+    case getType(setTags):
+      return { ...state, tags: action.payload }
 
     default:
       return state

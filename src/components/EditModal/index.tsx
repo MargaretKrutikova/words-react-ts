@@ -6,7 +6,7 @@ import { WordProperties } from "../../@core/api/model"
 import editWordReducer, {
   editWordActions,
   editWordInitialState,
-  WordProperty,
+  WordProperty
 } from "../../@core/state/editWord"
 
 import Box from "../../common/Box"
@@ -16,38 +16,46 @@ import Input from "../../common/Input"
 import Label from "../../common/Label"
 import { LazyLoader } from "../../common/Loader"
 import Modal from "../../common/Modal"
+import useFeatureFlags from "../../hooks/useFeatureFlags"
 import PropertyInput from "./PropertyInput"
+import TagsInput from "./TagsInput"
 
 type Props = {
   onCancelEdit: () => void
   isLoading: boolean
   onSave: (word: WordProperties) => void
-  word?: WordProperties,
+  word?: WordProperties
 }
 
 const EditModal: React.FunctionComponent<Props> = ({
   onCancelEdit,
   isLoading,
   onSave,
-  word,
+  word
 }) => {
+  const { useTags } = useFeatureFlags()
+
   const [editWord, editWordDispatch] = React.useReducer(editWordReducer, {
     ...editWordInitialState,
-    ...word,
+    ...word
   })
 
   const handleValueChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       editWordDispatch(editWordActions.setValue(e.target.value))
     },
-    [],
+    []
   )
   const handlePropertyValueChange = React.useCallback(
     (value: string, property: WordProperty) => {
       editWordDispatch(editWordActions.setPropertyValue(value, property))
     },
-    [],
+    []
   )
+
+  const handleTagsChange = React.useCallback((tags: string[]) => {
+    editWordDispatch(editWordActions.setTags(tags))
+  }, [])
 
   const handleSave = () => onSave(editWord)
   return (
@@ -78,6 +86,13 @@ const EditModal: React.FunctionComponent<Props> = ({
         disabled={isLoading}
         onChange={handlePropertyValueChange}
       />
+      {useTags ? (
+        <TagsInput
+          word={editWord}
+          disabled={isLoading}
+          onChange={handleTagsChange}
+        />
+      ) : null}
       <Flex justifyContent="space-between" alignItems="center" pt="xxsmall">
         {isLoading && <LazyLoader />}
         <Box ml="auto">

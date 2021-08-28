@@ -2,7 +2,8 @@ export type WordProperties = {
   value: string
   translations: string[]
   explanations: string[]
-  usages: string[],
+  usages: string[]
+  tags: string[]
 }
 
 export type AddWordEntity = WordProperties
@@ -10,7 +11,7 @@ export type AddWordEntity = WordProperties
 export type WordEntity = {
   id: string
   createdDate?: Date
-  updatedDate?: Date,
+  updatedDate?: Date
 } & WordProperties
 
 export type ApiWordEntity = {
@@ -19,18 +20,19 @@ export type ApiWordEntity = {
   translations?: string[]
   explanations?: string[]
   usages?: string[]
+  tags?: string[]
   createdDate?: string // dates come as strings
-  updatedDate?: string,
+  updatedDate?: string
 }
 
 export type PaginatedWords = {
   items: WordEntity[]
-  total: number,
+  total: number
 }
 
 export type ApiPaginatedWords = {
   items: ApiWordEntity[]
-  total: number,
+  total: number
 }
 
 const convertToDate = (dateString?: string) =>
@@ -44,8 +46,9 @@ export const mapToWordEntity = (apiWord: ApiWordEntity): WordEntity => ({
   translations: copyOrEmpty(apiWord.translations),
   explanations: copyOrEmpty(apiWord.explanations),
   usages: copyOrEmpty(apiWord.usages),
+  tags: copyOrEmpty(apiWord.tags),
   createdDate: convertToDate(apiWord.createdDate),
-  updatedDate: convertToDate(apiWord.updatedDate),
+  updatedDate: convertToDate(apiWord.updatedDate)
 })
 
 export const copyWord = (word: WordEntity): WordEntity => {
@@ -54,6 +57,6 @@ export const copyWord = (word: WordEntity): WordEntity => {
     ...rest,
     translations: copyOrEmpty(translations),
     explanations: copyOrEmpty(explanations),
-    usages: copyOrEmpty(usages),
+    usages: copyOrEmpty(usages)
   }
 }
